@@ -67,22 +67,22 @@ function initUI() {
 
   // Dodajemo event listener za dugme "Više opcija" (strelica)
   document.getElementById('toggleEmoji').addEventListener('click', function() {
-    const emojiSection = document.getElementById('emojiSection');
-    
-    // Toggle visibility sa animacijom
-    if (emojiSection.style.display === 'none' || emojiSection.style.display === '') {
-      emojiSection.style.display = 'block';
-      emojiSection.style.maxHeight = '500px';  // Postavljamo maksimalnu visinu kada je otkriveno
-      emojiSection.style.padding = '1rem';     // Dodajemo padding za efekat otvaranja
-      this.textContent = '🔼';  // Strelica okrenuta na gore
-    } else {
-      emojiSection.style.display = 'none';
-      emojiSection.style.maxHeight = '0';
-      emojiSection.style.padding = '0';  // Smanjujemo padding pri sakrivanju
-      this.textContent = '🔽';  // Strelica okrenuta na dole
-    }
+  const emojiSection = document.getElementById('emojiSection');
+  
+  // Toggle visibility sa animacijom
+  if (emojiSection.style.display === 'none' || emojiSection.style.display === '') {
+    emojiSection.style.display = 'block';
+    emojiSection.style.maxHeight = '500px';  // Postavljamo maksimalnu visinu kada je otkriveno
+    emojiSection.style.padding = '1rem';     // Dodajemo padding za efekat otvaranja
+    this.textContent = '🔼 Više opcija';  // Strelica okrenuta na gore
+  } else {
+    emojiSection.style.display = 'none';
+    emojiSection.style.maxHeight = '0';
+    emojiSection.style.padding = '0';  // Smanjujemo padding pri sakrivanju
+    this.textContent = '🔽 Više opcija';  // Strelica okrenuta na dole
+  }
   });
-}
+
 
 /* =================== Helpers date/time =================== */
 function pad2(n) { return String(n).padStart(2, '0'); }
