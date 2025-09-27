@@ -64,6 +64,24 @@ function initUI() {
   // AI modal
   byId('btnAI').onclick = aiAnalyze;  // Povezivanje sa AI analizom
   const aiClose = byId('aiClose'); if (aiClose) aiClose.onclick = () => byId('aiModal').hidden = true;
+
+  // Dodajemo event listener za dugme "Više opcija" (strelica)
+  document.getElementById('toggleEmoji').addEventListener('click', function() {
+    const emojiSection = document.getElementById('emojiSection');
+    
+    // Toggle visibility sa animacijom
+    if (emojiSection.style.display === 'none' || emojiSection.style.display === '') {
+      emojiSection.style.display = 'block';
+      emojiSection.style.maxHeight = '500px';  // Postavljamo maksimalnu visinu kada je otkriveno
+      emojiSection.style.padding = '1rem';     // Dodajemo padding za efekat otvaranja
+      this.textContent = '🔼';  // Strelica okrenuta na gore
+    } else {
+      emojiSection.style.display = 'none';
+      emojiSection.style.maxHeight = '0';
+      emojiSection.style.padding = '0';  // Smanjujemo padding pri sakrivanju
+      this.textContent = '🔽';  // Strelica okrenuta na dole
+    }
+  });
 }
 
 /* =================== Helpers date/time =================== */
@@ -237,6 +255,7 @@ function initChart() {
     options: { scales: { y: { beginAtZero: true, suggestedMax: 20 } } }
   });
 }
+
 
 /* =================== AI Analiza — referentni opsezi =================== */
 // Referentni opsezi za dijabetes i zdrave osobe
