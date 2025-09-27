@@ -113,28 +113,37 @@ input.file{ display:inline-block }
 .ai-block{ display:flex; flex-direction:column; gap:.6rem; margin:1rem 0 .4rem }
 .ai-btn{ width:100%; padding:1rem 1.1rem; font-size:18px; border-radius:14px; background:#00b2b1; color:#fff; }
 
-.emoji-section {
-  display: none;  /* Sekcija je skrivena na početku */
-  margin-top: 0.6rem;
-  background-color: #f2f7f7;
-  border: 1px solid #e5efef;
-  border-radius: 12px;
-  padding: 1rem;
-  transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Glatka animacija otvaranja */
-  max-height: 0; /* Skriveno do trenutka otvaranja */
-  overflow: hidden;
+.emoji-wrap {
+  margin: 0.6rem 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .emoji-toggle {
   background: transparent;
   border: none;
-  font-size: 16px;
+  font-size: 16px;  /* Manja veličina fonta */
   cursor: pointer;
-  color: #00b2b1;  /* Boja koja se uklapa u dizajn */
+  color: var(--teal);  /* Koristimo boju iz palete */
   font-weight: 700;
-  padding: 0;
-  margin: 0;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;  /* Razmak između strelice i teksta */
   text-align: left;
+}
+
+.emoji-section {
+  display: none; /* Sekcija je skrivena */
+  margin-top: 0.6rem;
+  background-color: #f2f7f7;
+  border: 1px solid #e5efef;
+  border-radius: 12px;
+  padding: 1rem;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+  max-height: 0;  /* Sekcija je potpuno skrivena dok ne bude otkrivena */
+  overflow: hidden;
 }
 
 .emoji-row {
@@ -156,5 +165,5 @@ input.file{ display:inline-block }
 }
 
 .emoji-row input {
-  accent-color: #00b2b1;
+  accent-color: var(--teal);  /* Boja akcenata */
 }
