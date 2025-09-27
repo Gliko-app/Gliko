@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Gliko — Dnevnik glukoze</title>
 
-  <!-- Ikone i manifest -->
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon-192.png" type="image/png"/>
 
@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <!-- “Excel” tabovi pri vrhu -->
+  <!-- “Excel” tabovi na vrhu -->
   <nav class="tabs-bar">
     <button class="tab-btn active" data-tab="trend">📈 Trendovi</button>
     <button class="tab-btn" data-tab="food">🍽️ Ishrana</button>
@@ -49,7 +49,7 @@
           <input type="text" id="comment" placeholder="kratka napomena (opciono)">
         </div>
 
-        <!-- Emoji 2 reda -->
+        <!-- Emoji — 2 reda -->
         <div class="emoji-wrap">
           <div class="emoji-row">
             <label><input type="checkbox" value="🥚"> 🥚</label>
@@ -62,7 +62,7 @@
             <label><input type="checkbox" value="🍞"> 🍞</label>
             <label><input type="checkbox" value="🍰"> 🍰</label>
             <label><input type="checkbox" value="☕"> ☕</label>
-            <label><input type="checkbox" value="🥤"> 🥤</label><!-- soda can -->
+            <label><input type="checkbox" value="🥤"> 🥤</label><!-- soda -->
             <label><input type="checkbox" value="🥃"> 🥃</label><!-- žestoko -->
             <label><input type="checkbox" value="🍷"> 🍷</label><!-- vino -->
           </div>
@@ -136,7 +136,7 @@
         </table>
       </div>
 
-      <!-- “AI analiza trendova” -->
+      <!-- AI analiza -->
       <div class="ai-block">
         <button class="ai-btn" id="btnAI">🤖 AI analiza trendova</button>
         <small class="muted">Ovo nije medicinski savet.</small>
@@ -153,7 +153,7 @@
         </div>
       </div>
 
-      <!-- (Opcioni) Kalendar: jednostavna mesečna mreža sa obeleženim danima unosa -->
+      <!-- Kalendar (v4 kompatibilan – ako ga koristiš) -->
       <div class="card">
         <div class="calendar-head">
           <button id="calPrev">‹</button>
@@ -162,20 +162,45 @@
         </div>
         <div id="calendar" class="calendar"></div>
       </div>
+
+      <!-- Modal ZA DAN (v4, koristi modal.js) -->
+      <div id="modal" class="modal" style="display:none">
+        <div class="modal-content">
+          <div class="modal-head">
+            <h3 id="modalTitle">Detalji</h3>
+            <button class="close" onclick="closeModal()">✕</button>
+          </div>
+          <ul id="dayEntries"></ul>
+          <canvas id="dayChart" height="120"></canvas>
+        </div>
+      </div>
     </section>
 
-    <!-- Druga dva taba: samo zaglavlja (prazno za sada) -->
+    <!-- TAB: ISHRANA (prazno za sada) -->
     <section id="tab-food" class="tab-view" hidden>
       <header class="page-title"><h1>Ishrana</h1></header>
       <div class="card"><p>Ovaj tab ćemo puniti posle.</p></div>
     </section>
 
+    <!-- TAB: TERAPIJA (prazno za sada) -->
     <section id="tab-therapy" class="tab-view" hidden>
       <header class="page-title"><h1>Terapija</h1></header>
       <div class="card"><p>Ovaj tab ćemo puniti posle.</p></div>
     </section>
   </main>
 
+  <!-- Redosled: v4 skripte -> app.js -->
+  <script src="calendar.js"></script>
+  <script src="modal.js"></script>
   <script src="app.js"></script>
+
+  <!-- Registracija service workera -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+      });
+    }
+  </script>
 </body>
 </html>
