@@ -51,37 +51,6 @@ main{ padding:1rem; max-width:980px; margin:0 auto; }
 .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
 .mt8{ margin-top:8px; }
 
-/* Pretraga za receptima */
-.search-wrapper{ margin:1rem 0; }
-.search-wrapper input[type="text"]{
-  width:100%; padding:.6rem .8rem; border:1px solid var(--line); border-radius:12px; font-size:16px;
-}
-
-/* Dodavanje recepta */
-.add-recipe-form{ margin-bottom:1rem; }
-.add-recipe-form input, .add-recipe-form textarea {
-  width:100%; padding:.6rem .8rem; border:1px solid var(--line); border-radius:12px; font-size:16px;
-}
-
-.recipe-list{ display:grid; gap:1rem; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); }
-
-.recipe-card{
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,.1);
-}
-.recipe-card h3{
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  color: var(--teal);
-}
-.recipe-card p {
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
 .emoji-wrap{ margin:.6rem 0 0; }
 .emoji-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:.3rem; }
 .emoji-row label{
@@ -90,13 +59,18 @@ main{ padding:1rem; max-width:980px; margin:0 auto; }
 }
 .emoji-row input{ accent-color:var(--teal) }
 
-/* Dugme Dodaj unos */
+/* Dodajemo veće dugme za "Dodaj unos" */
 .actions{ display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; margin-top:.8rem; }
 button{ border:none; cursor:pointer; border-radius:12px; padding:.6rem .9rem; font-weight:600; }
-button.primary{ background:var(--teal); color:#fff; }
+button.primary{
+  background:var(--teal);
+  color:#fff;
+  width: 100%; /* Ovdje postavljamo širinu na 100% */
+}
 button.ghost{ background:transparent; border:1px solid var(--line); color:#445; }
 button.file{ background:#eef3f6; }
 input.file{ display:inline-block }
+
 
 /* Specijalna sekcija sa PROSEK, MIN, MAX */
 .stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; margin:1rem 0; }
