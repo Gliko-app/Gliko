@@ -111,3 +111,43 @@ input.file{ display:inline-block }
 
 .ai-block{ display:flex; flex-direction:column; gap:.6rem; margin:1rem 0 .4rem }
 .ai-btn{ width:100%; padding:1rem 1.1rem; font-size:18px; border-radius:14px; background:#00b2b1; color:#fff; }
+
+.emoji-section {
+  display: none;
+  margin-top: 0.6rem;
+  background-color: #f2f7f7;
+  border: 1px solid #e5efef;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.emoji-toggle {
+  background: #00b2b1;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.emoji-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 0.3rem;
+}
+
+.emoji-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.35rem 0.5rem;
+  background: #f2f7f7;
+  border: 1px solid #e5efef;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.emoji-row input {
+  accent-color: #00b2b1;
+}
