@@ -15,7 +15,6 @@ document.addEventListener('click', (e)=>{
 
 /* Veći natpisi bez ikonice u tabbaru + sakrij page title ispod */
 (function tuneTopBar(){
-  const bar = document.querySelector('.tabs-bar');
   const labels = {trend:'Trendovi', food:'Ishrana', therapy:'Terapija'};
   document.querySelectorAll('.tab-btn').forEach(b=>{
     const k = b.dataset.tab;
@@ -29,7 +28,6 @@ document.addEventListener('click', (e)=>{
 /* =================== DB & State =================== */
 let db, chart;
 let filteredZone = null, filteredStart = null, filteredEnd = null;
-let calYear = null, calMonth = null, lastItems = [];
 
 /* Open DB */
 (function initDB(){
@@ -66,11 +64,6 @@ function initUI(){
   // AI modal
   byId('btnAI').onclick = aiAnalyze;
   const aiClose = byId('aiClose'); if (aiClose) aiClose.onclick = ()=> byId('aiModal').hidden = true;
-
-  // Calendar arrows
-  const prev = byId('calPrev'), next = byId('calNext');
-  if (prev) prev.onclick = ()=> shiftCalendar(-1);
-  if (next) next.onclick = ()=> shiftCalendar(1);
 }
 
 /* =================== Helpers date/time =================== */
@@ -156,9 +149,6 @@ function loadEntries(){
       chart.update();
       // statistike
       updateStats(filtered);
-      // kalendar
-      lastItems = items;
-      refreshCalendar(items);
     }
   };
 }
@@ -248,59 +238,7 @@ function initChart(){
   });
 }
 
-/* =================== Kalendar =================== */
-function refreshCalendar(all){
-  const cont = byId('calendar');
-  const title = byId('calTitle');
-  if (!cont || !title) return;
-
-  if (calYear === null || calMonth === null){
-    const now = new Date();
-    calYear = now.getFullYear();
-    calMonth = now.getMonth();
-  }
-
-  const first = new Date(calYear, calMonth, 1);
-  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-  title.textContent = first.toLocaleString('sr-RS', { month: 'long', year: 'numeric' });
-
-  const hasDate = new Set((all || []).map(r => normalizeDate(r.date)));
-
-  cont.innerHTML = '';
-  const startOffset = (first.getDay() + 6) % 7; // Mon=0
-  for (let i = 0; i < startOffset; i++){
-    const empty = document.createElement('div');
-    empty.className = 'cell';
-    empty.style.visibility = 'hidden';
-    cont.appendChild(empty);
-  }
-  for (let d = 1; d <= daysInMonth; d++){
-    const iso = `${first.getFullYear()}-${pad2(first.getMonth()+1)}-${pad2(d)}`;
-    const el = document.createElement('div');
-    el.className = 'cell' + (hasDate.has(iso) ? ' mark' : '');
-    el.textContent = d;
-    cont.appendChild(el);
-  }
-}
-function shiftCalendar(step){
-  if (calYear === null || calMonth === null){
-    const now = new Date();
-    calYear = now.getFullYear();
-    calMonth = now.getMonth();
-  }
-  calMonth += step;
-  if (calMonth < 0){ calMonth = 11; calYear--; }
-  if (calMonth > 11){ calMonth = 0; calYear++; }
-  refreshCalendar(lastItems);
-}
-
-/* =================== AI Analiza — uz referentne opsege =================== */
-/*
-  Referentni opsezi (mmol/L) u nastavku su zasnovani na ADA/MedlinePlus smernicama
-  za odrasle sa dijabetesom (preprandijal 4.4–7.2; 1–2h posle obroka <10.0; pred spavanje 5.0–8.3)
-  i na tipičnim normalnim vrednostima za zdrave osobe (fasting 3.9–5.5; 2h posle <7.8).
-  Ovo NIJE personalizovan savet; uvek proveriti sa lekarom.
-*/
+/* =================== AI Analiza — referentni opsezi =================== */
 const REF = {
   diabetic: {
     pre: { low: 4.4, high: 7.2 },        // pre obroka
@@ -312,14 +250,11 @@ const REF = {
     post: { low: 0,   high: 7.8 }        // 2h posle obroka
   }
 };
-
-// heuristika: pre ili posle obroka
+// heuristika: pre/posle/bedtime
 function inferMealContext(list){
   const txt = (list.map(x=>(x.comment||'').toLowerCase()).join(' ')+' ');
   const preHits = (txt.match(/\bpre\b|\bpre doru|pre ruč|pre vec|pre več/g)||[]).length;
   const postHits = (txt.match(/\bposle\b|sati posle|2 sata posle|sat posle/g)||[]).length;
-
-  // default: jutro -> pre (fasting); noc -> bedtime; ostalo -> post
   if(filteredZone==='jutro') return 'pre';
   if(filteredZone==='noc') return 'bedtime';
   if(postHits>preHits) return 'post';
@@ -348,43 +283,28 @@ function aiAnalyze(){
         filteredZone==='vece'?'uveče':'noću'
       ) : 'odabranom periodu';
 
-      // meal context
       const ctx = inferMealContext(filtered); // 'pre' | 'post' | 'bedtime'
       const refDia = ctx==='bedtime' ? REF.diabetic.bedtime : (ctx==='pre' ? REF.diabetic.pre : REF.diabetic.post);
-      const refHealthy = ctx==='pre'
-        ? REF.healthy.fasting
-        : REF.healthy.post;
+      const refHealthy = ctx==='pre' ? REF.healthy.fasting : REF.healthy.post;
 
-      // Odstupanja
-      const highCut = refDia.high;
-      const lowCut = refDia.low || 0;
-      const tooHigh = arr.some(v=> v>highCut + 1e-9);
-      const tooLow = arr.some(v=> v<lowCut - 1e-9);
+      const tooHigh = arr.some(v=> v > (refDia.high + 1e-9));
+      const tooLow  = refDia.low ? arr.some(v=> v < (refDia.low - 1e-9)) : false;
 
-      let txt = `Vaše ${
-        filteredZone ? `vrednosti ${zoneName}` : 'vrednosti'
-      } (${filtered.length} merenja):\n` +
+      let txt = `Vaše ${filteredZone ? `vrednosti ${zoneName}` : 'vrednosti'} (${filtered.length} merenja):\n` +
       `• Raspon: ${min.toFixed(1)} – ${max.toFixed(1)} mmol/L\n` +
       `• Prosek: ${avg.toFixed(1)} mmol/L\n` +
       `• U opsegu 4–10 mmol/L: ${inRange.toFixed(0)}%\n\n`;
 
-      txt += `Referentno (osobe sa dijabetesom, ${ctx==='pre'?'pre obroka':ctx==='post'?'1–2h posle obroka':'pred spavanje'}): `;
-      if(ctx==='post'){
-        txt += `≤ ${refDia.high.toFixed(1)} mmol/L\n`;
-      }else{
-        txt += `${refDia.low.toFixed(1)} – ${refDia.high.toFixed(1)} mmol/L\n`;
-      }
+      txt += `Referentno (dijabetes, ${ctx==='pre'?'pre obroka':ctx==='post'?'1–2h posle obroka':'pred spavanje'}): `;
+      if(ctx==='post'){ txt += `≤ ${refDia.high.toFixed(1)} mmol/L\n`; }
+      else { txt += `${refDia.low.toFixed(1)} – ${refDia.high.toFixed(1)} mmol/L\n`; }
 
       txt += `Referentno (zdrave osobe, ${ctx==='pre'?'posle noći / pre doručka':'2h posle obroka'}): `;
-      if(ctx==='post'){
-        txt += `≤ ${refHealthy.high.toFixed(1)} mmol/L\n`;
-      }else{
-        txt += `${refHealthy.low.toFixed(1)} – ${refHealthy.high.toFixed(1)} mmol/L\n`;
-      }
+      if(ctx==='post'){ txt += `≤ ${refHealthy.high.toFixed(1)} mmol/L\n`; }
+      else { txt += `${refHealthy.low.toFixed(1)} – ${refHealthy.high.toFixed(1)} mmol/L\n`; }
 
       if(tooHigh || tooLow){
-        txt += `\nPreporuka: primećena su odstupanja ${tooHigh?'(povišene) ':''}${tooLow?'(snižene) ':''}vrednosti. `;
-        txt += `Pitanje za lekara:\n`;
+        txt += `\nPreporuka: primećena su odstupanja ${tooHigh?'(povišene) ':''}${tooLow?'(snižene) ':''}vrednosti. \nPitanje za lekara:\n`;
         if(tooHigh){
           txt += `• Šta može biti uzrok povišenih vrednosti u ${zoneName} i da li treba prilagoditi terapiju ili obroke?\n`;
         }
@@ -392,7 +312,7 @@ function aiAnalyze(){
           txt += `• Kako sprečiti rizik od hipoglikemije u ${zoneName} i da li je potrebna korekcija doze/užina?\n`;
         }
       }else{
-        txt += `\nTrenutni podaci su u okviru referentnih granica za odabrani kontekst.`;
+        txt += `\nTrenutni podaci su u okviru referentnih granica za izabrani kontekst.`;
       }
       txt += `\n\nOvo nije medicinski savet.`;
       showAI(txt);
