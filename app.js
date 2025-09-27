@@ -246,75 +246,86 @@ const REF = {
   diabetic: {
     pre: { low: 4.4, high: 7.2 },        // pre obroka
     post: { low: 0,   high: 10.0 },      // 1–2h posle obroka
-    bedtime: { low: 5.0, high: 8.3 }     // veče/noć – orijentaciono
+    bedtime: { low: 5.0, high: 8.3 }     // pred spavanje
   },
   healthy: {
-    fasting: { low: 3.9, high: 5.5 },    // posle noći/ pre doručka
+    fasting: { low: 3.9, high: 5.5 },    // posle noći / pre doručka
     post: { low: 0,   high: 7.8 }        // 2h posle obroka
   }
 };
 
-// dodatne etikete i ikone
-const ICON = {jutro:"🌅", dan:"☀️", vece:"🌇", pin:"📌", warn:"⚠️", ok:"✅", doctor:"👉"};
+// Dodatne ikone i etikete za AI
+const ICON = {
+  jutro: "🌅",
+  dan: "☀️",
+  vece: "🌇",
+  pin: "📌",
+  warn: "⚠️",
+  ok: "✅",
+  doctor: "👉"
+};
 
-// vreme-pozdrav
+// Funkcija za određivanje pozdrava na osnovu vremena
 function greeting(){
   const h = new Date().getHours();
-  if(h>=6 && h<12) return "Dobro jutro";
-  if(h>=12 && h<18) return "Dobar dan";
-  if(h>=18 || h<6) return "Dobro veče";
+  if(h >= 6 && h < 12) return "Dobro jutro";
+  if(h >= 12 && h < 18) return "Dobar dan";
+  if(h >= 18 || h < 6) return "Dobro veče";
   return "Zdravo";
 }
 
-// heuristika: pre/posle/bedtime iz komentara + zone
+// Funkcija za analizu obroka (pre, posle, pred spavanje)
 function inferMealContext(list, forcedZone){
   const txt = (list.map(x=>(x.comment||'').toLowerCase()).join(' ')+' ');
   const preHits = (txt.match(/\bpre\b|\bpre doru|pre ruč|pre vec|pre več/g)||[]).length;
   const postHits = (txt.match(/\bposle\b|sati posle|2 sata posle|sat posle/g)||[]).length;
-  if(forcedZone==='jutro') return 'pre';
-  if(forcedZone==='noc' || forcedZone==='vece') return 'bedtime';
-  if(postHits>preHits) return 'post';
-  if(preHits>postHits) return 'pre';
-  return (forcedZone==='vece' ? 'bedtime' : 'post');
+  if(forcedZone === 'jutro') return 'pre';
+  if(forcedZone === 'noc' || forcedZone === 'vece') return 'bedtime';
+  if(postHits > preHits) return 'post';
+  if(preHits > postHits) return 'pre';
+  return (forcedZone === 'vece' ? 'bedtime' : 'post');
 }
 
-// podela u celodnevnoj analizi
+// Podela dana na segmente: jutro, popodne, veče
 function segmentByDayPart(list){
   const parts = {
-    morning: list.filter(x=>{ const h=+x.time.split(':')[0]; return h>=6 && h<9; }),
-    postLunch: list.filter(x=>{ const h=+x.time.split(':')[0]; return h>=15 && h<17; }),
-    evening: list.filter(x=>{ const h=+x.time.split(':')[0]; return h>=17 && h<22; })
+    morning: list.filter(x => { const h = +x.time.split(':')[0]; return h >= 6 && h < 9; }),
+    postLunch: list.filter(x => { const h = +x.time.split(':')[0]; return h >= 15 && h < 17; }),
+    evening: list.filter(x => { const h = +x.time.split(':')[0]; return h >= 17 && h < 22; })
   };
   return parts;
 }
 
-// statistika + trend
+// Funkcija koja izračunava osnovne statistike i trend
 function statsAndTrend(arr){
-  if(!arr.length) return null;
-  const values = arr.map(x=>x.glucose).filter(v=>!isNaN(v));
-  if(!values.length) return null;
-  const avg = values.reduce((a,b)=>a+b,0)/values.length;
+  if (!arr.length) return null;
+  const values = arr.map(x => x.glucose).filter(v => !isNaN(v));
+  if (!values.length) return null;
+  const avg = values.reduce((a, b) => a + b, 0) / values.length;
   const min = Math.min(...values), max = Math.max(...values);
 
-  // prost linearni trend: y ~ a + b*i
-  const xs = values.map((_,i)=>i+1);
-  const xmean = xs.reduce((a,b)=>a+b,0)/xs.length;
+  // Linearni trend: y ~ a + b * i
+  const xs = values.map((_, i) => i + 1);
+  const xmean = xs.reduce((a, b) => a + b, 0) / xs.length;
   const ymean = avg;
-  let num=0, den=0;
-  for(let i=0;i<xs.length;i++){ num += (xs[i]-xmean)*(values[i]-ymean); den += (xs[i]-xmean)**2; }
-  const slope = den ? num/den : 0; // ~ promena po merenju
-  return {avg, min, max, slope, n: values.length};
+  let num = 0, den = 0;
+  for (let i = 0; i < xs.length; i++) {
+    num += (xs[i] - xmean) * (values[i] - ymean);
+    den += (xs[i] - xmean) ** 2;
+  }
+  const slope = den ? num / den : 0; // Promena po merenju
+  return { avg, min, max, slope, n: values.length };
 }
 
-// lepa etiketa za zonu
+// Lepa etiketa za zonu (jutro, popodne, večer)
 function zoneToText(z){
-  return z==='jutro' ? 'jutru' :
-         z==='prepodne' ? 'pre podne' :
-         z==='popodne' ? 'popodne' :
-         z==='vece' ? 'uveče' : 'noću';
+  return z === 'jutro' ? 'jutru' :
+         z === 'prepodne' ? 'pre podne' :
+         z === 'popodne' ? 'popodne' :
+         z === 'vece' ? 'uveče' : 'noću';
 }
 
-// AI ispis liniju-po-liniji sa efektom kucanja
+// Funkcija koja pravi animirani tekst za AI analizu
 function injectAIStyles(){
   if (document.getElementById('ai-typing-style')) return;
   const css = `
@@ -325,7 +336,10 @@ function injectAIStyles(){
   const st = document.createElement('style'); st.id='ai-typing-style'; st.textContent = css;
   document.head.appendChild(st);
 }
+
+// Funkcija za simulaciju kucanja u AI modalu
 function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
 async function typeLine(text, container){
   const line = document.createElement('div');
   container.appendChild(line);
@@ -338,6 +352,7 @@ async function typeLine(text, container){
   await sleep(350);
   caret.remove();
 }
+
 async function typeWrite(lines){
   const box = byId('aiBody');
   box.innerHTML = '';
@@ -350,7 +365,7 @@ async function typeWrite(lines){
 function aiAnalyze(){
   const st = db.transaction('entries').objectStore('entries');
   const items = [];
-  st.openCursor().onsuccess = e=>{
-    const c=e.target.result;
-    if(c){ items.push(c.value); c.continue(); }
-
+  st.openCursor().onsuccess = e => {
+    const c = e.target.result;
+    if (c) { items.push(c.value); c.continue(); }
+    else
