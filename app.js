@@ -66,22 +66,22 @@ function initUI() {
   const aiClose = byId('aiClose'); if (aiClose) aiClose.onclick = () => byId('aiModal').hidden = true;
 
   // Dodajemo event listener za dugme "Više opcija" (strelica)
-  document.getElementById('toggleEmoji').addEventListener('click', function() {
+document.getElementById('toggleEmoji').addEventListener('click', function() {
   const emojiSection = document.getElementById('emojiSection');
   
   // Toggle visibility sa animacijom
-  if (emojiSection.style.display === 'none' || emojiSection.style.display === '') {
-    emojiSection.style.display = 'block';
-    emojiSection.style.maxHeight = '500px';  // Postavljamo maksimalnu visinu kada je otkriveno
-    emojiSection.style.padding = '1rem';     // Dodajemo padding za efekat otvaranja
+  if (emojiSection.style.visibility === 'hidden' || emojiSection.style.visibility === '') {
+    emojiSection.style.visibility = 'visible';  // Podesi da bude vidljiva
+    emojiSection.style.maxHeight = '500px';     // Postavi maksimalnu visinu
+    emojiSection.style.padding = '1rem';        // Dodaj padding za otvaranje
     this.textContent = '🔼 Više opcija';  // Strelica okrenuta na gore
   } else {
-    emojiSection.style.display = 'none';
-    emojiSection.style.maxHeight = '0';
-    emojiSection.style.padding = '0';  // Smanjujemo padding pri sakrivanju
+    emojiSection.style.visibility = 'hidden';  // Sakrij sekciju
+    emojiSection.style.maxHeight = '0';        // Smanji visinu na 0
+    emojiSection.style.padding = '0';          // Smanji padding pri sakrivanju
     this.textContent = '🔽 Više opcija';  // Strelica okrenuta na dole
   }
-  });
+});
 
 
 /* =================== Helpers date/time =================== */
