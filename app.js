@@ -361,13 +361,17 @@ async function typeWrite(lines){
 
 /* Funkcija za analizu trendova u poslednjih 7 dana */
 function analyzeTrendLast7Days(filtered, zone) {
-  const today = new Date();
-  const sevenDaysAgo = new Date(today);
-  sevenDaysAgo.setDate(today.getDate() - 7);
+  // Uzima poslednji datum iz opsega podataka
+  const lastDate = new Date(filtered[filtered.length - 1].date);
+  
+  // Odredimo 7 dana pre poslednjeg datuma u opsegu
+  const sevenDaysAgo = new Date(lastDate);
+  sevenDaysAgo.setDate(lastDate.getDate() - 7);
 
+  // Filtriramo podatke da obuhvatimo poslednjih 7 dana pre poslednjeg datuma u opsegu
   const filteredLast7 = filtered.filter(entry => {
     const entryDate = new Date(entry.date);
-    return entryDate >= sevenDaysAgo && entryDate <= today;
+    return entryDate >= sevenDaysAgo && entryDate <= lastDate;
   });
 
   // Ako nema podataka za poslednjih 7 dana, vraćamo praznu poruku
@@ -435,7 +439,7 @@ function aiAnalyze(){
       const lines = [hello];
 
       if (filteredZone) { // Analiza aktivne zone
-        const trendLines = analyzeTrendLast7Days(filtered, filteredZone);  // Analiziraj trend u poslednjih 7 dana za zonu
+        const trendLines = analyzeTrendLast7Days(filtered, filteredZone);  // Analiziraj trend za odabrani period
         lines.push(...trendLines);
       } else { // Celodnevna analiza — segmentacija
         const seg = segmentByDayPart(filtered);
@@ -446,7 +450,7 @@ function aiAnalyze(){
           {key: 'evening', label: `${ICON.vece} Večernji (17–22)`, ctx: 'post', refDia: REF.diabetic.post, refHealthy: REF.healthy.post}
         ];
 
-        lines.push(`${ICON.pin} Analiza po delovima dana:`);
+        lines.push(`${ICON.pin} Analiza po delovima dana (bez uključenih filtera):`);
 
         for (const b of blocks) {
           const arr = seg[b.key];
