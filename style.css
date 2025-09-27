@@ -1,0 +1,114 @@
+
+:root{
+  --teal:#00b2b1;
+  --bg:#f6f8f9;
+  --card:#ffffff;
+  --txt:#222;
+  --muted:#667085;
+  --line:#e9eef2;
+  --green:#e7fff7;
+  --red:#fff2f2;
+  --yellow:#fff8e1;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--txt); background:var(--bg);
+}
+
+/* Excel-like tabs on top */
+.tabs-bar{
+  position:sticky; top:0; z-index:100;
+  display:flex; gap:.5rem; padding:.6rem .8rem;
+  background:var(--card); border-bottom:1px solid var(--line);
+}
+.tab-btn{
+  border:1px solid var(--line); background:var(--bg);
+  padding:.45rem .9rem; border-top-left-radius:12px; border-top-right-radius:12px;
+  cursor:pointer; font-weight:600; color:#5b6b77;
+}
+.tab-btn.active{
+  background:var(--card); color:var(--teal);
+  border-bottom-color:var(--card);
+}
+
+main{ padding:1rem; max-width:980px; margin:0 auto; }
+.page-title h1{ margin:.2rem 0 1rem; color:var(--teal) }
+
+/* Cards */
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:16px;
+  padding:1rem; margin-bottom:1rem;
+  box-shadow:0 1px 2px rgba(0,0,0,.03);
+}
+.form-card input[type="date"],
+.form-card input[type="time"],
+.form-card input[type="number"],
+.form-card input[type="text"]{
+  width:100%; padding:.7rem .8rem; border:1px solid var(--line); border-radius:12px; font-size:16px;
+}
+.grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.mt8{ margin-top:8px; }
+
+.emoji-wrap{ margin:.6rem 0 0; }
+.emoji-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:.3rem; }
+.emoji-row label{
+  display:inline-flex; align-items:center; gap:6px; padding:.35rem .5rem;
+  background:#f2f7f7; border:1px solid #e5efef; border-radius:999px; cursor:pointer;
+}
+.emoji-row input{ accent-color:var(--teal) }
+
+.actions{ display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; margin-top:.8rem; }
+button{ border:none; cursor:pointer; border-radius:12px; padding:.6rem .9rem; font-weight:600; }
+button.primary{ background:var(--teal); color:#fff; }
+button.ghost{ background:transparent; border:1px solid var(--line); color:#445; }
+button.file{ background:#eef3f6; }
+input.file{ display:inline-block }
+
+.stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; margin:1rem 0; }
+.stat{
+  background:#f6fbff; border:1px solid var(--line); border-radius:14px; padding:.8rem;
+}
+.stat .label{ color:#5b6b77; font-size:.9rem }
+.stat .value{ font-size:1.6rem; font-weight:700 }
+.stat.prosek{ background:#e8fbff }
+.stat.min{ background:#eafbf1 }
+.stat.max{ background:#fff1f1 }
+
+.chip-row{ display:flex; flex-wrap:wrap; gap:.5rem; margin:.6rem 0 }
+.chip{
+  background:#f2f7f7; border:1px solid #e5efef; border-radius:999px; padding:.45rem .7rem; color:#334;
+}
+.chip.ghost{ background:transparent }
+
+.date-range{ display:flex; gap:.6rem; align-items:flex-end; flex-wrap:wrap }
+.date-range input{ padding:.6rem .7rem; border:1px solid var(--line); border-radius:12px }
+
+.table{ width:100%; border-collapse:collapse; }
+.table th, .table td{ border-bottom:1px solid var(--line); padding:.6rem .5rem; text-align:left; }
+.table thead th{ color:#5b6b77; font-weight:600 }
+
+.ai-block{ display:flex; gap:.6rem; align-items:center; margin:1rem 0 .4rem }
+.ai-btn{ background:#0bb; color:#fff; }
+
+/* Modal */
+.modal{ position:fixed; inset:0; background:rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center }
+.modal[hidden]{ display:none }
+.modal-content{ width:min(680px,92vw); background:var(--card); border-radius:16px; border:1px solid var(--line); padding:1rem }
+.modal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:.6rem }
+.modal-body{ white-space:pre-wrap; line-height:1.5 }
+
+.muted{ color:var(--muted) }
+
+/* Simple calendar */
+.calendar-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem }
+.calendar{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px }
+.calendar .cell{ height:42px; border:1px solid var(--line); border-radius:10px; display:flex; align-items:center; justify-content:center; background:#fafcfd; font-size:.9rem; color:#445 }
+.calendar .cell.mark{ background:#e6fdf7; border-color:#c6f3eb; font-weight:700; color:#0a7 }
+@media (max-width: 800px){
+  .grid3{ grid-template-columns:1fr; }
+}
+
+.ai-block{ display:flex; flex-direction:column; gap:.6rem; margin:1rem 0 .4rem }
+.ai-btn{ width:100%; padding:1rem 1.1rem; font-size:18px; border-radius:14px; background:#00b2b1; color:#fff; }
