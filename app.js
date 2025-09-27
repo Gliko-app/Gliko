@@ -64,19 +64,6 @@ function initUI() {
   // AI modal
   byId('btnAI').onclick = aiAnalyze;  // Povezivanje sa AI analizom
   const aiClose = byId('aiClose'); if (aiClose) aiClose.onclick = () => byId('aiModal').hidden = true;
-
-  // Dodajemo event listener za dugme "Više opcija"
-  document.getElementById('toggleEmoji').addEventListener('click', function() {
-    const emojiSection = document.getElementById('emojiSection');
-    // Toggle visibility
-    if (emojiSection.style.display === 'none' || emojiSection.style.display === '') {
-      emojiSection.style.display = 'block';
-      this.textContent = '🔼 Manje opcija';
-    } else {
-      emojiSection.style.display = 'none';
-      this.textContent = '🔽 Više opcija';
-    }
-  });
 }
 
 /* =================== Helpers date/time =================== */
@@ -469,5 +456,3 @@ function showAItyping(lines){
   byId('aiModal').hidden = false;
   typeWrite(lines);
 }
-
-
