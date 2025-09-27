@@ -411,9 +411,9 @@ function aiAnalyze(){
         const seg = segmentByDayPart(filtered);
 
         const blocks = [
-          {key:'morning', label:`${ICON.jutro} Jutarnji (06–09)`, ctx:'pre', refDia:REF.diabetic.pre, refHealthy:REF.healthy.fasting},
-          {key:'postLunch', label:`${ICON.dan} Posle ručka (15–17)`, ctx:'post', refDia:REF.diabetic.post, refHealthy:REF.healthy.post},
-          {key:'evening', label:`${ICON.vece} Večernji (17–22)`, ctx:'post', refDia:REF.diabetic.post, refHealthy:REF.healthy.post}
+          {key: 'morning', label: `${ICON.jutro} Jutarnji (06–09)`, ctx: 'pre', refDia: REF.diabetic.pre, refHealthy: REF.healthy.fasting},
+          {key: 'postLunch', label: `${ICON.dan} Posle ručka (15–17)`, ctx: 'post', refDia: REF.diabetic.post, refHealthy: REF.healthy.post},
+          {key: 'evening', label: `${ICON.vece} Večernji (17–22)`, ctx: 'post', refDia: REF.diabetic.post, refHealthy: REF.healthy.post}
         ];
 
         lines.push(`${ICON.pin} Analiza po delovima dana (bez uključenih filtera):`);
@@ -450,4 +450,3 @@ function showAItyping(lines){
   byId('aiModal').hidden = false;
   typeWrite(lines);
 }
-
