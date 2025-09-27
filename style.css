@@ -71,17 +71,36 @@ input.file{ display:inline-block }
 .stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; margin:1rem 0; }
 .stat{
   background:#f6fbff; border:1px solid var(--line); border-radius:14px; padding:.8rem;
-  font-size: 1.2rem;  /* Povećanje fonta za bolje isticanje */
+  font-size: 1.5rem;  /* Povećanje fonta za bolje isticanje */
   text-align: center; /* Centriramo tekst u karticama */
   box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Dodajemo laganu senku za efekat */
 }
-.stat .label{ color:#5b6b77; font-size:.9rem; font-weight: 600; }
-.stat .value{ font-size:2rem; font-weight:700; } /* Veći font za vrednosti */
+.stat .label{ 
+  color:#5b6b77; 
+  font-size:1rem; /* Povećanje fonta za labelu */
+  font-weight: 600; 
+}
+.stat .value{ 
+  font-size:2.5rem; /* Povećavamo font za vrednosti */
+  font-weight:700; /* Veći font za vrednosti */
+  line-height: 1.2; /* Proširujemo linije kako bi tekst bio lakše čitljiv */
+}
 
 /* Specifične boje za PROSEK, MIN, MAX */
-.stat.prosek{ background:#e8fbff; color: #00b2b1; }
-.stat.min{ background:#eafbf1; color: #4caf50; }
-.stat.max{ background:#fff1f1; color: #f44336; }
+.stat.prosek{ 
+  background:#e8fbff; 
+  color: #00b2b1; /* Tealski ton za prosek */
+}
+
+.stat.min{ 
+  background:#eafbf1; 
+  color: #4caf50; /* Zeleni ton za minimum */
+}
+
+.stat.max{ 
+  background:#fff1f1; 
+  color: #f44336; /* Crvena boja za maksimum */
+}
 
 .chip-row{ display:flex; flex-wrap:wrap; gap:.5rem; margin:.6rem 0 }
 .chip{
