@@ -450,3 +450,4 @@ function showAItyping(lines){
   byId('aiModal').hidden = false;
   typeWrite(lines);
 }
+
