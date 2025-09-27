@@ -142,7 +142,7 @@ input.file{ display:inline-block }
   border-radius: 12px;
   padding: 1rem;
   transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-  max-height: 0;  /* Sekcija je potpuno skrivena dok ne bude otkrivena */
+  max-height: 500px;  /* Povećaj maksimalnu visinu za bolju animaciju */
   overflow: hidden;
 }
 
