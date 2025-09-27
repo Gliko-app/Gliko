@@ -69,17 +69,20 @@ function initUI() {
 document.getElementById('toggleEmoji').addEventListener('click', function() {
   const emojiSection = document.getElementById('emojiSection');
   
+document.getElementById('toggleEmoji').addEventListener('click', function() {
+  const emojiSection = document.getElementById('emojiSection');
+  
   // Toggle visibility sa animacijom
-  if (emojiSection.style.visibility === 'hidden' || emojiSection.style.visibility === '') {
-    emojiSection.style.visibility = 'visible';  // Podesi da bude vidljiva
-    emojiSection.style.maxHeight = '500px';     // Postavi maksimalnu visinu
-    emojiSection.style.padding = '1rem';        // Dodaj padding za otvaranje
-    this.textContent = '🔼 Više opcija';  // Strelica okrenuta na gore
-  } else {
-    emojiSection.style.visibility = 'hidden';  // Sakrij sekciju
-    emojiSection.style.maxHeight = '0';        // Smanji visinu na 0
-    emojiSection.style.padding = '0';          // Smanji padding pri sakrivanju
+  if (emojiSection.classList.contains('visible')) {
+    emojiSection.classList.remove('visible');
+    emojiSection.style.maxHeight = '0';        // Smanjujemo visinu na 0
+    emojiSection.style.padding = '0';          // Smanjujemo padding pri sakrivanju
     this.textContent = '🔽 Više opcija';  // Strelica okrenuta na dole
+  } else {
+    emojiSection.classList.add('visible');
+    emojiSection.style.maxHeight = '500px';   // Postavljamo maksimalnu visinu kada je otkriveno
+    emojiSection.style.padding = '1rem';      // Dodajemo padding za otvaranje
+    this.textContent = '🔼 Više opcija';  // Strelica okrenuta na gore
   }
 });
 
