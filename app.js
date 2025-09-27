@@ -299,19 +299,24 @@ function statsAndTrend(arr){
   if (!arr.length) return null;
   const values = arr.map(x => x.glucose).filter(v => !isNaN(v));
   if (!values.length) return null;
-  const avg = values.reduce((a, b) => a + b, 0) / values.length;
-  const min = Math.min(...values), max = Math.max(...values);
 
-  // Linearni trend: y ~ a + b * i
-  const xs = values.map((_, i) => i + 1);
+  // Linearni trend: y ~ a + b * i (praćenje hronološkog reda podataka)
+  const xs = values.map((_, i) => i + 1); // Koristimo hronološki redosled
   const xmean = xs.reduce((a, b) => a + b, 0) / xs.length;
-  const ymean = avg;
+  const ymean = values.reduce((a, b) => a + b, 0) / values.length;
+
   let num = 0, den = 0;
   for (let i = 0; i < xs.length; i++) {
     num += (xs[i] - xmean) * (values[i] - ymean);
     den += (xs[i] - xmean) ** 2;
   }
-  const slope = den ? num / den : 0; // Promena po merenju
+  const slope = den ? num / den : 0; // Promena po merenju, ovo je linijski trend (nagib)
+
+  // Izračunavanje minimuma, maksimuma i proseka
+  const avg = values.reduce((a, b) => a + b, 0) / values.length;
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+
   return { avg, min, max, slope, n: values.length };
 }
 
@@ -451,3 +456,4 @@ function showAItyping(lines){
   byId('aiModal').hidden = false;
   typeWrite(lines);
 }
+
