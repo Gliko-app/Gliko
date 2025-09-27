@@ -59,13 +59,12 @@ main{ padding:1rem; max-width:980px; margin:0 auto; }
 }
 .emoji-row input{ accent-color:var(--teal) }
 
-/* Dodajemo veće dugme za "Dodaj unos" */
-.actions{ display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; margin-top:.8rem; }
-button{ border:none; cursor:pointer; border-radius:12px; padding:.6rem .9rem; font-weight:600; }
-button.primary{ background:var(--teal); color:#fff; }
-button.ghost{ background:transparent; border:1px solid var(--line); color:#445; }
-button.file{ background:#eef3f6; }
-input.file{ display:inline-block }
+/* Update za dugme "Dodaj unos" */
+#btnAdd {
+  width: 100%;  /* Dugme sada zauzima celu širinu svog roditeljskog elementa */
+  padding: .8rem 1rem;  /* Povećavamo padding za veće dugme */
+  font-size: 18px;  /* Povećavamo veličinu fonta za bolju čitljivost */
+}
 
 /* Specijalna sekcija sa PROSEK, MIN, MAX */
 .stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; margin:1rem 0; }
