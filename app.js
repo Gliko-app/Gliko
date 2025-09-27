@@ -1,4 +1,4 @@
-/* ============== Excel-like tabs ============== */
+/* =================== Excel-like Tabs & Header Tuning =================== */
 document.addEventListener('click', (e)=>{
   const btn = e.target.closest('.tab-btn');
   if(!btn) return;
@@ -13,10 +13,25 @@ document.addEventListener('click', (e)=>{
   window.scrollTo({top:0, behavior:'smooth'});
 });
 
-/* ============== DB & State ============== */
+/* Veći natpisi bez ikonice u tabbaru + sakrij page title ispod */
+(function tuneTopBar(){
+  const bar = document.querySelector('.tabs-bar');
+  const labels = {trend:'Trendovi', food:'Ishrana', therapy:'Terapija'};
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    const k = b.dataset.tab;
+    if(labels[k]) b.textContent = labels[k];
+    b.style.fontSize = '18px';
+    b.style.fontWeight = '700';
+  });
+  document.querySelectorAll('.page-title').forEach(el=> el.style.display = 'none');
+})();
+
+/* =================== DB & State =================== */
 let db, chart;
 let filteredZone = null, filteredStart = null, filteredEnd = null;
+let calYear = null, calMonth = null, lastItems = [];
 
+/* Open DB */
 (function initDB(){
   const req = indexedDB.open('glucoseDB', 2);
   req.onupgradeneeded = (e)=>{
@@ -28,8 +43,11 @@ let filteredZone = null, filteredStart = null, filteredEnd = null;
   req.onsuccess = (e)=>{ db = e.target.result; initUI(); initChart(); loadEntries(); };
 })();
 
-/* ============== UI init ============== */
+/* =================== UI init =================== */
+function byId(id){ return document.getElementById(id); }
+
 function initUI(){
+  // actions
   byId('btnAdd').onclick = addEntry;
   byId('btnImport').onclick = importCSV;
   byId('btnExport').onclick = exportCSV;
@@ -45,13 +63,17 @@ function initUI(){
     });
   });
 
+  // AI modal
   byId('btnAI').onclick = aiAnalyze;
-  byId('aiClose').onclick = ()=> byId('aiModal').hidden = true;
+  const aiClose = byId('aiClose'); if (aiClose) aiClose.onclick = ()=> byId('aiModal').hidden = true;
+
+  // Calendar arrows
+  const prev = byId('calPrev'), next = byId('calNext');
+  if (prev) prev.onclick = ()=> shiftCalendar(-1);
+  if (next) next.onclick = ()=> shiftCalendar(1);
 }
 
-function byId(id){ return document.getElementById(id); }
-
-/* ============== Helpers za datum/vreme ============== */
+/* =================== Helpers date/time =================== */
 function pad2(n){ return String(n).padStart(2,'0'); }
 function normalizeDate(dateStr){
   if(!dateStr) return '';
@@ -91,14 +113,13 @@ function getZoneLabel(hourStr){
   return 'noc';
 }
 
-/* ============== CRUD Entries ============== */
+/* =================== CRUD Entries =================== */
 function addEntry(){
   const date = byId('date').value;
   const time = byId('time').value;
   const glucose = parseFloat(byId('glucose').value);
   const comment = (byId('comment').value || '').trim();
-  const emojis = Array.from(document.querySelectorAll('.emoji-row input:checked'))
-                      .map(x=>x.value).join(' ');
+  const emojis = Array.from(document.querySelectorAll('.emoji-row input:checked')).map(x=>x.value).join(' ');
 
   if(!date || !time || isNaN(glucose)){ alert('Datum, vreme i glukoza su obavezni.'); return; }
 
@@ -106,7 +127,6 @@ function addEntry(){
   const tx = db.transaction('entries','readwrite');
   tx.objectStore('entries').add(entry);
   tx.oncomplete = ()=>{
-    // očisti formu i čekirane emoji
     byId('glucose').value = ''; byId('comment').value = '';
     document.querySelectorAll('.emoji-row input').forEach(i=> i.checked=false);
     loadEntries();
@@ -136,13 +156,14 @@ function loadEntries(){
       chart.update();
       // statistike
       updateStats(filtered);
-      // kalendar (v4)
-      if (typeof updateCalendar === 'function') updateCalendar(items);
+      // kalendar
+      lastItems = items;
+      refreshCalendar(items);
     }
   };
 }
 
-/* ============== Filteri ============== */
+/* =================== Filteri =================== */
 function filterPredicate(e){
   if(filteredZone && e.zone!==filteredZone) return false;
   const d = normalizeDate(e.date);
@@ -163,7 +184,7 @@ function resetFilter(){
   loadEntries();
 }
 
-/* ============== Statistike ============== */
+/* =================== Statistike =================== */
 function updateStats(list){
   const elAvg = byId('statAvg'), elMin = byId('statMin'), elMax = byId('statMax');
   if(!list.length){ elAvg.textContent='—'; elMin.textContent='—'; elMax.textContent='—'; return; }
@@ -174,7 +195,7 @@ function updateStats(list){
   elAvg.textContent = avg; elMin.textContent = min; elMax.textContent = max;
 }
 
-/* ============== CSV Import/Export/Clear ============== */
+/* =================== CSV Import/Export/Clear =================== */
 function importCSV(){
   const f = byId('fileInput').files[0];
   if(!f) return;
@@ -217,7 +238,7 @@ function clearAll(){
   req.onsuccess = ()=> location.reload();
 }
 
-/* ============== Chart ============== */
+/* =================== Chart =================== */
 function initChart(){
   const ctx = byId('glucoseChart').getContext('2d');
   chart = new Chart(ctx, {
@@ -227,7 +248,85 @@ function initChart(){
   });
 }
 
-/* ============== AI analiza (lokalna) ============== */
+/* =================== Kalendar =================== */
+function refreshCalendar(all){
+  const cont = byId('calendar');
+  const title = byId('calTitle');
+  if (!cont || !title) return;
+
+  if (calYear === null || calMonth === null){
+    const now = new Date();
+    calYear = now.getFullYear();
+    calMonth = now.getMonth();
+  }
+
+  const first = new Date(calYear, calMonth, 1);
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  title.textContent = first.toLocaleString('sr-RS', { month: 'long', year: 'numeric' });
+
+  const hasDate = new Set((all || []).map(r => normalizeDate(r.date)));
+
+  cont.innerHTML = '';
+  const startOffset = (first.getDay() + 6) % 7; // Mon=0
+  for (let i = 0; i < startOffset; i++){
+    const empty = document.createElement('div');
+    empty.className = 'cell';
+    empty.style.visibility = 'hidden';
+    cont.appendChild(empty);
+  }
+  for (let d = 1; d <= daysInMonth; d++){
+    const iso = `${first.getFullYear()}-${pad2(first.getMonth()+1)}-${pad2(d)}`;
+    const el = document.createElement('div');
+    el.className = 'cell' + (hasDate.has(iso) ? ' mark' : '');
+    el.textContent = d;
+    cont.appendChild(el);
+  }
+}
+function shiftCalendar(step){
+  if (calYear === null || calMonth === null){
+    const now = new Date();
+    calYear = now.getFullYear();
+    calMonth = now.getMonth();
+  }
+  calMonth += step;
+  if (calMonth < 0){ calMonth = 11; calYear--; }
+  if (calMonth > 11){ calMonth = 0; calYear++; }
+  refreshCalendar(lastItems);
+}
+
+/* =================== AI Analiza — uz referentne opsege =================== */
+/*
+  Referentni opsezi (mmol/L) u nastavku su zasnovani na ADA/MedlinePlus smernicama
+  za odrasle sa dijabetesom (preprandijal 4.4–7.2; 1–2h posle obroka <10.0; pred spavanje 5.0–8.3)
+  i na tipičnim normalnim vrednostima za zdrave osobe (fasting 3.9–5.5; 2h posle <7.8).
+  Ovo NIJE personalizovan savet; uvek proveriti sa lekarom.
+*/
+const REF = {
+  diabetic: {
+    pre: { low: 4.4, high: 7.2 },        // pre obroka
+    post: { low: 0,   high: 10.0 },      // 1–2h posle obroka
+    bedtime: { low: 5.0, high: 8.3 }     // pred spavanje / noć
+  },
+  healthy: {
+    fasting: { low: 3.9, high: 5.5 },    // posle noći/ pre doručka
+    post: { low: 0,   high: 7.8 }        // 2h posle obroka
+  }
+};
+
+// heuristika: pre ili posle obroka
+function inferMealContext(list){
+  const txt = (list.map(x=>(x.comment||'').toLowerCase()).join(' ')+' ');
+  const preHits = (txt.match(/\bpre\b|\bpre doru|pre ruč|pre vec|pre več/g)||[]).length;
+  const postHits = (txt.match(/\bposle\b|sati posle|2 sata posle|sat posle/g)||[]).length;
+
+  // default: jutro -> pre (fasting); noc -> bedtime; ostalo -> post
+  if(filteredZone==='jutro') return 'pre';
+  if(filteredZone==='noc') return 'bedtime';
+  if(postHits>preHits) return 'post';
+  if(preHits>postHits) return 'pre';
+  return (filteredZone==='vece' ? 'bedtime' : 'post');
+}
+
 function aiAnalyze(){
   const st = db.transaction('entries').objectStore('entries');
   const items = [];
@@ -237,12 +336,64 @@ function aiAnalyze(){
     else{
       const filtered = items.filter(filterPredicate);
       const arr = filtered.map(x=>x.glucose).filter(x=>!isNaN(x));
-      if(!arr.length){ showAI("Nema dovoljno podataka za analizu."); return; }
+      if(!arr.length){ showAI("Nema dovoljno podataka za analizu za izabrani opseg/filtre."); return; }
+
       const avg=(arr.reduce((a,b)=>a+b,0)/arr.length), min=Math.min(...arr), max=Math.max(...arr);
       const inRange = arr.filter(v=>v>=4 && v<=10).length/arr.length*100;
-      let txt = `Prosečna: ${avg.toFixed(1)} mmol/L\nNajniža: ${min.toFixed(1)}\nNajviša: ${max.toFixed(1)}\nU opsegu (4–10): ${inRange.toFixed(0)}%`;
-      if(avg>10 || max>13) txt += `\n\nNapomena: vrednosti su povišene — razmotrite konsultaciju sa lekarom.`;
-      if(avg<4 || min<3.5) txt += `\n\nNapomena: vrednosti su snižene — razmotrite konsultaciju sa lekarom.`;
+
+      const zoneName = filteredZone ? (
+        filteredZone==='jutro'?'jutru':
+        filteredZone==='prepodne'?'pre podne':
+        filteredZone==='popodne'?'popodne':
+        filteredZone==='vece'?'uveče':'noću'
+      ) : 'odabranom periodu';
+
+      // meal context
+      const ctx = inferMealContext(filtered); // 'pre' | 'post' | 'bedtime'
+      const refDia = ctx==='bedtime' ? REF.diabetic.bedtime : (ctx==='pre' ? REF.diabetic.pre : REF.diabetic.post);
+      const refHealthy = ctx==='pre'
+        ? REF.healthy.fasting
+        : REF.healthy.post;
+
+      // Odstupanja
+      const highCut = refDia.high;
+      const lowCut = refDia.low || 0;
+      const tooHigh = arr.some(v=> v>highCut + 1e-9);
+      const tooLow = arr.some(v=> v<lowCut - 1e-9);
+
+      let txt = `Vaše ${
+        filteredZone ? `vrednosti ${zoneName}` : 'vrednosti'
+      } (${filtered.length} merenja):\n` +
+      `• Raspon: ${min.toFixed(1)} – ${max.toFixed(1)} mmol/L\n` +
+      `• Prosek: ${avg.toFixed(1)} mmol/L\n` +
+      `• U opsegu 4–10 mmol/L: ${inRange.toFixed(0)}%\n\n`;
+
+      txt += `Referentno (osobe sa dijabetesom, ${ctx==='pre'?'pre obroka':ctx==='post'?'1–2h posle obroka':'pred spavanje'}): `;
+      if(ctx==='post'){
+        txt += `≤ ${refDia.high.toFixed(1)} mmol/L\n`;
+      }else{
+        txt += `${refDia.low.toFixed(1)} – ${refDia.high.toFixed(1)} mmol/L\n`;
+      }
+
+      txt += `Referentno (zdrave osobe, ${ctx==='pre'?'posle noći / pre doručka':'2h posle obroka'}): `;
+      if(ctx==='post'){
+        txt += `≤ ${refHealthy.high.toFixed(1)} mmol/L\n`;
+      }else{
+        txt += `${refHealthy.low.toFixed(1)} – ${refHealthy.high.toFixed(1)} mmol/L\n`;
+      }
+
+      if(tooHigh || tooLow){
+        txt += `\nPreporuka: primećena su odstupanja ${tooHigh?'(povišene) ':''}${tooLow?'(snižene) ':''}vrednosti. `;
+        txt += `Pitanje za lekara:\n`;
+        if(tooHigh){
+          txt += `• Šta može biti uzrok povišenih vrednosti u ${zoneName} i da li treba prilagoditi terapiju ili obroke?\n`;
+        }
+        if(tooLow){
+          txt += `• Kako sprečiti rizik od hipoglikemije u ${zoneName} i da li je potrebna korekcija doze/užina?\n`;
+        }
+      }else{
+        txt += `\nTrenutni podaci su u okviru referentnih granica za odabrani kontekst.`;
+      }
       txt += `\n\nOvo nije medicinski savet.`;
       showAI(txt);
     }
