@@ -59,6 +59,7 @@ main{ padding:1rem; max-width:980px; margin:0 auto; }
 }
 .emoji-row input{ accent-color:var(--teal) }
 
+/* Dodajemo veće dugme za "Dodaj unos" */
 .actions{ display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; margin-top:.8rem; }
 button{ border:none; cursor:pointer; border-radius:12px; padding:.6rem .9rem; font-weight:600; }
 button.primary{ background:var(--teal); color:#fff; }
@@ -66,23 +67,21 @@ button.ghost{ background:transparent; border:1px solid var(--line); color:#445; 
 button.file{ background:#eef3f6; }
 input.file{ display:inline-block }
 
-/* Update za dugme "Dodaj unos" */
-#btnAdd {
-  width: 100%;  /* Dugme sada zauzima celu širinu svog roditeljskog elementa */
-  padding: .8rem 1rem;  /* Povećavamo padding za veće dugme */
-  font-size: 18px;  /* Povećavamo veličinu fonta za bolju čitljivost */
-}
-
-/* Stat kartice */
+/* Specijalna sekcija sa PROSEK, MIN, MAX */
 .stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; margin:1rem 0; }
 .stat{
   background:#f6fbff; border:1px solid var(--line); border-radius:14px; padding:.8rem;
+  font-size: 1.2rem;  /* Povećanje fonta za bolje isticanje */
+  text-align: center; /* Centriramo tekst u karticama */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Dodajemo laganu senku za efekat */
 }
-.stat .label{ color:#5b6b77; font-size:.9rem }
-.stat .value{ font-size:1.6rem; font-weight:700 }
-.stat.prosek{ background:#e8fbff }
-.stat.min{ background:#eafbf1 }
-.stat.max{ background:#fff1f1 }
+.stat .label{ color:#5b6b77; font-size:.9rem; font-weight: 600; }
+.stat .value{ font-size:2rem; font-weight:700; } /* Veći font za vrednosti */
+
+/* Specifične boje za PROSEK, MIN, MAX */
+.stat.prosek{ background:#e8fbff; color: #00b2b1; }
+.stat.min{ background:#eafbf1; color: #4caf50; }
+.stat.max{ background:#fff1f1; color: #f44336; }
 
 .chip-row{ display:flex; flex-wrap:wrap; gap:.5rem; margin:.6rem 0 }
 .chip{
