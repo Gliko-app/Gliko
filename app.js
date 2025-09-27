@@ -323,60 +323,20 @@ function zoneToText(z){
          z === 'vece' ? 'uveče' : 'noću';
 }
 
-// Funkcija koja pravi animirani tekst za AI analizu
-function injectAIStyles(){
-  if (document.getElementById('ai-typing-style')) return;
-  const css = `
-    #aiBody{white-space:pre-wrap; font-size:15px; line-height:1.4}
-    .ai-caret{display:inline-block; animation:blink 1s step-end infinite}
-    @keyframes blink{50%{opacity:0}}
-  `;
-  const st = document.createElement('style'); st.id='ai-typing-style'; st.textContent = css;
-  document.head.appendChild(st);
-}
-
-// Funkcija za simulaciju kucanja u AI modalu
-function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
-
-async function typeLine(text, container){
-  const line = document.createElement('div');
-  container.appendChild(line);
-  const caret = document.createElement('span'); caret.className='ai-caret'; caret.textContent='…';
-  for(let i=0;i<text.length;i++){
-    line.textContent = text.slice(0, i+1);
-    line.appendChild(caret);
-    await sleep(12 + Math.random()*18); // brzina kucanja
-  }
-  await sleep(350);
-  caret.remove();
-}
-
-async function typeWrite(lines){
-  const box = byId('aiBody');
-  box.innerHTML = '';
-  for(const ln of lines){
-    await typeLine(ln, box);
-  }
-}
-
-/* Funkcija za analizu trendova u poslednjih 7 dana */
+// Funkcija za analizu trendova u poslednjih 7 dana
 function analyzeTrendLast7Days(filtered, zone) {
-  // Uzima poslednji datum iz opsega podataka
-  const lastDate = new Date(filtered[filtered.length - 1].date);
-  
-  // Odredimo 7 dana pre poslednjeg datuma u opsegu
-  const sevenDaysAgo = new Date(lastDate);
-  sevenDaysAgo.setDate(lastDate.getDate() - 7);
+  const today = new Date();
+  const sevenDaysAgo = new Date(today);
+  sevenDaysAgo.setDate(today.getDate() - 7);
 
-  // Filtriramo podatke da obuhvatimo poslednjih 7 dana pre poslednjeg datuma u opsegu
   const filteredLast7 = filtered.filter(entry => {
     const entryDate = new Date(entry.date);
-    return entryDate >= sevenDaysAgo && entryDate <= lastDate;
+    return entryDate >= sevenDaysAgo && entryDate <= today;
   });
 
-  // Ako nema podataka za poslednjih 7 dana, vraćamo praznu poruku
+  // Ako nema podataka za poslednjih 7 dana, analizirajmo dostupne podatke
   if (filteredLast7.length === 0) {
-    return ["Nema dovoljno podataka za analizu trenda u poslednjih 7 dana."];
+    return ["Nema dovoljno podataka za analizu trenda u poslednjih 7 dana. Pokušajte sa drugim periodom ili filterima."];
   }
 
   // Analiziramo vrednosti u poslednjih 7 dana
@@ -389,7 +349,7 @@ function analyzeTrendLast7Days(filtered, zone) {
   let trend = "stabilno";
   let lastChange = 0; // 0: stabilno, 1: rast, -1: pad
 
-  // Hronološki analiza promena
+  // Hronološka analiza promena
   for (let i = 1; i < values.length; i++) {
     if (values[i] > values[i - 1]) {
       lastChange = 1; // rast
@@ -439,7 +399,7 @@ function aiAnalyze(){
       const lines = [hello];
 
       if (filteredZone) { // Analiza aktivne zone
-        const trendLines = analyzeTrendLast7Days(filtered, filteredZone);  // Analiziraj trend za odabrani period
+        const trendLines = analyzeTrendLast7Days(filtered, filteredZone);  // Analiziraj trend u poslednjih 7 dana za zonu
         lines.push(...trendLines);
       } else { // Celodnevna analiza — segmentacija
         const seg = segmentByDayPart(filtered);
@@ -484,3 +444,4 @@ function showAItyping(lines){
   byId('aiModal').hidden = false;
   typeWrite(lines);
 }
+
