@@ -36,107 +36,190 @@ body{
 main{ padding:1rem; max-width:980px; margin:0 auto; }
 .page-title h1{ margin:.2rem 0 1rem; color:var(--teal) }
 
-/* Cards */
-.card{
-  background:var(--card); border:1px solid var(--line); border-radius:16px;
-  padding:1rem; margin-bottom:1rem;
-  box-shadow:0 1px 2px rgba(0,0,0,.03);
-}
-.form-card input[type="date"],
-.form-card input[type="time"],
-.form-card input[type="number"],
-.form-card input[type="text"]{
-  width:100%; padding:.7rem .8rem; border:1px solid var(--line); border-radius:12px; font-size:16px;
-}
-.grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
-.mt8{ margin-top:8px; }
-
-.emoji-wrap{ margin:.6rem 0 0; }
-.emoji-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:.3rem; }
-.emoji-row label{
-  display:inline-flex; align-items:center; gap:6px; padding:.35rem .5rem;
-  background:#f2f7f7; border:1px solid #e5efef; border-radius:999px; cursor:pointer;
-}
-.emoji-row input{ accent-color:var(--teal) }
-
-/* Dodajemo veće dugme za "Dodaj unos" */
-.actions{ display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; margin-top:.8rem; }
-button{ border:none; cursor:pointer; border-radius:12px; padding:.6rem .9rem; font-weight:600; }
-button.primary{ background:var(--teal); color:#fff; }
-button.ghost{ background:transparent; border:1px solid var(--line); color:#445; }
-button.file{ background:#eef3f6; }
-input.file{ display:inline-block }
-
-/* Specijalna sekcija sa PROSEK, MIN, MAX */
-.stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; margin:1rem 0; }
-.stat{
-  background:#f6fbff; border:1px solid var(--line); border-radius:14px; padding:.8rem;
-  font-size: 1.5rem;  /* Povećanje fonta za bolje isticanje */
-  text-align: center; /* Centriramo tekst u karticama */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Dodajemo laganu senku za efekat */
-}
-.stat .label{ 
-  color:#5b6b77; 
-  font-size:1rem; /* Povećanje fonta za labelu */
-  font-weight: 600; 
-}
-.stat .value{ 
-  font-size:2.5rem; /* Povećavamo font za vrednosti */
-  font-weight:700; /* Veći font za vrednosti */
-  line-height: 1.2; /* Proširujemo linije kako bi tekst bio lakše čitljiv */
+/* Oglasni prostor */
+.ad-banner {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Oglasna boja */
+  color: #fff;
+  text-align: center;
+  padding: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
 }
 
-/* Specifične boje za PROSEK, MIN, MAX */
-.stat.prosek{ 
-  background:#e8fbff; 
-  color: #00b2b1; /* Tealski ton za prosek */
+/* Pretraga recepata */
+.search-bar {
+  padding: 1rem;
+  text-align: center;
 }
 
-.stat.min{ 
-  background:#eafbf1; 
-  color: #4caf50; /* Zeleni ton za minimum */
+#recipeSearch {
+  width: 80%;
+  padding: .8rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 16px;
 }
 
-.stat.max{ 
-  background:#fff1f1; 
-  color: #f44336; /* Crvena boja za maksimum */
+#searchBtn {
+  padding: .8rem;
+  background: var(--teal);
+  color: white;
+  border-radius: 12px;
+  font-size: 16px;
+  margin-top: 1rem;
 }
 
-.chip-row{ display:flex; flex-wrap:wrap; gap:.5rem; margin:.6rem 0 }
-.chip{
-  background:#f2f7f7; border:1px solid #e5efef; border-radius:999px; padding:.45rem .7rem; color:#334;
-}
-.chip.ghost{ background:transparent }
-
-.date-range{ display:flex; gap:.6rem; align-items:flex-end; flex-wrap:wrap }
-.date-range input{ padding:.6rem .7rem; border:1px solid var(--line); border-radius:12px }
-
-.table{ width:100%; border-collapse:collapse; }
-.table th, .table td{ border-bottom:1px solid var(--line); padding:.6rem .5rem; text-align:left; }
-.table thead th{ color:#5b6b77; font-weight:600 }
-
-.ai-block{ display:flex; gap:.6rem; align-items:center; margin:1rem 0 .4rem }
-.ai-btn{ background:#0bb; color:#fff; }
-
-.modal{ position:fixed; inset:0; background:rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center }
-.modal[hidden]{ display:none }
-.modal-content{ width:min(680px,92vw); background:var(--card); border-radius:16px; border:1px solid var(--line); padding:1rem }
-.modal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:.6rem }
-.modal-body{ white-space:pre-wrap; line-height:1.5 }
-
-.muted{ color:var(--muted) }
-
-/* Simple calendar */
-.calendar-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem }
-.calendar{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px }
-.calendar .cell{ height:42px; border:1px solid var(--line); border-radius:10px; display:flex; align-items:center; justify-content:center; background:#fafcfd; font-size:.9rem; color:#445 }
-.calendar .cell.mark{ background:#e6fdf7; border-color:#c6f3eb; font-weight:700; color:#0a7 }
-@media (max-width: 800px){
-  .grid3{ grid-template-columns:1fr; }
+/* Tagovi za filtriranje */
+.tags {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-.ai-block{ display:flex; flex-direction:column; gap:.6rem; margin:1rem 0 .4rem }
-.ai-btn{ width:100%; padding:1rem 1.1rem; font-size:18px; border-radius:14px; background:#00b2b1; color:#fff; }
+.tag {
+  padding: .6rem 1rem;
+  background-color: #f2f7f7;
+  border: 1px solid #e5efef;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Unos recepta */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+#recipe-title, #recipe-ingredients, #recipe-steps, #recipe-tags {
+  width: 100%;
+  padding: .8rem;
+  margin: .5rem 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+textarea {
+  min-height: 120px;
+}
+
+/* Stil za dugme za dodavanje recepta */
+#addRecipe {
+  width: 100%;
+  padding: .8rem;
+  background: var(--teal);
+  color: white;
+  border-radius: 12px;
+  font-size: 18px;
+  margin-top: 1rem;
+}
+
+/* Prikaz recepata */
+#recipe-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#recipe-list li {
+  background: #f2f7f7;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: .5rem 0;
+}
+
+.recipe-card {
+  background: #f2f7f7;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.recipe-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.recipe-card .recipe-details {
+  flex: 1;
+}
+
+.recipe-card .recipe-details h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.recipe-nutritional-info {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.recipe-nutritional-info span {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.ai-block {
+  display: flex;
+  gap: .6rem;
+  align-items: center;
+  margin: 1rem 0 .4rem;
+}
+
+.ai-btn {
+  background: #0bb;
+  color: #fff;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal-content {
+  width: min(680px, 92vw);
+  background: var(--card);
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  padding: 1rem;
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .6rem;
+}
+
+.modal-body {
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.muted {
+  color: var(--muted);
+}
 
 /* Emoji toggle */
 .emoji-wrap {
@@ -149,32 +232,32 @@ input.file{ display:inline-block }
 .emoji-toggle {
   background: transparent;
   border: none;
-  font-size: 16px;  /* Manja veličina fonta */
+  font-size: 16px;
   cursor: pointer;
-  color: var(--teal);  /* Koristimo boju iz palete */
+  color: var(--teal);
   font-weight: 700;
   padding: 5px;
   display: flex;
   align-items: center;
-  gap: 8px;  /* Razmak između strelice i teksta */
+  gap: 8px;
   text-align: left;
 }
 
 .emoji-section {
-  visibility: hidden;  /* Sekcija je skrivena po početku */
+  visibility: hidden;
   margin-top: 0.6rem;
   background-color: #f2f7f7;
   border: 1px solid #e5efef;
   border-radius: 12px;
   padding: 1rem;
   transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-  max-height: 0;  /* Sekcija je potpuno skrivena dok ne bude otkrivena */
+  max-height: 0;
   overflow: hidden;
 }
 
 .emoji-section.visible {
-  visibility: visible;  /* Sekcija postaje vidljiva */
-  max-height: 600px;     /* Postavljanje maksimalne visine za otkrivanje */
+  visibility: visible;
+  max-height: 600px;
 }
 
 .emoji-row {
@@ -196,5 +279,5 @@ input.file{ display:inline-block }
 }
 
 .emoji-row input {
-  accent-color: var(--teal);  /* Boja akcenata */
+  accent-color: var(--teal);
 }
