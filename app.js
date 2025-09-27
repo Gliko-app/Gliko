@@ -359,6 +359,64 @@ async function typeWrite(lines){
   }
 }
 
+/* Funkcija za analizu trendova u poslednjih 7 dana */
+function analyzeTrendLast7Days(filtered, zone) {
+  const today = new Date();
+  const sevenDaysAgo = new Date(today);
+  sevenDaysAgo.setDate(today.getDate() - 7);
+
+  const filteredLast7 = filtered.filter(entry => {
+    const entryDate = new Date(entry.date);
+    return entryDate >= sevenDaysAgo && entryDate <= today;
+  });
+
+  // Ako nema podataka za poslednjih 7 dana, vraćamo praznu poruku
+  if (filteredLast7.length === 0) {
+    return ["Nema dovoljno podataka za analizu trenda u poslednjih 7 dana."];
+  }
+
+  // Analiziramo vrednosti u poslednjih 7 dana
+  const values = filteredLast7.map(entry => entry.glucose);
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const avg = (values.reduce((a, b) => a + b, 0) / values.length).toFixed(1);
+
+  // Praćenje promene između svake vrednosti (opadanje ili rast)
+  let trend = "stabilno";
+  let lastChange = 0; // 0: stabilno, 1: rast, -1: pad
+
+  // Hronološki analiza promena
+  for (let i = 1; i < values.length; i++) {
+    if (values[i] > values[i - 1]) {
+      lastChange = 1; // rast
+    } else if (values[i] < values[i - 1]) {
+      lastChange = -1; // pad
+    }
+  }
+
+  if (lastChange === 1) {
+    trend = "rast";
+  } else if (lastChange === -1) {
+    trend = "pad";
+  }
+
+  // Kreiramo odgovor na osnovu trenda
+  const lines = [
+    `${ICON.pin} U poslednjih 7 dana, vrednosti za zonu ${zone} su se kretale od ${min.toFixed(1)} do ${max.toFixed(1)} mmol/L.`
+  ];
+
+  // Dajemo savet na osnovu trenda
+  if (trend === "rast") {
+    lines.push(`${ICON.warn} Vrednosti rastu. Preporučujemo da pratite ishranu, fizičku aktivnost i izbegavate unos previše ugljenih hidrata kasno uveče.`);
+  } else if (trend === "pad") {
+    lines.push(`${ICON.ok} Vrednosti opadaju. To je odličan znak! Nastavite sa dosadašnjim režimom ishrane i fizičke aktivnosti.`);
+  } else {
+    lines.push(`${ICON.ok} Vrednosti su stabilne. Održavajte trenutnu rutinu.`);
+  }
+
+  return lines;
+}
+
 /* Glavni AI ulaz */
 function aiAnalyze(){
   const st = db.transaction('entries').objectStore('entries');
@@ -377,36 +435,8 @@ function aiAnalyze(){
       const lines = [hello];
 
       if (filteredZone) { // Analiza aktivne zone
-        const ctx = inferMealContext(filtered, filteredZone); // 'pre'|'post'|'bedtime'
-        const refDia = ctx === 'bedtime' ? REF.diabetic.bedtime : (ctx === 'pre' ? REF.diabetic.pre : REF.diabetic.post);
-        const refHealthy = ctx === 'pre' ? REF.healthy.fasting : REF.healthy.post;
-
-        const s = statsAndTrend(filtered);
-        if (!s) {
-          showAItyping(["Nema dovoljno numeričkih merenja za izabrani filter."]);
-          return;
-        }
-
-        const tooHigh = s.avg > refDia.high + 1e-9;
-        const tooLow = refDia.low ? s.avg < refDia.low - 1e-9 : false;
-
-        lines.push(`${ICON.pin} Vaše vrednosti ${zoneToText(filteredZone)} (${s.n} merenja): raspon ${s.min.toFixed(1)}–${s.max.toFixed(1)} mmol/L, prosečno ${s.avg.toFixed(1)} mmol/L.`);
-        lines.push(`   Referentno (dijabetes, ${ctx === 'pre' ? 'pre obroka' : ctx === 'post' ? '1–2h posle obroka' : 'pred spavanje'}): ${ctx === 'post' ? `≤ ${refDia.high.toFixed(1)}` : `${refDia.low.toFixed(1)}–${refDia.high.toFixed(1)}`} mmol/L.`);
-        lines.push(`   Referentno (zdravi, ${ctx === 'pre' ? 'posle noći / pre doručka' : '2h posle obroka'}): ${ctx === 'post' ? `≤ ${refHealthy.high.toFixed(1)}` : `${refHealthy.low.toFixed(1)}–${refHealthy.high.toFixed(1)}`} mmol/L.`);
-
-        // Trend
-        if (s.slope > 0.1) lines.push(`${ICON.warn} Uočen je trend rasta u poslednjim merenjima.`);
-        if (s.slope < -0.1) lines.push(`${ICON.ok} Vrednosti opadaju — odličan napredak!`);
-
-        if (tooHigh || tooLow) {
-          if (filteredZone === 'jutro' && (tooHigh || s.max > refDia.high)) {
-            lines.push(`   ℹ️ Mogući “dawn phenomenon”: jutarnji hormoni (kortizol, hormon rasta) mogu podizati šećer. Obratite pažnju na kasne obroke bogate UH, san, hidrataciju i kratku šetnju posle večere.`);
-          }
-          lines.push(`${ICON.doctor} Razmotrite razgovor sa lekarom (i nutricionistom za prilagođavanje obroka).`);
-        } else {
-          lines.push(`${ICON.ok} U okviru ste ciljeva za ovaj period/kontekst.`);
-        }
-
+        const trendLines = analyzeTrendLast7Days(filtered, filteredZone);  // Analiziraj trend u poslednjih 7 dana za zonu
+        lines.push(...trendLines);
       } else { // Celodnevna analiza — segmentacija
         const seg = segmentByDayPart(filtered);
 
@@ -416,7 +446,7 @@ function aiAnalyze(){
           {key: 'evening', label: `${ICON.vece} Večernji (17–22)`, ctx: 'post', refDia: REF.diabetic.post, refHealthy: REF.healthy.post}
         ];
 
-        lines.push(`${ICON.pin} Analiza po delovima dana (bez uključenih filtera):`);
+        lines.push(`${ICON.pin} Analiza po delovima dana:`);
 
         for (const b of blocks) {
           const arr = seg[b.key];
