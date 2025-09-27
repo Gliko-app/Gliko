@@ -353,3 +353,4 @@ function aiAnalyze(){
   st.openCursor().onsuccess = e=>{
     const c=e.target.result;
     if(c){ items.push(c.value); c.continue(); }
+
