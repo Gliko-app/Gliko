@@ -108,3 +108,6 @@ input.file{ display:inline-block }
 @media (max-width: 800px){
   .grid3{ grid-template-columns:1fr; }
 }
+
+.ai-block{ display:flex; flex-direction:column; gap:.6rem; margin:1rem 0 .4rem }
+.ai-btn{ width:100%; padding:1rem 1.1rem; font-size:18px; border-radius:14px; background:#00b2b1; color:#fff; }
