@@ -378,6 +378,11 @@ function analyzeTrendLast7Days(filtered, zone) {
     lines.push(`${ICON.ok} Vrednosti su stabilne. Održavajte trenutnu rutinu.`);
   }
 
+  // Dodavanje komentara za visoke vrednosti
+  if (max > 20) {
+    lines.push(`${ICON.warn} Uočene su veoma visoke vrednosti glukoze. Preporučujemo da se konsultujete sa lekarom o mogućim promenama u terapiji.`);
+  }
+
   return lines;
 }
 
