@@ -239,20 +239,18 @@ function initChart(){
 }
 
 /* =================== AI Analiza — referentni opsezi =================== */
-// Referentni opsezi za dijabetes i zdrave osobe
 const REF = {
   diabetic: {
-    pre: { low: 4.4, high: 7.2 },        // pre obroka
-    post: { low: 3.9,   high: 10.0 },      // 1–2h posle obroka
-    bedtime: { low: 5.0, high: 8.3 }     // pred spavanje
+    pre: { low: 4.4, high: 7.2 },
+    post: { low: 3.9, high: 10.0 },
+    bedtime: { low: 5.0, high: 8.3 }
   },
   healthy: {
-    fasting: { low: 3.9, high: 5.5 },    // posle noći / pre doručka
-    post: { low: 3.9,   high: 7.8 }        // 2h posle obroka
+    fasting: { low: 3.9, high: 5.5 },
+    post: { low: 3.9, high: 7.8 }
   }
 };
 
-// Dodatne ikone i etikete za AI
 const ICON = {
   jutro: "🌅",
   dan: "☀️",
@@ -263,7 +261,6 @@ const ICON = {
   doctor: "👉"
 };
 
-// Funkcija za određivanje pozdrava na osnovu vremena
 function greeting(){
   const h = new Date().getHours();
   if(h >= 6 && h < 12) return "Dobro jutro";
@@ -272,7 +269,6 @@ function greeting(){
   return "Zdravo";
 }
 
-// Funkcija za analizu obroka (pre, posle, pred spavanje)
 function inferMealContext(list, forcedZone){
   const txt = (list.map(x=>(x.comment||'').toLowerCase()).join(' ')+' ');
   const preHits = (txt.match(/\bpre\b|\bpre doru|pre ruč|pre vec|pre več/g)||[]).length;
@@ -284,7 +280,6 @@ function inferMealContext(list, forcedZone){
   return (forcedZone === 'vece' ? 'bedtime' : 'post');
 }
 
-// Podela dana na segmente: jutro, popodne, veče
 function segmentByDayPart(list){
   const parts = {
     morning: list.filter(x => { const h = +x.time.split(':')[0]; return h >= 6 && h < 9; }),
@@ -294,7 +289,6 @@ function segmentByDayPart(list){
   return parts;
 }
 
-// Funkcija koja izračunava osnovne statistike i trend
 function statsAndTrend(arr){
   if (!arr.length) return null;
   const values = arr.map(x => x.glucose).filter(v => !isNaN(v));
@@ -302,7 +296,6 @@ function statsAndTrend(arr){
   const avg = values.reduce((a, b) => a + b, 0) / values.length;
   const min = Math.min(...values), max = Math.max(...values);
 
-  // Linearni trend: y ~ a + b * i
   const xs = values.map((_, i) => i + 1);
   const xmean = xs.reduce((a, b) => a + b, 0) / xs.length;
   const ymean = avg;
@@ -311,11 +304,10 @@ function statsAndTrend(arr){
     num += (xs[i] - xmean) * (values[i] - ymean);
     den += (xs[i] - xmean) ** 2;
   }
-  const slope = den ? num / den : 0; // Promena po merenju
+  const slope = den ? num / den : 0;
   return { avg, min, max, slope, n: values.length };
 }
 
-// Lepa etiketa za zonu (jutro, popodne, večer)
 function zoneToText(z){
   return z === 'jutro' ? 'jutru' :
          z === 'prepodne' ? 'pre podne' :
@@ -323,7 +315,6 @@ function zoneToText(z){
          z === 'vece' ? 'uveče' : 'noću';
 }
 
-// Funkcija za analizu trendova u poslednjih 7 dana
 function analyzeTrendLast7Days(filtered, zone) {
   const today = new Date();
   const sevenDaysAgo = new Date(today);
@@ -334,42 +325,33 @@ function analyzeTrendLast7Days(filtered, zone) {
     return entryDate >= sevenDaysAgo && entryDate <= today;
   });
 
-  // Ako nema podataka za poslednjih 7 dana, analizirajmo dostupne podatke
   if (filteredLast7.length === 0) {
     return ["Nema dovoljno podataka za analizu trenda u poslednjih 7 dana. Pokušajte sa drugim periodom ili filterima."];
   }
 
-  // Analiziramo vrednosti u poslednjih 7 dana
   const values = filteredLast7.map(entry => entry.glucose);
   const min = Math.min(...values);
   const max = Math.max(...values);
   const avg = (values.reduce((a, b) => a + b, 0) / values.length).toFixed(1);
 
-  // Praćenje promene između svake vrednosti (opadanje ili rast)
   let trend = "stabilno";
-  let lastChange = 0; // 0: stabilno, 1: rast, -1: pad
+  let lastChange = 0;
 
-  // Hronološka analiza promena
   for (let i = 1; i < values.length; i++) {
     if (values[i] > values[i - 1]) {
-      lastChange = 1; // rast
+      lastChange = 1; 
     } else if (values[i] < values[i - 1]) {
-      lastChange = -1; // pad
+      lastChange = -1; 
     }
   }
 
-  if (lastChange === 1) {
-    trend = "rast";
-  } else if (lastChange === -1) {
-    trend = "pad";
-  }
+  if (lastChange === 1) trend = "rast";
+  else if (lastChange === -1) trend = "pad";
 
-  // Kreiramo odgovor na osnovu trenda
   const lines = [
     `${ICON.pin} U poslednjih 7 dana, vrednosti za zonu ${zone} su se kretale od ${min.toFixed(1)} do ${max.toFixed(1)} mmol/L.`
   ];
 
-  // Dajemo savet na osnovu trenda
   if (trend === "rast") {
     lines.push(`${ICON.warn} Vrednosti rastu. Preporučujemo da pratite ishranu, fizičku aktivnost i izbegavate unos previše ugljenih hidrata kasno uveče.`);
   } else if (trend === "pad") {
@@ -378,7 +360,6 @@ function analyzeTrendLast7Days(filtered, zone) {
     lines.push(`${ICON.ok} Vrednosti su stabilne. Održavajte trenutnu rutinu.`);
   }
 
-  // Dodavanje komentara za visoke vrednosti
   if (max > 20) {
     lines.push(`${ICON.warn} Uočene su veoma visoke vrednosti glukoze. Preporučujemo da se konsultujete sa lekarom o mogućim promenama u terapiji.`);
   }
@@ -386,7 +367,6 @@ function analyzeTrendLast7Days(filtered, zone) {
   return lines;
 }
 
-/* Glavni AI ulaz */
 function aiAnalyze(){
   const st = db.transaction('entries').objectStore('entries');
   const items = [];
@@ -403,10 +383,10 @@ function aiAnalyze(){
       const hello = greeting() + " 👋";
       const lines = [hello];
 
-      if (filteredZone) { // Analiza aktivne zone
-        const trendLines = analyzeTrendLast7Days(filtered, filteredZone);  // Analiziraj trend u poslednjih 7 dana za zonu
+      if (filteredZone) { 
+        const trendLines = analyzeTrendLast7Days(filtered, filteredZone);  
         lines.push(...trendLines);
-      } else { // Celodnevna analiza — segmentacija
+      } else { 
         const seg = segmentByDayPart(filtered);
 
         const blocks = [
@@ -415,7 +395,7 @@ function aiAnalyze(){
           {key: 'evening', label: `${ICON.vece} Večernji (17–22)`, ctx: 'post', refDia: REF.diabetic.post, refHealthy: REF.healthy.post}
         ];
 
-        lines.push(`${ICON.pin} Analiza po delovima dana (bez uključenih filtera):`);
+        lines.push(`${ICON.pin} Analiza po delovima dana:`);
 
         for (const b of blocks) {
           const arr = seg[b.key];
@@ -449,4 +429,3 @@ function showAItyping(lines){
   byId('aiModal').hidden = false;
   typeWrite(lines);
 }
-
