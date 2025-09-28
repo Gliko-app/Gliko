@@ -31,7 +31,6 @@
 
       <!-- Unos -->
       <div class="card form-card">
-         <h3>Unesite vrednost šećera</h3>
         <div class="grid3">
           <div>
             <label>Datum</label>
@@ -97,7 +96,7 @@
 
       <!-- Filteri po zoni + period -->
       <div class="card">
-        <h3>Filteri po dobu dana</h3>
+        <h3>Filteri po zoni</h3>
         <div class="chip-row">
           <button class="chip" data-zone="jutro">🌄 Jutro (06–09)</button>
           <button class="chip" data-zone="prepodne">🌤️ Pre podne (09–12)</button>
@@ -121,15 +120,15 @@
         </div>
       </div>
 
-      <!-- Grafik  -->
+      <!-- Grafik -->
       <div class="card">
-        <h3>Grafikon (filtrirane vrednosti) </h3>
+        <h3>Grafik</h3>
         <canvas id="glucoseChart" height="120"></canvas>
       </div>
 
       <!-- Tabela -->
       <div class="card">
-        <h3>Vaši podaci merenja </h3>
+        <h3>Unosi</h3>
         <table class="table" id="logTable">
           <thead>
             <tr><th>Datum</th><th>Vreme</th><th>Glukoza</th><th>Komentar</th></tr>
@@ -172,18 +171,51 @@
 
     </section>
 
-    <!-- TAB: ISHRANA (prazno za sada) -->
-    <section id="tab-food" class="tab-view" hidden>
-      <header class="page-title"><h1>Ishrana</h1></header>
-      <div class="card"><p>Ovaj tab ćemo puniti posle.</p></div>
-    </section>
+      <!-- TAB: ISHRANA -->
+    <section id="tab-food" class="tab-view">
+      <!-- Reklama na vrhu -->
+      <div class="advertisement">
+        <img src="ad-image-url.jpg" alt="Reklama za zdravu hranu" />
+        <p>Oglasi sponzora - Restoran zdrave hrane</p>
+      </div>
 
-    <!-- TAB: TERAPIJA (prazno za sada) -->
-    <section id="tab-therapy" class="tab-view" hidden>
-      <header class="page-title"><h1>Terapija</h1></header>
-      <div class="card"><p>Ovaj tab ćemo puniti posle.</p></div>
+      <!-- Pretraga recepata -->
+      <div class="search-wrapper">
+        <input type="text" id="recipe-search" placeholder="Pretraži recepte" />
+      </div>
+
+      <div class="tag-filters">
+        <button class="chip">Low-GI</button>
+        <button class="chip">Bez-glutena</button>
+        <button class="chip">Veganski</button>
+      </div>
+
+      <div class="card form-card">
+        <h3>Unesite novi recept</h3>
+        <div class="grid3">
+          <div>
+            <label for="recipe-title">Naziv recepta</label>
+            <input type="text" id="recipe-title" placeholder="Naziv recepta">
+          </div>
+          <div>
+            <label for="recipe-image">Slika recepta</label>
+            <input type="file" id="recipe-image">
+          </div>
+          <div>
+            <label for="recipe-ingredients">Sastojci</label>
+            <textarea id="recipe-ingredients" placeholder="Unesite sastojke"></textarea>
+          </div>
+        </div>
+        <button id="submit-recipe" class="primary">Dodaj recept</button>
+      </div>
+
+      <div id="recipe-container" class="card">
+        <h3>Recepti</h3>
+        <div class="recipe-list">
+          <!-- Ovdje će biti prikazani recepti kroz JS -->
+        </div>
+      </div>
     </section>
-  </main>
 
   <script src="app.js"></script>
 
@@ -198,5 +230,3 @@
 </body>
 
 </html>
-
-
