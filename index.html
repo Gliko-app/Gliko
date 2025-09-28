@@ -31,7 +31,6 @@
 
       <!-- Unos -->
       <div class="card form-card">
-      <h3>Unesite vrednost šećera</h3>
         <div class="grid3">
           <div>
             <label>Datum</label>
@@ -97,7 +96,7 @@
 
       <!-- Filteri po zoni + period -->
       <div class="card">
-        <h3>Filteri po dobu dana</h3>
+        <h3>Filteri po zoni</h3>
         <div class="chip-row">
           <button class="chip" data-zone="jutro">🌄 Jutro (06–09)</button>
           <button class="chip" data-zone="prepodne">🌤️ Pre podne (09–12)</button>
@@ -123,13 +122,13 @@
 
       <!-- Grafik -->
       <div class="card">
-        <h4>Trend sa uključenim filterom</h4>
+        <h3>Grafik</h3>
         <canvas id="glucoseChart" height="120"></canvas>
       </div>
 
       <!-- Tabela -->
       <div class="card">
-        <h3>Vrednosti po filterima</h3>
+        <h3>Unosi</h3>
         <table class="table" id="logTable">
           <thead>
             <tr><th>Datum</th><th>Vreme</th><th>Glukoza</th><th>Komentar</th></tr>
@@ -172,51 +171,67 @@
 
     </section>
 
-      <!-- TAB: ISHRANA -->
-    <section id="tab-food" class="tab-view">
-      <!-- Reklama na vrhu -->
-      <div class="advertisement">
-        <img src="ad-image-url.jpg" alt="Reklama za zdravu hranu" />
-        <p>Oglasi sponzora - Restoran zdrave hrane</p>
-      </div>
+<!-- TAB: ISHRANA -->
+<section id="tab-food" class="tab-view">
+  <!-- Advertisement Carousel -->
+  <div class="advertisement">
+    <div class="carousel">
+      <img src="ad-image-url-1.jpg" alt="Reklama za zdravu hranu" />
+      <img src="ad-image-url-2.jpg" alt="Reklama za zdravu hranu" />
+      <img src="ad-image-url-3.jpg" alt="Reklama za zdravu hranu" />
+    </div>
+    <p>Oglasi sponzora - Restoran zdrave hrane</p>
+  </div>
 
-      <!-- Pretraga recepata -->
-      <div class="search-wrapper">
-        <input type="text" id="recipe-search" placeholder="Pretraži recepte" />
-      </div>
+  <!-- Pretraga recepata -->
+  <div class="search-wrapper">
+    <input type="text" id="recipe-search" placeholder="Pretraži recepte" />
+  </div>
 
-      <div class="tag-filters">
-        <button class="chip">Low-GI</button>
-        <button class="chip">Bez-glutena</button>
-        <button class="chip">Veganski</button>
-      </div>
+  <!-- Tag Filters -->
+  <div class="tag-filters">
+    <button class="chip" data-tag="Low-GI">Low-GI</button>
+    <button class="chip" data-tag="Bez-glutena">Bez-glutena</button>
+    <button class="chip" data-tag="Veganski">Veganski</button>
+  </div>
 
-      <div class="card form-card">
-        <h3>Unesite novi recept</h3>
-        <div class="grid3">
-          <div>
-            <label for="recipe-title">Naziv recepta</label>
-            <input type="text" id="recipe-title" placeholder="Naziv recepta">
-          </div>
-          <div>
-            <label for="recipe-image">Slika recepta</label>
-            <input type="file" id="recipe-image">
-          </div>
-          <div>
-            <label for="recipe-ingredients">Sastojci</label>
-            <textarea id="recipe-ingredients" placeholder="Unesite sastojke"></textarea>
-          </div>
-        </div>
-        <button id="submit-recipe" class="primary">Dodaj recept</button>
+  <!-- Unos novog recepta -->
+  <div class="card form-card">
+    <h3>Unesite novi recept</h3>
+    <div class="grid3">
+      <div>
+        <label for="recipe-title">Naziv recepta</label>
+        <input type="text" id="recipe-title" placeholder="Naziv recepta" />
       </div>
+      <div>
+        <label for="recipe-image">Slika recepta</label>
+        <input type="file" id="recipe-image" />
+      </div>
+      <div>
+        <label for="recipe-ingredients">Sastojci</label>
+        <textarea id="recipe-ingredients" placeholder="Unesite sastojke"></textarea>
+      </div>
+    </div>
+    <div class="tag-section">
+      <label for="recipe-tags">Tagovi</label>
+      <select id="recipe-tags" multiple>
+        <option value="Low-GI">Low-GI</option>
+        <option value="Bez-glutena">Bez-glutena</option>
+        <option value="Veganski">Veganski</option>
+      </select>
+    </div>
+    <button id="submit-recipe" class="primary">Dodaj recept</button>
+  </div>
 
-      <div id="recipe-container" class="card">
-        <h3>Recepti</h3>
-        <div class="recipe-list">
-          <!-- Ovdje će biti prikazani recepti kroz JS -->
-        </div>
-      </div>
-    </section>
+  <!-- Recepti Container -->
+  <div id="recipe-container" class="card">
+    <h3>Recepti</h3>
+    <div class="recipe-list">
+      <!-- Ovdje će biti prikazani recepti kroz JS -->
+    </div>
+  </div>
+</section>
+
 
   <script src="app.js"></script>
 
@@ -231,6 +246,3 @@
 </body>
 
 </html>
-
-
-
