@@ -123,6 +123,9 @@ function addEntry() {
     byId('glucose').value = ''; byId('comment').value = '';
     document.querySelectorAll('.emoji-row input').forEach(i => i.checked = false);
     loadEntries();
+    
+    // Pokrećemo analizu odmah nakon unosa
+    aiAnalyze();  // Pozivanje analize i prikazivanje modala
   };
 }
 
