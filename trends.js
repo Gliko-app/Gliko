@@ -13,18 +13,6 @@ document.addEventListener('click', (e) => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-/* Veći natpisi bez ikonice u tabbaru + sakrij page title ispod */
-(function tuneTopBar() {
-  const labels = { trend: 'Trendovi', food: 'Ishrana', therapy: 'Terapija' };
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    const k = b.dataset.tab;
-    if (labels[k]) b.textContent = labels[k];
-    b.style.fontSize = '18px';
-    b.style.fontWeight = '700';
-  });
-  document.querySelectorAll('.page-title').forEach(el => el.style.display = 'none');
-})();
-
 /* =================== DB & State =================== */
 let db, chart;
 let filteredZone = null, filteredStart = null, filteredEnd = null;
@@ -199,7 +187,6 @@ function importCSV() {
     const start = lines[0].toLowerCase().startsWith('date') ? 1 : 0;
     const tx = db.transaction('entries', 'readwrite'); const st = tx.objectStore('entries');
     for (let i = start; i < lines.length; i++) {
-      // "date,time,glucose,comment"
       let parts = lines[i].match(/^(.*?),(.*?),(.*?),(.*)$/);
       if (!parts) parts = lines[i].split(',');
       else parts = [parts[1], parts[2], parts[3], parts[4]];
@@ -242,20 +229,18 @@ function initChart() {
 }
 
 /* =================== AI Analiza — referentni opsezi =================== */
-// Referentni opsezi za dijabetes i zdrave osobe
 const REF = {
   diabetic: {
-    pre: { low: 4.4, high: 7.2 },        // pre obroka
-    post: { low: 3.9,   high: 10.0 },      // 1–2h posle obroka
-    bedtime: { low: 5.0, high: 8.3 }     // pred spavanje
+    pre: { low: 4.4, high: 7.2 },
+    post: { low: 3.9, high: 10.0 },
+    bedtime: { low: 5.0, high: 8.3 }
   },
   healthy: {
-    fasting: { low: 3.9, high: 5.5 },    // posle noći / pre doručka
-    post: { low: 3.9,   high: 7.8 }        // 2h posle obroka
+    fasting: { low: 3.9, high: 5.5 },
+    post: { low: 3.9, high: 7.8 }
   }
 };
 
-// Dodatne ikone i etikete za AI
 const ICON = {
   jutro: "🌅",
   dan: "☀️",
@@ -266,7 +251,6 @@ const ICON = {
   doctor: "👉"
 };
 
-// Funkcija za određivanje pozdrava na osnovu vremena
 function greeting(){
   const h = new Date().getHours();
   if(h >= 6 && h < 12) return "Dobro jutro";
@@ -275,7 +259,6 @@ function greeting(){
   return "Zdravo";
 }
 
-// Funkcija za analizu obroka (pre, posle, pred spavanje)
 function inferMealContext(list, forcedZone){
   const txt = (list.map(x=>(x.comment||'').toLowerCase()).join(' ')+' ');
   const preHits = (txt.match(/\bpre\b|\bpre doru|pre ruč|pre vec|pre več/g)||[]).length;
@@ -287,7 +270,6 @@ function inferMealContext(list, forcedZone){
   return (forcedZone === 'vece' ? 'bedtime' : 'post');
 }
 
-// Podela dana na segmente: jutro, popodne, veče
 function segmentByDayPart(list){
   const parts = {
     morning: list.filter(x => { const h = +x.time.split(':')[0]; return h >= 6 && h < 9; }),
@@ -297,13 +279,11 @@ function segmentByDayPart(list){
   return parts;
 }
 
-// Funkcija koja izračunava osnovne statistike i trend
 function statsAndTrend(arr){
   if (!arr.length) return null;
   const values = arr.map(x => x.glucose).filter(v => !isNaN(v));
   if (!values.length) return null;
 
-  // Linearni trend: y ~ a + b * i (praćenje hronološkog reda podataka)
   const xs = values.map((_, i) => i + 1); // Koristimo hronološki redosled
   const xmean = xs.reduce((a, b) => a + b, 0) / xs.length;
   const ymean = values.reduce((a, b) => a + b, 0) / values.length;
@@ -313,9 +293,8 @@ function statsAndTrend(arr){
     num += (xs[i] - xmean) * (values[i] - ymean);
     den += (xs[i] - xmean) ** 2;
   }
-  const slope = den ? num / den : 0; // Promena po merenju, ovo je linijski trend (nagib)
+  const slope = den ? num / den : 0;
 
-  // Izračunavanje minimuma, maksimuma i proseka
   const avg = values.reduce((a, b) => a + b, 0) / values.length;
   const min = Math.min(...values);
   const max = Math.max(...values);
@@ -323,7 +302,6 @@ function statsAndTrend(arr){
   return { avg, min, max, slope, n: values.length };
 }
 
-// Lepa etiketa za zonu (jutro, popodne, večer)
 function zoneToText(z){
   return z === 'jutro' ? 'jutru' :
          z === 'prepodne' ? 'pre podne' :
@@ -331,7 +309,6 @@ function zoneToText(z){
          z === 'vece' ? 'uveče' : 'noću';
 }
 
-// Funkcija koja pravi animirani tekst za AI analizu
 function injectAIStyles(){
   if (document.getElementById('ai-typing-style')) return;
   const css = `
@@ -343,8 +320,7 @@ function injectAIStyles(){
   document.head.appendChild(st);
 }
 
-// Funkcija za simulaciju kucanja u AI modalu
-function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+async function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
 
 async function typeLine(text, container){
   const line = document.createElement('div');
@@ -367,7 +343,6 @@ async function typeWrite(lines){
   }
 }
 
-/* Glavni AI ulaz */
 function aiAnalyze(){
   const st = db.transaction('entries').objectStore('entries');
   const items = [];
