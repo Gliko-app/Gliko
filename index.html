@@ -26,14 +26,12 @@
   <main id="tabs-root">
     <!-- TAB: TRENDOVI -->
     <section id="tab-trend" class="tab-view active">
-      <!-- naslov ispod skrivamo iz app.js  -->
       <header class="page-title"><h1>Trendovi</h1></header>
 
       <!-- Unos -->
       <div class="card form-card">
-	    <h3>Unesi vrednost šećera</h3>
+        <h3>Unesi vrednost šećera</h3>
         <div class="grid3">
-		
           <div>
             <label>Datum</label>
             <input type="date" id="date">
@@ -156,34 +154,52 @@
         </div>
       </div>
 
-      <!-- Analysis Modal (NEW) -->
-      <div id="analysisModal" class="modal" hidden>
-        <div class="modal-content">
-          <div class="modal-head">
-            <h3>Analiza Merenja</h3>
-            <button class="close" onclick="closeModal()">✕</button>
-          </div>
-          <div class="modal-body">
-            <p>Glukoza: <span id="glucoseValue"></span> mmol/L</p>
-            <p>Period: <span id="timeOfDay"></span></p>
-            <p id="trendText"></p>
-          </div>
-        </div>
+    </section>
+
+    <!-- TAB: ISHRANA -->
+    <section id="tab-food" class="tab-view" hidden>
+      <header class="page-title"><h1>Ishrana</h1></header>
+
+      <!-- Carousel za reklame -->
+      <div id="carousel" class="carousel">
+        <div class="carousel-item"><img src="https://github.com/username/repository_name/images/advert1.jpg" alt="Reklama 1"></div>
+        <div class="carousel-item"><img src="https://github.com/username/repository_name/images/advert2.jpg" alt="Reklama 2"></div>
+        <div class="carousel-item"><img src="https://github.com/username/repository_name/images/advert3.jpg" alt="Reklama 3"></div>
+      </div>
+
+      <!-- Form for adding recipes -->
+      <div class="card">
+        <h3>Unos recepta</h3>
+        <form id="recipeForm">
+          <label for="recipeName">Naziv recepta</label>
+          <input type="text" id="recipeName" name="recipeName" required>
+          
+          <label for="recipeImage">Slika recepta</label>
+          <input type="file" id="recipeImage" name="recipeImage" accept="image/*" required>
+
+          <label for="ingredients">Sastojci</label>
+          <textarea id="ingredients" name="ingredients" required></textarea>
+
+          <label for="tags">Tagovi</label>
+          <input type="text" id="tags" name="tags" placeholder="Low-GI, Bez-glutena, Veganski" required>
+
+          <button type="submit">Dodaj recept</button>
+        </form>
+      </div>
+
+      <!-- Displaying recipe tabs -->
+      <div class="card" id="recipeTabsContainer">
+        <!-- Dynamically filled with recipe tabs -->
       </div>
 
     </section>
 
-    <!-- TAB: ISHRANA (prazno za sada) -->
-    <section id="tab-food" class="tab-view" hidden>
-      <header class="page-title"><h1>Ishrana</h1></header>
-      <div class="card"><p>Ovaj tab ćemo puniti posle.</p></div>
-    </section>
-
-    <!-- TAB: TERAPIJA (prazno za sada) -->
+    <!-- TAB: TERAPIJA -->
     <section id="tab-therapy" class="tab-view" hidden>
       <header class="page-title"><h1>Terapija</h1></header>
-      <div class="card"><p>Ovaj tab ćemo puniti posle.</p></div>
+      <div class="card"><p>Ovaj tab ćemo puniti kasnije.</p></div>
     </section>
+
   </main>
 
   <script src="app.js"></script>
@@ -197,5 +213,4 @@
     }
   </script>
 </body>
-
 </html>
