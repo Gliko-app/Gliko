@@ -356,3 +356,100 @@ async function typeLine(text, container){
 
 async function typeWrite(lines){
   const box = byId('aiBody');
+  box.innerHTML = '';
+  for(const ln of lines){
+    await typeLine(ln, box);
+  }
+}
+
+/* Glavni AI ulaz */
+function aiAnalyze(){
+  const st = db.transaction('entries').objectStore('entries');
+  const items = [];
+  st.openCursor().onsuccess = e => {
+    const c = e.target.result;
+    if (c) { items.push(c.value); c.continue(); }
+    else {
+      const filtered = items.filter(filterPredicate);
+      if (!filtered.length) {
+        showAItyping(["Zdravo! Nema dovoljno podataka za analizu za izabrani opseg/filtre."]);
+        return;
+      }
+
+      const hello = greeting() + " 👋";
+      const lines = [hello];
+
+      if (filteredZone) { // Analiza aktivne zone
+        const ctx = inferMealContext(filtered, filteredZone); // 'pre'|'post'|'bedtime'
+        const refDia = ctx === 'bedtime' ? REF.diabetic.bedtime : (ctx === 'pre' ? REF.diabetic.pre : REF.diabetic.post);
+        const refHealthy = ctx === 'pre' ? REF.healthy.fasting : REF.healthy.post;
+
+        const s = statsAndTrend(filtered);
+        if (!s) {
+          showAItyping(["Nema dovoljno numeričkih merenja za izabrani filter."]);
+          return;
+        }
+
+        const tooHigh = s.avg > refDia.high + 1e-9;
+        const tooLow = refDia.low ? s.avg < refDia.low - 1e-9 : false;
+
+        lines.push(`${ICON.pin} Vaše vrednosti ${zoneToText(filteredZone)} (${s.n} merenja): raspon ${s.min.toFixed(1)}–${s.max.toFixed(1)} mmol/L, prosečno ${s.avg.toFixed(1)} mmol/L.`);
+        lines.push(`   Referentno (dijabetes, ${ctx === 'pre' ? 'pre obroka' : ctx === 'post' ? '1–2h posle obroka' : 'pred spavanje'}): ${ctx === 'post' ? `≤ ${refDia.high.toFixed(1)}` : `${refDia.low.toFixed(1)}–${refDia.high.toFixed(1)}`} mmol/L.`);
+        lines.push(`   Referentno (zdravi, ${ctx === 'pre' ? 'posle noći / pre doručka' : '2h posle obroka'}): ${ctx === 'post' ? `≤ ${refHealthy.high.toFixed(1)}` : `${refHealthy.low.toFixed(1)}–${refHealthy.high.toFixed(1)}`} mmol/L.`);
+
+        // Trend
+        if (s.slope > 0.1) lines.push(`${ICON.warn} Uočen je trend rasta u poslednjim merenjima.`);
+        if (s.slope < -0.1) lines.push(`${ICON.ok} Vrednosti opadaju — odličan napredak!`);
+
+        if (tooHigh || tooLow) {
+          if (filteredZone === 'jutro' && (tooHigh || s.max > refDia.high)) {
+            lines.push(`   ℹ️ Mogući “dawn phenomenon”: jutarnji hormoni (kortizol, hormon rasta) mogu podizati šećer. Obratite pažnju na kasne obroke bogate UH, san, hidrataciju i kratku šetnju posle večere.`);
+          }
+          lines.push(`${ICON.doctor} Razmotrite razgovor sa lekarom (i nutricionistom za prilagođavanje obroka).`);
+        } else {
+          lines.push(`${ICON.ok} U okviru ste ciljeva za ovaj period/kontekst.`);
+        }
+
+      } else { // Celodnevna analiza — segmentacija
+        const seg = segmentByDayPart(filtered);
+
+        const blocks = [
+          {key:'morning', label:`${ICON.jutro} Jutarnji (06–09)`, ctx:'pre', refDia:REF.diabetic.pre, refHealthy:REF.healthy.fasting},
+          {key:'postLunch', label:`${ICON.dan} Posle ručka (15–17)`, ctx:'post', refDia:REF.diabetic.post, refHealthy:REF.healthy.post},
+          {key:'evening', label:`${ICON.vece} Večernji (17–22)`, ctx:'post', refDia:REF.diabetic.post, refHealthy:REF.healthy.post}
+        ];
+
+        lines.push(`${ICON.pin} Analiza po delovima dana:`);
+
+        for (const b of blocks) {
+          const arr = seg[b.key];
+          const s = statsAndTrend(arr || []);
+          if (!s) { lines.push(`• ${b.label}: nema merenja.`); continue; }
+          const tooHigh = s.avg > b.refDia.high + 1e-9;
+          const tooLow = b.refDia.low ? s.avg < b.refDia.low - 1e-9 : false;
+
+          lines.push(`• ${b.label}: raspon ${s.min.toFixed(1)}–${s.max.toFixed(1)} mmol/L, prosek ${s.avg.toFixed(1)}.`);
+
+          if (s.slope > 0.1) lines.push(`   ${ICON.warn} Trend rasta u ovom periodu.`);
+          if (s.slope < -0.1 && s.avg >= b.refHealthy.low && s.avg <= b.refHealthy.high) lines.push(`   ${ICON.ok} Vrednosti opadaju i u zdravom su opsegu — bravo!`);
+
+          if (b.key === 'morning' && (tooHigh || s.max > b.refDia.high)) {
+            lines.push(`   ℹ️ Mogući “dawn phenomenon”: jutarnji hormoni (kortizol, hormon rasta) mogu podizati šećer. Obratite pažnju na kasne obroke bogate UH, san, hidrataciju i kratku šetnju uveče.`);
+          }
+          if (tooHigh || tooLow) {
+            lines.push(`   ${ICON.doctor} Ako se ovakav obrazac nastavi, konsultujte lekara; pokažite mu grafik i vrednosti iz aplikacije.`);
+          }
+        }
+      }
+
+      lines.push(`\nNapomena: Ovo nije medicinski savet.`);
+
+      showAItyping(lines);
+    }
+  };
+}
+
+function showAItyping(lines){
+  byId('aiModal').hidden = false;
+  typeWrite(lines);
+}
