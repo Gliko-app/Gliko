@@ -13,6 +13,18 @@ document.addEventListener('click', (e) => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
+/* Veći natpisi bez ikonice u tabbaru + sakrij page title ispod */
+(function tuneTopBar() {
+  const labels = { trend: 'Trendovi', food: 'Ishrana', therapy: 'Terapija' };
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    const k = b.dataset.tab;
+    if (labels[k]) b.textContent = labels[k];
+    b.style.fontSize = '18px';
+    b.style.fontWeight = '700';
+  });
+  document.querySelectorAll('.page-title').forEach(el => el.style.display = 'none');
+})();
+
 /* =================== DB & State =================== */
 let db, chart;
 let filteredZone = null, filteredStart = null, filteredEnd = null;
@@ -111,7 +123,7 @@ function addEntry() {
     byId('glucose').value = ''; byId('comment').value = '';
     document.querySelectorAll('.emoji-row input').forEach(i => i.checked = false);
     loadEntries();
-
+    
     // Pokrećemo analizu odmah nakon unosa
     aiAnalyze();  // Pozivanje analize i prikazivanje modala
   };
@@ -144,10 +156,148 @@ function loadEntries() {
   };
 }
 
-/* =================== AI Analiza =================== */
+/* =================== Filteri =================== */
+function filterPredicate(e) {
+  if (filteredZone && e.zone !== filteredZone) return false;
+  const d = normalizeDate(e.date);
+  if (filteredStart && d < filteredStart) return false;
+  if (filteredEnd && d > filteredEnd) return false;
+  return true;
+}
+function applyDateFilters() {
+  const s = byId('startDate').value, e = byId('endDate').value;
+  filteredStart = s ? normalizeDate(s) : null;
+  filteredEnd = e ? normalizeDate(e) : null;
+  loadEntries();
+}
+function resetFilter() {
+  filteredZone = null; filteredStart = null; filteredEnd = null;
+  const s = byId('startDate'); const e = byId('endDate');
+  if (s) s.value = ''; if (e) e.value = '';
+  loadEntries();
+}
 
-// Ovde zamenjujemo analizu na proseku sa analizom trenda
+/* =================== Statistike =================== */
+function updateStats(list) {
+  const elAvg = byId('statAvg'), elMin = byId('statMin'), elMax = byId('statMax');
+  if (!list.length) { elAvg.textContent = '—'; elMin.textContent = '—'; elMax.textContent = '—'; return; }
+  const vals = list.map(x => x.glucose).filter(x => typeof x === 'number' && !isNaN(x));
+  const avg = (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(1);
+  const min = Math.min(...vals).toFixed(1);
+  const max = Math.max(...vals).toFixed(1);
+  elAvg.textContent = avg; elMin.textContent = min; elMax.textContent = max;
+}
 
+/* =================== CSV Import/Export/Clear =================== */
+function importCSV() {
+  const f = byId('fileInput').files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = e => {
+    const text = e.target.result;
+    const lines = text.split(/\r?\n/).filter(Boolean);
+    const start = lines[0].toLowerCase().startsWith('date') ? 1 : 0;
+    const tx = db.transaction('entries', 'readwrite'); const st = tx.objectStore('entries');
+    for (let i = start; i < lines.length; i++) {
+      // "date,time,glucose,comment"
+      let parts = lines[i].match(/^(.*?),(.*?),(.*?),(.*)$/);
+      if (!parts) parts = lines[i].split(',');
+      else parts = [parts[1], parts[2], parts[3], parts[4]];
+      const date = (parts[0] || '').trim(), time = (parts[1] || '').trim(), glucose = parseFloat((parts[2] || '').trim());
+      let comment = (parts.slice(3).join(',') || '').trim(); comment = comment.replace(/^"|"$/g, '');
+      if (date && time && !isNaN(glucose)) {
+        st.add({ date, time, glucose, comment, emojis: '', zone: getZoneLabel(time.split(':')[0]) });
+      }
+    }
+    tx.oncomplete = loadEntries;
+  };
+  r.readAsText(f);
+}
+function exportCSV() {
+  const st = db.transaction('entries').objectStore('entries');
+  const rows = [];
+  st.openCursor().onsuccess = e => {
+    const c = e.target.result;
+    if (c) { const r = c.value; const comm = ((r.comment || '') + (r.emojis ? (' ' + r.emojis) : '')); rows.push(`${r.date},${r.time},${r.glucose},"${comm.replace(/"/g, '""')}"`); c.continue(); }
+    else {
+      const csv = "date,time,glucose,comment\n" + rows.join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' }); const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = 'dnevnik_glukoze.csv'; a.click();
+    }
+  };
+}
+function clearAll() {
+  const req = indexedDB.deleteDatabase('glucoseDB');
+  req.onsuccess = () => location.reload();
+}
+
+/* =================== Chart =================== */
+function initChart() {
+  const ctx = byId('glucoseChart').getContext('2d');
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: { labels: [], datasets: [{ label: 'Glukoza (mmol/L)', data: [], fill: false, tension: .3 }] },
+    options: { scales: { y: { beginAtZero: true, suggestedMax: 20 } } }
+  });
+}
+
+/* =================== AI Analiza — referentni opsezi =================== */
+// Referentni opsezi za dijabetes i zdrave osobe
+const REF = {
+  diabetic: {
+    pre: { low: 4.4, high: 7.2 },        // pre obroka
+    post: { low: 3.9,   high: 10.0 },      // 1–2h posle obroka
+    bedtime: { low: 5.0, high: 8.3 }     // pred spavanje
+  },
+  healthy: {
+    fasting: { low: 3.9, high: 5.5 },    // posle noći / pre doručka
+    post: { low: 3.9,   high: 7.8 }        // 2h posle obroka
+  }
+};
+
+// Dodatne ikone i etikete za AI
+const ICON = {
+  jutro: "🌅",
+  dan: "☀️",
+  vece: "🌇",
+  pin: "📌",
+  warn: "⚠️",
+  ok: "✅",
+  doctor: "👉"
+};
+
+// Funkcija za određivanje pozdrava na osnovu vremena
+function greeting(){
+  const h = new Date().getHours();
+  if(h >= 6 && h < 12) return "Dobro jutro";
+  if(h >= 12 && h < 18) return "Dobar dan";
+  if(h >= 18 || h < 6) return "Dobro veče";
+  return "Zdravo";
+}
+
+// Funkcija za analizu obroka (pre, posle, pred spavanje)
+function inferMealContext(list, forcedZone){
+  const txt = (list.map(x=>(x.comment||'').toLowerCase()).join(' ')+' ');
+  const preHits = (txt.match(/\bpre\b|\bpre doru|pre ruč|pre vec|pre več/g)||[]).length;
+  const postHits = (txt.match(/\bposle\b|sati posle|2 sata posle|sat posle/g)||[]).length;
+  if(forcedZone === 'jutro') return 'pre';
+  if(forcedZone === 'noc' || forcedZone === 'vece') return 'bedtime';
+  if(postHits > preHits) return 'post';
+  if(preHits > postHits) return 'pre';
+  return (forcedZone === 'vece' ? 'bedtime' : 'post');
+}
+
+// Podela dana na segmente: jutro, popodne, veče
+function segmentByDayPart(list){
+  const parts = {
+    morning: list.filter(x => { const h = +x.time.split(':')[0]; return h >= 6 && h < 9; }),
+    postLunch: list.filter(x => { const h = +x.time.split(':')[0]; return h >= 15 && h < 17; }),
+    evening: list.filter(x => { const h = +x.time.split(':')[0]; return h >= 17 && h < 22; })
+  };
+  return parts;
+}
+
+// Funkcija koja izračunava osnovne statistike i trend
 function statsAndTrend(arr){
   if (!arr.length) return null;
   const values = arr.map(x => x.glucose).filter(v => !isNaN(v));
@@ -173,7 +323,52 @@ function statsAndTrend(arr){
   return { avg, min, max, slope, n: values.length };
 }
 
-function aiAnalyze() {
+// Lepa etiketa za zonu (jutro, popodne, večer)
+function zoneToText(z){
+  return z === 'jutro' ? 'jutru' :
+         z === 'prepodne' ? 'pre podne' :
+         z === 'popodne' ? 'popodne' :
+         z === 'vece' ? 'uveče' : 'noću';
+}
+
+// Funkcija koja pravi animirani tekst za AI analizu
+function injectAIStyles(){
+  if (document.getElementById('ai-typing-style')) return;
+  const css = `
+    #aiBody{white-space:pre-wrap; font-size:15px; line-height:1.4}
+    .ai-caret{display:inline-block; animation:blink 1s step-end infinite}
+    @keyframes blink{50%{opacity:0}}
+  `;
+  const st = document.createElement('style'); st.id='ai-typing-style'; st.textContent = css;
+  document.head.appendChild(st);
+}
+
+// Funkcija za simulaciju kucanja u AI modalu
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+async function typeLine(text, container){
+  const line = document.createElement('div');
+  container.appendChild(line);
+  const caret = document.createElement('span'); caret.className='ai-caret'; caret.textContent='…';
+  for(let i=0;i<text.length;i++){
+    line.textContent = text.slice(0, i+1);
+    line.appendChild(caret);
+    await sleep(12 + Math.random()*18); // brzina kucanja
+  }
+  await sleep(350);
+  caret.remove();
+}
+
+async function typeWrite(lines){
+  const box = byId('aiBody');
+  box.innerHTML = '';
+  for(const ln of lines){
+    await typeLine(ln, box);
+  }
+}
+
+/* Glavni AI ulaz */
+function aiAnalyze(){
   const st = db.transaction('entries').objectStore('entries');
   const items = [];
   st.openCursor().onsuccess = e => {
@@ -189,23 +384,70 @@ function aiAnalyze() {
       const hello = greeting() + " 👋";
       const lines = [hello];
 
-      const s = statsAndTrend(filtered);
-      if (!s) {
-        showAItyping(["Nema dovoljno numeričkih merenja za izabrani filter."]);
-        return;
+      if (filteredZone) { // Analiza aktivne zone
+        const ctx = inferMealContext(filtered, filteredZone); // 'pre'|'post'|'bedtime'
+        const refDia = ctx === 'bedtime' ? REF.diabetic.bedtime : (ctx === 'pre' ? REF.diabetic.pre : REF.diabetic.post);
+        const refHealthy = ctx === 'pre' ? REF.healthy.fasting : REF.healthy.post;
+
+        const s = statsAndTrend(filtered);
+        if (!s) {
+          showAItyping(["Nema dovoljno numeričkih merenja za izabrani filter."]);
+          return;
+        }
+
+        const tooHigh = s.avg > refDia.high + 1e-9;
+        const tooLow = refDia.low ? s.avg < refDia.low - 1e-9 : false;
+
+        lines.push(`${ICON.pin} Vaše vrednosti ${zoneToText(filteredZone)} (${s.n} merenja): raspon ${s.min.toFixed(1)}–${s.max.toFixed(1)} mmol/L, prosečno ${s.avg.toFixed(1)} mmol/L.`);
+        lines.push(`   Referentno (dijabetes, ${ctx === 'pre' ? 'pre obroka' : ctx === 'post' ? '1–2h posle obroka' : 'pred spavanje'}): ${ctx === 'post' ? `≤ ${refDia.high.toFixed(1)}` : `${refDia.low.toFixed(1)}–${refDia.high.toFixed(1)}`} mmol/L.`);
+        lines.push(`   Referentno (zdravi, ${ctx === 'pre' ? 'posle noći / pre doručka' : '2h posle obroka'}): ${ctx === 'post' ? `≤ ${refHealthy.high.toFixed(1)}` : `${refHealthy.low.toFixed(1)}–${refHealthy.high.toFixed(1)}`} mmol/L.`);
+
+        // Trend
+        if (s.slope > 0.1) lines.push(`${ICON.warn} Uočen je trend rasta u poslednjim merenjima.`);
+        if (s.slope < -0.1) lines.push(`${ICON.ok} Vrednosti opadaju — odličan napredak!`);
+
+        if (tooHigh || tooLow) {
+          if (filteredZone === 'jutro' && (tooHigh || s.max > refDia.high)) {
+            lines.push(`   ℹ️ Mogući “dawn phenomenon”: jutarnji hormoni (kortizol, hormon rasta) mogu podizati šećer. Obratite pažnju na kasne obroke bogate UH, san, hidrataciju i kratku šetnju posle večere.`);
+          }
+          lines.push(`${ICON.doctor} Razmotrite razgovor sa lekarom (i nutricionistom za prilagođavanje obroka).`);
+        } else {
+          lines.push(`${ICON.ok} U okviru ste ciljeva za ovaj period/kontekst.`);
+        }
+
+      } else { // Celodnevna analiza — segmentacija
+        const seg = segmentByDayPart(filtered);
+
+        const blocks = [
+          {key:'morning', label:`${ICON.jutro} Jutarnji (06–09)`, ctx:'pre', refDia:REF.diabetic.pre, refHealthy:REF.healthy.fasting},
+          {key:'postLunch', label:`${ICON.dan} Posle ručka (15–17)`, ctx:'post', refDia:REF.diabetic.post, refHealthy:REF.healthy.post},
+          {key:'evening', label:`${ICON.vece} Večernji (17–22)`, ctx:'post', refDia:REF.diabetic.post, refHealthy:REF.healthy.post}
+        ];
+
+        lines.push(`${ICON.pin} Analiza po delovima dana:`);
+
+        for (const b of blocks) {
+          const arr = seg[b.key];
+          const s = statsAndTrend(arr || []);
+          if (!s) { lines.push(`• ${b.label}: nema merenja.`); continue; }
+          const tooHigh = s.avg > b.refDia.high + 1e-9;
+          const tooLow = b.refDia.low ? s.avg < b.refDia.low - 1e-9 : false;
+
+          lines.push(`• ${b.label}: raspon ${s.min.toFixed(1)}–${s.max.toFixed(1)} mmol/L, prosek ${s.avg.toFixed(1)}.`);
+
+          if (s.slope > 0.1) lines.push(`   ${ICON.warn} Trend rasta u ovom periodu.`);
+          if (s.slope < -0.1 && s.avg >= b.refHealthy.low && s.avg <= b.refHealthy.high) lines.push(`   ${ICON.ok} Vrednosti opadaju i u zdravom su opsegu — bravo!`);
+
+          if (b.key === 'morning' && (tooHigh || s.max > b.refDia.high)) {
+            lines.push(`   ℹ️ Mogući “dawn phenomenon”: jutarnji hormoni (kortizol, hormon rasta) mogu podizati šećer. Obratite pažnju na kasne obroke bogate UH, san, hidrataciju i kratku šetnju uveče.`);
+          }
+          if (tooHigh || tooLow) {
+            lines.push(`   ${ICON.doctor} Ako se ovakav obrazac nastavi, konsultujte lekara; pokažite mu grafik i vrednosti iz aplikacije.`);
+          }
+        }
       }
 
-      const tooHigh = s.avg > 7.2 + 1e-9; // Dijabetes - visoki šećer
-      const tooLow = s.avg < 4.4 - 1e-9;  // Dijabetes - niski šećer
-
-      lines.push(`${ICON.pin} Vaše vrednosti: raspon ${s.min.toFixed(1)}–${s.max.toFixed(1)} mmol/L, prosečno ${s.avg.toFixed(1)} mmol/L.`);
-      lines.push(`Trend: ${s.slope > 0.1 ? 'Rast' : s.slope < -0.1 ? 'Opadanje' : 'Stabilno'}`);
-
-      if (tooHigh || tooLow) {
-        lines.push(`${ICON.doctor} Razmotrite razgovor sa lekarom (i nutricionistom za prilagođavanje obroka).`);
-      } else {
-        lines.push(`${ICON.ok} Vaše vrednosti su u okviru ciljeva za ovaj period.`);
-      }
+      lines.push(`\nNapomena: Ovo nije medicinski savet.`);
 
       showAItyping(lines);
     }
@@ -215,14 +457,4 @@ function aiAnalyze() {
 function showAItyping(lines){
   byId('aiModal').hidden = false;
   typeWrite(lines);
-}
-
-function typeWrite(lines){
-  const box = byId('aiBody');
-  box.innerHTML = '';
-  lines.forEach(line => {
-    const div = document.createElement('div');
-    div.textContent = line;
-    box.appendChild(div);
-  });
 }
