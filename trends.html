@@ -5,17 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Gliko — Trendovi</title>
 
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon-192.png" type="image/png"/>
 
-  <!-- Font + Chart.js -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+  <!-- Navigacija sa svim tabovima -->
+  <nav class="tabs-bar">
+    <button class="tab-btn active" data-tab="trend">Trendovi</button>
+    <button class="tab-btn" data-tab="food">Ishrana</button>
+    <button class="tab-btn" data-tab="therapy">Terapija</button>
+  </nav>
 
   <main id="tabs-root">
     <!-- TAB: TRENDOVI -->
@@ -155,3 +158,4 @@
 
 </body>
 </html>
+
