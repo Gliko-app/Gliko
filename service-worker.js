@@ -1,10 +1,11 @@
+
 // vrlo prost SW za GitHub Pages
 const CACHE_NAME = 'gliko-v1';
 const ASSETS = [
   '/', './index.html', './style.css', './app.js',
-  './manifest.json', './icon-192.png', './icon-512.png'
+  './manifest.json', './icon-192.png', './icon-512.png',
+  './trends.html', './food.html', './trends.js', './food.js'
 ];
-
 self.addEventListener('install', (e)=>{
   e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS)));
 });
