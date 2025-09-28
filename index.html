@@ -171,66 +171,66 @@
 
     </section>
 
-<!-- TAB: ISHRANA -->
-<section id="tab-food" class="tab-view">
-  <!-- Advertisement Carousel -->
-  <div class="advertisement">
-    <div class="carousel">
-      <img src="ad-image-url-1.jpg" alt="Reklama za zdravu hranu" />
-      <img src="ad-image-url-2.jpg" alt="Reklama za zdravu hranu" />
-      <img src="ad-image-url-3.jpg" alt="Reklama za zdravu hranu" />
-    </div>
-    <p>Oglasi sponzora - Restoran zdrave hrane</p>
-  </div>
+	<!-- TAB: ISHRANA -->
+	<section id="tab-food" class="tab-view">
+	  <!-- Advertisement Carousel -->
+	  <div class="advertisement">
+		<div class="carousel">
+		  <img src="ad-image-url-1.jpg" alt="Reklama za zdravu hranu" />
+		  <img src="ad-image-url-2.jpg" alt="Reklama za zdravu hranu" />
+		  <img src="ad-image-url-3.jpg" alt="Reklama za zdravu hranu" />
+		</div>
+		<p>Oglasi sponzora - Restoran zdrave hrane</p>
+	  </div>
 
-  <!-- Pretraga recepata -->
-  <div class="search-wrapper">
-    <input type="text" id="recipe-search" placeholder="Pretraži recepte" />
-  </div>
+	  <!-- Pretraga recepata -->
+	  <div class="search-wrapper">
+		<input type="text" id="recipe-search" placeholder="Pretraži recepte" />
+	  </div>
 
-  <!-- Tag Filters -->
-  <div class="tag-filters">
-    <button class="chip" data-tag="Low-GI">Low-GI</button>
-    <button class="chip" data-tag="Bez-glutena">Bez-glutena</button>
-    <button class="chip" data-tag="Veganski">Veganski</button>
-  </div>
+	  <!-- Tag Filters -->
+	  <div class="tag-filters">
+		<button class="chip" data-tag="Low-GI">Low-GI</button>
+		<button class="chip" data-tag="Bez-glutena">Bez-glutena</button>
+		<button class="chip" data-tag="Veganski">Veganski</button>
+	  </div>
 
-  <!-- Unos novog recepta -->
-  <div class="card form-card">
-    <h3>Unesite novi recept</h3>
-    <div class="grid3">
-      <div>
-        <label for="recipe-title">Naziv recepta</label>
-        <input type="text" id="recipe-title" placeholder="Naziv recepta" />
-      </div>
-      <div>
-        <label for="recipe-image">Slika recepta</label>
-        <input type="file" id="recipe-image" />
-      </div>
-      <div>
-        <label for="recipe-ingredients">Sastojci</label>
-        <textarea id="recipe-ingredients" placeholder="Unesite sastojke"></textarea>
-      </div>
-    </div>
-    <div class="tag-section">
-      <label for="recipe-tags">Tagovi</label>
-      <select id="recipe-tags" multiple>
-        <option value="Low-GI">Low-GI</option>
-        <option value="Bez-glutena">Bez-glutena</option>
-        <option value="Veganski">Veganski</option>
-      </select>
-    </div>
-    <button id="submit-recipe" class="primary">Dodaj recept</button>
-  </div>
+	  <!-- Unos novog recepta -->
+	  <div class="card form-card">
+		<h3>Unesite novi recept</h3>
+		<div class="grid3">
+		  <div>
+			<label for="recipe-title">Naziv recepta</label>
+			<input type="text" id="recipe-title" placeholder="Naziv recepta" />
+		  </div>
+		  <div>
+			<label for="recipe-image">Slika recepta</label>
+			<input type="file" id="recipe-image" />
+		  </div>
+		  <div>
+			<label for="recipe-ingredients">Sastojci</label>
+			<textarea id="recipe-ingredients" placeholder="Unesite sastojke"></textarea>
+		  </div>
+		</div>
+		<div class="tag-section">
+		  <label for="recipe-tags">Tagovi</label>
+		  <select id="recipe-tags" multiple>
+			<option value="Low-GI">Low-GI</option>
+			<option value="Bez-glutena">Bez-glutena</option>
+			<option value="Veganski">Veganski</option>
+		  </select>
+		</div>
+		<button id="submit-recipe" class="primary">Dodaj recept</button>
+	  </div>
 
-  <!-- Recepti Container -->
-  <div id="recipe-container" class="card">
-    <h3>Recepti</h3>
-    <div class="recipe-list">
-      <!-- Ovdje će biti prikazani recepti kroz JS -->
-    </div>
-  </div>
-</section>
+	  <!-- Recepti Container -->
+	  <div id="recipe-container" class="card">
+		<h3>Recepti</h3>
+		<div class="recipe-list">
+		  <!-- Ovdje će biti prikazani recepti kroz JS -->
+		</div>
+	  </div>
+	</section>
 
 
   <script src="app.js"></script>
