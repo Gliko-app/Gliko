@@ -251,6 +251,7 @@ iframe {
   display: block;    /* Postavlja iframe kao blok element */
   width: 100vw;        /* 100% širine roditeljskog elementa */
   height: 100vh;     /* 100% visine ekrana */
-  padding: 5px;     /* Dodaje prostor oko iframe-a */
+  padding: 1px;     /* Dodaje prostor oko iframe-a */
   border: none;      /* Uklanja okvir oko iframe-a */
 }
+
