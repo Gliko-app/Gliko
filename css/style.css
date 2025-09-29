@@ -247,3 +247,10 @@ input.file{ display:inline-block }
 .modal-body p {
   margin: 10px 0;
 }
+iframe {
+  display: block;    /* Postavlja iframe kao blok element */
+  width: 100vw;        /* 100% širine roditeljskog elementa */
+  height: 100vh;     /* 100% visine ekrana */
+  padding: 5px;     /* Dodaje prostor oko iframe-a */
+  border: none;      /* Uklanja okvir oko iframe-a */
+}
