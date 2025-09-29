@@ -255,3 +255,42 @@ iframe {
   border: none;      /* Uklanja okvir oko iframe-a */
 }
 
+.carousel {
+  display: flex;
+  width: 100%;
+  overflow: hidden;  /* Sakriva slike koje su izvan vidljivog dela */
+  position: relative;
+}
+
+.carousel-item {
+  min-width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+
+.carousel img {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Osigurava da slike popune svoj prostor */
+}
+
+/* Stil za tackice ispod carousela */
+.dots {
+  text-align: center;
+  padding-top: 10px;
+}
+
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 5px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: #717171;
+}
