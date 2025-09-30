@@ -255,6 +255,61 @@ input.file{ display:inline-block }
   margin: 10px 0;
 }
 
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Osigurava da modal bude na vrhu ostalih elemenata */
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 400px;
+  max-height: 90vh; /* Ovaj parametar postavlja maksimalnu visinu modala */
+  overflow: auto; /* Omogućava scroll ako sadržaj premaši visinu */
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Omogućava pozicioniranje dugmeta unutar modala */
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.modal-head .close {
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: absolute; /* Pozicionira dugme za zatvaranje fiksirano na vrh desno */
+  top: 10px;
+  right: 10px;
+}
+
+.modal-body {
+  font-size: 1rem;
+  color: #333;
+  flex: 1; /* Omogućava da telo modala koristi preostali prostor */
+  overflow-y: auto; /* Omogućava scroll ako telo modala pređe visinu */
+}
+
+.modal-body p {
+  margin: 10px 0;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 600px) {
   .modal-content {
@@ -262,7 +317,6 @@ input.file{ display:inline-block }
     max-height: 80vh; /* Manja visina modala na manjim ekranima */
   }
 }
-
 
 /* Stil za iframe */
 iframe {
@@ -307,5 +361,6 @@ iframe {
 .dot.active {
   background-color: #717171;
 }
+
 
 
