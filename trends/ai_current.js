@@ -48,21 +48,62 @@ function aiAnalyze(glucose) {
 
   // Upoređivanje vrednosti glukoze sa referentnim vrednostima
   if (glucose < reference.low) {
-    message = 'Vrednost šećera je preniska. Preporučujemo da se posavetujete sa svojim endokrinologom.';
+    // Raznovrsni komentari za prenisku vrednost
+    const lowComments = [
+      'Vrednost šećera je preniska. Preporučujemo da se posavetujete sa svojim endokrinologom.',
+      'Šećer je prenizak. Potrebno je prilagoditi unos hrane i pratiti stanje.',
+      'Preporučujemo da povećate unos hrane, posebno ugljenih hidrata, i pratite nivo glukoze.',
+      'Vrednost šećera je ispod normalnog opsega. Preporučujemo povećanje unosa hrane.'
+    ];
+    message = getRandomComment(lowComments);
   } else if (glucose <= reference.high) {
-    message = 'Vaš šećer je u odgovarajućem opsegu. Bravo, odlično kontrolisete svoj dijabetes!';
+    // Raznovrsni komentari za odgovarajući opseg
+    const normalComments = [
+      'Vaš šećer je u odgovarajućem opsegu. Bravo, odlično kontrolisete svoj dijabetes!',
+      'Vaš nivo glukoze je idealan. Održavajte dobar režim ishrane i fizičke aktivnosti.',
+      'Kontrola glukoze je odlična. Nastavite sa trenutnim režimom!',
+      'Vaš šećer je u normali. Održavajte dosadašnji režim ishrane i aktivnosti.'
+    ];
+    message = getRandomComment(normalComments);
   } else if (glucose <= 10.0) {
-    message = 'Vaš šećer je povišen.Obratite pažnju na ishranu i fizičku aktivnost.';
+    // Raznovrsni komentari za povišeni šećer
+    const highComments = [
+      'Vaš šećer je povišen. Obratite pažnju na ishranu i fizičku aktivnost.',
+      'Povišen šećer! Smanjite unos ugljenih hidrata i povećajte fizičku aktivnost.',
+      'Vaša glukoza je iznad preporučenog opsega. Razmislite o promenama u ishrani i aktivnostima.',
+      'Nivo šećera je malo viši. Razmislite o zdravijem režimu ishrane i redovnoj fizičkoj aktivnosti.'
+    ];
+    message = getRandomComment(highComments);
   } else if (glucose <= 13.3) {
-    message = 'Vrednost šečera je previsoka. Preporučujemo da se posavetujete sa svojim endokrinologom.';
+    // Raznovrsni komentari za visoke vrednosti
+    const veryHighComments = [
+      'Vrednost šečera je previsoka. Preporučujemo da se posavetujete sa svojim endokrinologom.',
+      'Vrlo visoka vrednost glukoze! Hitno se obratite svom lekaru radi saveta.',
+      'Vaš nivo glukoze je veoma povišen. Posavetujte se sa lekarom za dalje korake.',
+      'Vaš šećer je značajno povišen. Potrebno je da se obratite lekaru za savete.'
+    ];
+    message = getRandomComment(veryHighComments);
   } else {
-    message = 'Vrlo visoka vrednost glukoze. Hitno se obratite svom lekaru.';
-}
-
+    // Raznovrsni komentari za vrlo visoke vrednosti
+    const criticalHighComments = [
+      'Vrlo visoka vrednost glukoze. Hitno se obratite svom lekaru.',
+      'Opasno visoka vrednost šećera! Preporučujemo hitan kontakt sa lekarom.',
+      'Nivo glukoze je alarmantno visok. Potrebno je hitno delovanje, konsultujte lekara odmah.',
+      'Vrlo visoke vrednosti glukoze. Obratite se lekaru što pre.'
+    ];
+    message = getRandomComment(criticalHighComments);
+  }
 
   // Prikazivanje komentara u modalu odmah nakon unosa
   showAItypingCurrentValue([message]);
 }
+
+/* =================== Pomoćna funkcija za nasumičan odabir komentara =================== */
+function getRandomComment(comments) {
+  const randomIndex = Math.floor(Math.random() * comments.length);  // Nasumičan indeks
+  return comments[randomIndex];  // Vraća nasumični komentar
+}
+
 
 /* =================== Pomoćna funkcija za trenutnu vrednost (modal odmah nakon unosa) =================== */
 function showAItypingCurrentValue(lines) {
