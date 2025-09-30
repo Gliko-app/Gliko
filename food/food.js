@@ -1,39 +1,72 @@
-(function initCarousel() {
-  const carousel = document.querySelector('#carousel');
-  const carouselItems = document.querySelectorAll('.carousel-item');
-  const dots = document.querySelectorAll('.dot');
-  let currentIndex = 0;
-  const totalItems = carouselItems.length;
+/* Carousel specific styles */
+.carousel {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
 
-  // Funkcija za pomeranje carousel-a
-  function moveCarousel() {
-    currentIndex = (currentIndex + 1) % totalItems;  // Prelazimo na sledeću sliku
-    carousel.style.transition = "transform 0.5s ease";  // Animacija transformacije
-    carousel.style.transform = `translateX(-${currentIndex * 100}%)`;  // Pomeri slike
+.carousel-item {
+  min-width: 100%;
+  transition: transform 0.5s ease;
+}
 
-    // Ažuriraj tackice
-    updateDots();
-  }
+.carousel img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
 
-  // Funkcija za ažuriranje tackica
-  function updateDots() {
-    dots.forEach(dot => dot.classList.remove('active'));  // Ukloni active klasu sa svih tackica
-    dots[currentIndex].classList.add('active');  // Dodaj active klasu na trenutnu tackicu
-  }
+/* Navigation buttons for the carousel */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
 
-  // Start carousel movement every 3 seconds
-  setInterval(moveCarousel, 3000);  // Možeš promeniti interval ako želiš da se slike menjaju brže ili sporije
+.carousel-btn.prev {
+  left: 10px;
+}
 
-  // Dodavanje funkcionalnosti na klik tackica
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      currentIndex = parseInt(dot.getAttribute('data-index'));  // Postavi currentIndex na kliknutu tackicu
-      carousel.style.transition = "transform 0.5s ease";  // Animacija transformacije
-      carousel.style.transform = `translateX(-${currentIndex * 100}%)`;  // Pomeri carousel
-      updateDots();  // Ažuriraj tackice
-    });
-  });
+.carousel-btn.next {
+  right: 10px;
+}
 
-  // Inicijalizuj tackicu koja treba da bude aktivna
-  updateDots();
-})();
+/* Recipe card styles */
+.recipe-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-card img {
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.recipe-card h4 {
+  margin: 12px 0;
+  font-size: 1.2rem;
+}
+
+.recipe-card p {
+  margin: 4px 0;
+  font-size: 1rem;
+}
+
+#recipeSearch input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  font-size: 16px;
+}
