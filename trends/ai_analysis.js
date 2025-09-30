@@ -24,10 +24,11 @@ function aiAnalyzeTable() {
       lines.push(`Prosečna vrednost glukoze: ${avg.toFixed(1)} mmol/L`);
       lines.push(`Trend glukoze: ${trend === 'up' ? "Raste" : (trend === 'down' ? "Opada" : "Stagnira")}`);
 
-      // Prosečne vrednosti za različite delove dana (jutro, dan, veče)
+      // Prosečne vrednosti za različite delove dana (jutro, dan, veče, noć)
       const avgMorning = getAverageForZone(filtered, 'jutro');
       const avgDay = getAverageForZone(filtered, 'popodne');
       const avgEvening = getAverageForZone(filtered, 'vece');
+      const avgNight = getAverageForZone(filtered, 'noc');  // Dodajemo prosečnu vrednost za "noć"
 
       // Dodavanje analize za delove dana
       lines.push(`Prosečna jutarnja vrednost glukoze: ${avgMorning.toFixed(1)} mmol/L`);
@@ -43,6 +44,12 @@ function aiAnalyzeTable() {
       lines.push(`Prosečna večernja vrednost glukoze: ${avgEvening.toFixed(1)} mmol/L`);
       if (avgEvening > 7.2) {
         lines.push("Večernji nivo je povišen. Razmislite o prilagođavanju večere i večernje fizičke aktivnosti. Ako se ovakav obrazac nastavi, konsultujte lekara o promeni terapije i pokažite mu grafik i vrednosti iz aplikacije.");
+      }
+
+      // Analiza za period "noć"
+      lines.push(`Prosečna noćna vrednost glukoze: ${avgNight.toFixed(1)} mmol/L`);
+      if (avgNight > 7.2) {
+        lines.push("Noćni nivo je povišen. Razmislite o prilagođavanju večere, smanjenju unosa ugljenih hidrata i unosu manje količine tečnosti pre spavanja. Ako se obrazac nastavi, konsultujte lekara.");
       }
 
       showAItypingAnalysis(lines);
@@ -96,25 +103,6 @@ function showAItypingAnalysis(lines) {
   const aiModal = byId('aiModal');
   aiModal.hidden = false; // Otvoriti modal
 
-  // Tipkanje poruka u modalu
-  lines.forEach(async (line) => {
-    await typeLine(line, aiBody);
-  });
-
-  // Zatvoriti modal ako je potrebno
-  const closeModalBtn = byId('aiClose');
-  closeModalBtn.addEventListener('click', () => {
-    aiModal.hidden = true;
-  });
-}
-
-/* =================== Pomoćna funkcija za prikazivanje analize u modal prozoru =================== */
-function showAItypingAnalysis(lines) {
-  const aiBody = byId('aiBody');
-  aiBody.innerHTML = '';  // Očistiti prethodne poruke
-  const aiModal = byId('aiModal');
-  aiModal.hidden = false; // Otvoriti modal
-
   // Tipkanje poruka u modalu red po red
   (async () => {
     for (const line of lines) {
@@ -128,4 +116,3 @@ function showAItypingAnalysis(lines) {
     aiModal.hidden = true;
   });
 }
-
