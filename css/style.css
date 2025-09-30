@@ -257,19 +257,13 @@ input.file{ display:inline-block }
 
 /* Stil za iframe */
 iframe {
-  border: none;        /* Uklanja okvir oko iframe-a */
-  width: 100%;         /* Postavlja širinu iframe-a na 100% roditeljskog elementa */
-  height: 100vh;       /* Visina iframe-a postavljena na 100% visine ekrana (viewport) */
-  display: block;      /* Postavlja iframe kao blok element */
-  overflow: hidden;    /* Sprečava pomeranje sadržaja unutar iframe-a */
-  box-sizing: border-box;  /* Uključuje padding i border u ukupnu veličinu iframe-a */
-}
-
-.carousel {
-  display: flex;
+  border: none;
   width: 100%;
-  overflow: hidden;  /* Sakriva slike koje su izvan vidljivog dela */
-  position: relative;
+  height: 100vh;  /* Visina na celom ekranu */
+  max-width: 100%;  /* Sprečava širinu koja izlazi iz okvira */
+  display: block;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .carousel-item {
@@ -304,3 +298,4 @@ iframe {
 .dot.active {
   background-color: #717171;
 }
+
