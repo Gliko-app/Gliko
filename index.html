@@ -10,11 +10,38 @@
 
   <!-- Stil za iframe -->
   <style>
+    /* Stil za roditeljsku sekciju u kojoj je iframe */
+    .tab-view {
+      position: relative;
+      width: 100%;
+      height: 100vh;  /* Visina roditeljskog elementa postavljena na 100% visine ekrana */
+      overflow: hidden; /* Sprečava pomeranje sadržaja izvan sekcije */
+    }
+
+    /* Stil za iframe */
     iframe {
-      border: none; /* Uklanja okvir oko iframe-a */
-      width: 100vw;  /* Postavlja širinu iframe-a na 100% */
-      height: 100vh; /* Visina iframe-a postavljena na 100% visine ekrana */
-      display: block;
+      border: none;        /* Uklanja okvir oko iframe-a */
+      width: 100%;         /* Postavlja širinu iframe-a na 100% roditeljskog elementa */
+      height: 100vh;       /* Visina iframe-a postavljena na 100% visine ekrana (viewport) */
+      display: block;      /* Postavlja iframe kao blok element */
+      overflow: hidden;    /* Sprečava pomeranje sadržaja unutar iframe-a */
+      box-sizing: border-box;  /* Uključuje padding i border u ukupnu veličinu iframe-a */
+    }    /* Stil za roditeljsku sekciju u kojoj je iframe */
+    .tab-view {
+      position: relative;
+      width: 100%;
+      height: 100vh;  /* Visina roditeljskog elementa postavljena na 100% visine ekrana */
+      overflow: hidden; /* Sprečava pomeranje sadržaja izvan sekcije */
+    }
+
+    /* Stil za iframe */
+    iframe {
+      border: none;        /* Uklanja okvir oko iframe-a */
+      width: 100%;         /* Postavlja širinu iframe-a na 100% roditeljskog elementa */
+      height: 100vh;       /* Visina iframe-a postavljena na 100% visine ekrana (viewport) */
+      display: block;      /* Postavlja iframe kao blok element */
+      overflow: hidden;    /* Sprečava pomeranje sadržaja unutar iframe-a */
+      box-sizing: border-box;  /* Uključuje padding i border u ukupnu veličinu iframe-a */
     }
   </style>
 </head>
