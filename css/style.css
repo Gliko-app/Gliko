@@ -266,16 +266,6 @@ input.file{ display:inline-block }
     max-height: 80vh; /* Manja visina modala na manjim ekranima */
   }
 }
-
-/* Mobile responsiveness */
-@media (max-width: 600px) {
-  .modal-content {
-    width: 90%;  /* Širina modala postavljena na 90% ekrana na manjim uređajima */
-    max-height: 80vh; /* Manja visina modala na manjim ekranima */
-  }
-}
-
-/* Stil za iframe */
 iframe {
   border: none;
   width: 100%;
@@ -286,39 +276,28 @@ iframe {
   box-sizing: border-box;
 }
 
-.carousel-item {
-  min-width: 100%;
-  height: 100%;
-  transition: transform 0.5s ease;
+/* Stil za dropdown polje sa komentarima */
+select#comment {
+  width: 100%;  /* Širina na 100% roditeljskog elementa */
+  padding: 0.7rem 1rem;  /* Unutrašnji razmak za bolji izgled */
+  border: 1px solid var(--line);  /* Granica koja odgovara ostatku dizajna */
+  border-radius: 12px;  /* Zaobljeni ivice */
+  background: var(--bg);  /* Pozadina koja odgovara ostatku stranice */
+  color: var(--txt);  /* Boja teksta koja odgovara ostatku stranice */
+  font-size: 1rem;  /* Font veličina za bolje čitanje */
+  font-weight: 600;  /* Podebljan tekst */
+  appearance: none;  /* Uklanja retro izgled selektovanih opcija u browserima */
+  transition: border-color 0.3s ease;  /* Prelaz za promenu boje granice */
 }
 
-.carousel img {
-  width: 100%;
-  height: auto;
-  object-fit: cover; /* Osigurava da slike popune svoj prostor */
+select#comment:focus {
+  outline: none;  /* Uklanja outline kada je fokusirano */
+  border-color: var(--teal);  /* Promena boje granice na fokus */
 }
 
-/* Stil za tackice ispod carousela */
-.dots {
-  text-align: center;
-  padding-top: 10px;
+option {
+  font-weight: normal;  /* Normalna debljina fonta za opcije */
+  background-color: var(--bg);  /* Pozadina opcija */
+  color: var(--txt);  /* Boja teksta opcija */
 }
-
-.dot {
-  height: 15px;
-  width: 15px;
-  margin: 0 5px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-  cursor: pointer;
-}
-
-.dot.active {
-  background-color: #717171;
-}
-
-
-
 
