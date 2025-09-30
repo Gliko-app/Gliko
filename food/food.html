@@ -1,29 +1,72 @@
-<!DOCTYPE html>
-<html lang="sr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Gliko — Dnevnik glukoze</title>
+/* Carousel specific styles */
+.carousel {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
 
-  <!-- Link ka CSS-u u folderu css -->
-  <link rel="stylesheet" href="../css/style.css"/>  <!-- Povezivanje sa CSS fajlom -->
-  <script src="food.js" defer></script> <!-- JavaScript za interaktivnost -->
-</head>
-<body>
+.carousel-item {
+  min-width: 100%;
+  transition: transform 0.5s ease;
+}
 
-  <!-- Carousel za reklame -->
-  <div id="carousel" class="carousel">
-    <div class="carousel-item"><img src="../images/advert1.jpg" alt="Reklama 1"></div>
-    <div class="carousel-item"><img src="../images/advert2.jpg" alt="Reklama 2"></div>
-    <div class="carousel-item"><img src="../images/advert3.jpg" alt="Reklama 3"></div>
-  </div>
+.carousel img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
 
-  <!-- Tackice ispod carousela -->
-  <div id="dots" class="dots">
-    <span class="dot" data-index="0"></span>
-    <span class="dot" data-index="1"></span>
-    <span class="dot" data-index="2"></span>
-  </div>
+/* Navigation buttons for the carousel */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
 
-</body>
-</html>
+.carousel-btn.prev {
+  left: 10px;
+}
+
+.carousel-btn.next {
+  right: 10px;
+}
+
+/* Recipe card styles */
+.recipe-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-card img {
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.recipe-card h4 {
+  margin: 12px 0;
+  font-size: 1.2rem;
+}
+
+.recipe-card p {
+  margin: 4px 0;
+  font-size: 1rem;
+}
+
+#recipeSearch input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  font-size: 16px;
+}
