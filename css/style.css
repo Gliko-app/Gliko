@@ -223,7 +223,7 @@ input.file{ display:inline-block }
   border-radius: 10px;
   width: 80%;
   max-width: 400px;
-  max-height: 90vh; /* Ovaj parametar postavlja maksimalnu visinu modala */
+  max-height: 80vh; /* Ovaj parametar postavlja maksimalnu visinu modala */
   overflow: auto; /* Omogućava scroll ako sadržaj premaši visinu */
   padding: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -256,7 +256,16 @@ input.file{ display:inline-block }
 }
 
 .modal-body p {
-  margin: 10px 0;
+  margin: 1px 0; /* Smanjivanje razmaka između paragrafa */
+}
+
+.modal-body ul {
+  padding-left: 20px;
+  margin-top: 3px; /* Smanjivanje razmaka između liste i paragrafa */
+}
+
+.modal-body li {
+  margin: 1px 0; /* Smanjivanje razmaka između stavki u listi */
 }
 
 /* Mobile responsiveness */
