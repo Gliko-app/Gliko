@@ -1,11 +1,12 @@
 const CACHE_NAME = 'gliko-cache-v1';
 const urlsToCache = [
-  '/gliko/',              // Home page (index.html)
-  '/gliko/index.html',    // Glavni HTML
-  '/gliko/css/style.css', // CSS fajl
-  '/gliko/js/app.js',     // JavaScript fajl
-  '/gliko/images/icon.png',  // Ikona
-  '/gliko/manifest.json'     // Manifest fajl
+  '/index.html',              // Home page (index.html)
+  '/index.html',    // Glavni HTML
+  '/css/style.css', // CSS fajl
+  '/app.js',         // JavaScript fajl
+  '/icon-192.png',   // Ikona
+  '/icon-512.png',   // Ikona
+  '/manifest.json'   // Manifest fajl
 ];
 
 // Instalacija service worker-a
