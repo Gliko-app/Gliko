@@ -243,7 +243,7 @@ input.file{ display:inline-block }
 
 .modal-head .close {
   font-size: 0.8rem;
-  color: rgba(248, 248, 248, 0.9);
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   background: rgba(0, 201, 196, 0.9);
   position: absolute; /* Pozicionira dugme za zatvaranje fiksirano na vrh desno */
@@ -271,6 +271,7 @@ input.file{ display:inline-block }
   margin: 1px 0; /* Smanjivanje razmaka između stavki u listi */
   line-height: 1.0; /* Smanjenje razmaka između stavki u listama */
 }
+
 /* Mobile responsiveness */
 @media (max-width: 600px) {
   .modal-content {
