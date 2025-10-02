@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Gliko</title>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div id="navbar">
+        <ul class="tabs">
+            <li><a href="#" class="tab-btn" data-page="trends">Trendovi</a></li>
+            <li><a href="#" class="tab-btn" data-page="food">Ishrana</a></li>
+            <li><a href="#" class="tab-btn" data-page="therapy">Terapija</a></li>
+        </ul>
+    </div>
+
+    <!-- Uputstvo modal koji se otvara automatski pri učitavanju -->
+    <div id="instructionModal" class="modal" hidden>
+        <div class="modal-content">
+            <div class="modal-head">
+                <h3>Dobrodošli u Gliko aplikaciju</h3>
+                <button class="close" id="instructionClose">zatvori</button>
+            </div>
+            <div class="modal-body">
+                <p>Ovde možete pratiti trendove vaših merenja nivoa šećera, dobiti savete za ishranu i kontrolisati terapiju.</p>
+                <ul>
+                    <li><strong>U odgovarujuća polja unestite:</strong></li>
+                    <li>Vrednost šećera</li>
+                    <li>Datum i vreme merenja</li>
+                    <li>Izaberite komentar o aktivnosti koja je prethodila merenju</li>
+                    <li>Možete uneti i vrstu hrane koju ste konzumirali da biste pratili uticaj toga šta jedete na vrednost šećera</li>
+                    <li><strong>AI "asistent" će uporediti vaše trenutno merenje sa referentnim vrednostima.</strong></li>
+                    <li><strong>Ako imate više merenja, odmah ćete videti njihov prosek vrednosti.</strong></li>
+                    <li><strong>Pritiskom na taster "ANALIZA TRENDOVA" AI "asistent" će uporediti sva vaša merenja sa referentnim vrednostima i na njih dati komentar (uzmite u obzir da ovo nije medicinski savet).</strong></li>
+                    <li><strong>U grafikonu i tabeli ispod možete videti sve vaše merene vrednosti koje možete filtrirati po dobu dana. (i grafikon i tabela se ažuriraju na osnovu filtera)</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="content">
+        <!-- Dinamički učitavanje sadržaja -->
+    </div>
+
+    <script src="app.js"></script>
+
+    <script>
+        // Otvori modal prilikom učitavanja stranice
+        document.addEventListener('DOMContentLoaded', function() {
+            // Proveri da li je modal već prikazan u ovoj sesiji
+            if (!sessionStorage.getItem('modalShown')) {
+                const instructionModal = document.getElementById('instructionModal');
+                instructionModal.hidden = false;
+
+                // Zatvori modal kada korisnik klikne na dugme za zatvaranje
+                document.getElementById('instructionClose').addEventListener('click', function() {
+                    instructionModal.hidden = true;
+                    // Obeležavamo da je modal prikazan u ovoj sesiji
+                    sessionStorage.setItem('modalShown', 'true');
+                });
+            }
+        });
+
+        // JavaScript za menjanje sadržaja
+        const tabs = document.querySelectorAll('.tab-btn');
+        const contentDiv = document.getElementById('content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function(event) {
+                const page = event.target.dataset.page;
+
+                // Učitaj sadržaj za odgovarajući page
+                loadContent(page);
+            });
+        });
+
+        function loadContent(page) {
+            fetch(`${page}/${page}.html`)
+                .then(response => response.text())
+                .then(data => {
+                    contentDiv.innerHTML = data;
+                    loadScripts(page);  // Učitaj odgovarajuće skripte za ovu stranu
+                })
+                .catch(error => console.error('Error loading page:', error));
+        }
+
+        function loadScripts(page) {
+            const scripts = {
+                'trends': ['trends/trends.js', 'trends/ai_current.js', 'trends/ai_analysis.js'],
+                'food': ['food/food.js'],
+                'therapy': ['therapy/therapy.js']
+            };
+
+            // Učitaj skripte za izabranu stranu
+            scripts[page].forEach(script => {
+                const scriptTag = document.createElement('script');
+                scriptTag.src = script;
+                document.body.appendChild(scriptTag);
+            });
+        }
+
+        // Automatski učitaj "trends" stranu po defaultu
+        loadContent('trends');
+    </script>
+
+</body>
+</html>
