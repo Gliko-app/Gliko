@@ -2,22 +2,22 @@
   "name": "Gliko",
   "short_name": "Gliko",
   "description": "Aplikacija za praćenje glukoze u krvi",
-  "start_url": "/index.html",
+  "start_url": "/Gliko/index.html",  // Putanja do početne stranice sa root-a
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#00B2B1",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "/Gliko/icon-192.png",  // Apsolutna putanja do ikone
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "/Gliko/icon-512.png",  // Apsolutna putanja do ikone
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "scope": "/",
+  "scope": "/",  // Postavka za celokupan scope aplikacije
   "orientation": "portrait"
 }
