@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Gliko — Dnevnik glukoze</title>
+
+  <!-- Zajednički CSS -->
+  <link rel="stylesheet" href="css/style.css"/>
+
+  <style>
+iframe {
+  border: none;        /* Uklanja okvir oko iframe-a */
+  width: 100%;         /* Postavlja širinu iframe-a na 100% roditeljskog elementa */
+  height: 100vh;       /* Visina iframe-a postavljena na 100% visine ekrana (viewport) */
+  max-width: 100%;  /* Sprečava širinu koja izlazi iz okvira */
+  display: block;      /* Postavlja iframe kao blok element */
+  overflow: hidden;    /* Sprečava pomeranje sadržaja unutar iframe-a */
+  box-sizing: border-box;  /* Uključuje padding i border u ukupnu veličinu iframe-a */
+}
+  </style>
+</head>
+<body>
+  <!-- Tabovi -->
+  <nav class="tabs-bar">
+    <button class="tab-btn active" data-tab="trends">Trendovi</button>
+    <button class="tab-btn" data-tab="food">Ishrana</button>
+    <button class="tab-btn" data-tab="therapy">Terapija</button>
+  </nav>
+
+  <main id="tabs-root">
+    <!-- TAB: TRENDS -->
+    <section id="tab-trends" class="tab-view active">
+      <!-- Učitaj trends.html sa iframe -->
+      <iframe src="trends/trends.html"></iframe>
+    </section>
+
+    <!-- TAB: ISHRANA -->
+    <section id="tab-food" class="tab-view" hidden>
+      <!-- Učitaj food.html sa iframe -->
+      <iframe src="food/food.html"></iframe>
+    </section>
+
+    <!-- TAB: TERAPIJA -->
+    <section id="tab-therapy" class="tab-view" hidden>
+      <!-- Učitaj therapy.html sa iframe -->
+      <iframe src="therapy/therapy.html"></iframe>
+    </section>
+  </main>
+
+  <!-- Skripte za učitavanje sadržaja tabova -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const tabs = document.querySelectorAll('.tab-btn');
+      const sections = document.querySelectorAll('.tab-view');
+
+      // Dodavanje funkcionalnosti za tabove
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Deaktiviraj sve tabove
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          
+          // Prikazivanje odgovarajuće sekcije
+          sections.forEach(section => {
+            if (section.id === `tab-${tab.dataset.tab}`) {
+              section.style.display = 'block';
+            } else {
+              section.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
