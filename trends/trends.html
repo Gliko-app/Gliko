@@ -11,30 +11,6 @@
 </head>
 <body>
 
-  <!-- Uputstvo modal koji se otvara automatski pri učitavanju -->
-  <div id="instructionModal" class="modal" hidden>
-    <div class="modal-content">
-      <div class="modal-head">
-        <h3>Dobrodošli u Gliko aplikaciju</h3>
-        <button class="close" id="instructionClose">✕</button>
-      </div>
-      <div class="modal-body">
-        <p>Ovde možete pratiti trendove vaših merenja nivoa šećera, dobiti savete za ishranu i kontrolisati terapiju.</p>
-        <ul>
-          <li><strong>U odgovarajuća polja unestite:</strong></li>
-          <li>Vrednost šećera</li>
-          <li>Datum i vreme merenja</li>
-          <li>Izaberite komentar o aktivnosti koja je prethodila merenju</li>
-          <li>Možete uneti i vrstu hrane koju ste konzumirali da biste pratili uticaj toga šta jedete na vrednost šećera</li>
-          <li><strong>AI "asistent" će uporediti vaše trenutno merenje sa referentnim vrednostima.</strong></li>
-          <li><strong>Ako imate više merenja, odmah ćete videti njihov prosek vrednosti.</strong></li>
-          <li><strong>Pritiskom na taster "ANALIZA TRENDOVA" AI "asistent" će uporediti sva vaša merenja sa referentnim vrednostima i na njih dati komentar (uzmite u obzir da ovo nije medicinski savet).</strong></li>
-          <li><strong>U grafikonu i tabeli ispod možete videti sve vaše merene vrednosti koje možete filtrirati po dobu dana. (i grafikon i tabela se ažuriraju na osnovu filtera)</strong></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
   <!-- Unos podataka za glukozu -->
   <div class="card form-card">
     <h3>Unesi vrednost šećera</h3>
@@ -175,18 +151,5 @@
   <script src="ai_current.js"></script> <!-- Za trenutnu vrednost -->
   <script src="ai_analysis.js"></script> <!-- Za analizu cele tabele -->
 
-  <!-- Automatski otvori modal uputstva pri učitavanju -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Automatski otvori uputstvo modal
-      const instructionModal = document.getElementById('instructionModal');
-      instructionModal.hidden = false;
-
-      // Dodajemo funkcionalnost za zatvaranje modala
-      document.getElementById('instructionClose').addEventListener('click', function() {
-        instructionModal.hidden = true;
-      });
-    });
-  </script>
 </body>
 </html>
