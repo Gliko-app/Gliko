@@ -1,72 +1,58 @@
-/* Carousel specific styles */
-.carousel {
-  display: flex;
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-}
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Gliko — Dnevnik Glukoze - Ishrana</title>
+  <link rel="stylesheet" href="../css/style.css"/> <!-- Povezivanje sa zajedničkim CSS fajlom -->
+  <script src="food.js" defer></script> <!-- JavaScript za interaktivnost -->
+</head>
+<body>
 
-.carousel-item {
-  min-width: 100%;
-  transition: transform 0.5s ease;
-}
+  <!-- Modal za reklame sa slikama -->
+  <div id="adModal" class="modal" hidden>
+    <div class="modal-content">
+      <button class="close" id="adClose">✕</button>
+      <div class="modal-body">
+        <div class="modal-images">
+          <div class="image-slide">
+            <img src="../food/images/advert1.jpg" alt="Reklama 1">
+          </div>
+          <div class="image-slide">
+            <img src="../food/images/advert2.jpg" alt="Reklama 2">
+          </div>
+          <div class="image-slide">
+            <img src="../food/images/advert3.jpg" alt="Reklama 3">
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-btn prev" id="prevBtn">&#10094;</button>
+    <button class="carousel-btn next" id="nextBtn">&#10095;</button>
+  </div>
 
-.carousel img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
+  <!-- Dugme za AI savete -->
+  <div class="ai-block">
+    <button class="ai-btn" id="btnAnalyzeGlucose">AI Savet za ishranu</button>
+  </div>
 
-/* Navigation buttons for the carousel */
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
+  <!-- Modal za AI savete -->
+  <div id="aiModal" class="modal" hidden>
+    <div class="modal-content">
+      <button class="close" id="aiClose">✕</button>
+      <div class="modal-body">
+        <p id="aiAdvice">Čekajte na analizu...</p>
+      </div>
+    </div>
+  </div>
 
-.carousel-btn.prev {
-  left: 10px;
-}
+  <!-- Pretraga recepata -->
+  <div id="recipeSearch">
+    <input type="text" id="searchRecipe" placeholder="Pretraži recepte...">
+  </div>
 
-.carousel-btn.next {
-  right: 10px;
-}
+  <!-- Prikaz recepata -->
+  <div id="recipeContainer"></div>
 
-/* Recipe card styles */
-.recipe-card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: 16px;
-  margin: 16px 0;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.recipe-card img {
-  max-height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.recipe-card h4 {
-  margin: 12px 0;
-  font-size: 1.2rem;
-}
-
-.recipe-card p {
-  margin: 4px 0;
-  font-size: 1rem;
-}
-
-#recipeSearch input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  font-size: 16px;
-}
+</body>
+</html>
