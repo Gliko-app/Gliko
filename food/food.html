@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Gliko — Animacija slika i AI savet</title>
+  <link rel="stylesheet" href="food.css"/> <!-- Povezivanje sa CSS fajlom -->
+  <script src="food.js" defer></script> <!-- JavaScript za animaciju -->
+</head>
+<body>
+  <!-- Slideshow sa tri slike -->
+  <div class="image-carousel">
+    <div class="image-slide">
+      <a href="https://biotacka.com/" target="_blank">
+        <img src="https://jocanbg.github.io/Gliko/images/advert1.jpg" alt="Advert 1">
+      </a>
+    </div>
+    <div class="image-slide">
+      <a href="https://www.biopijaca.com/" target="_blank">
+        <img src="https://jocanbg.github.io/Gliko/images/advert2.jpg" alt="Advert 2">
+      </a>
+    </div>
+    <div class="image-slide">
+      <a href="https://www.bio-vita.rs/" target="_blank">
+        <img src="https://jocanbg.github.io/Gliko/images/advert3.jpg" alt="Advert 3">
+      </a>
+    </div>
+  </div>
+
+  <!-- Dugme za AI analizu i savet -->
+  <button id="aiButton" class="ai-btn">AI Savet za Ishranu</button>
+
+  <!-- Modal za AI savete -->
+  <div id="aiModal" class="modal" hidden>
+    <div class="modal-content">
+      <div class="modal-body">
+        <p id="aiAdvice">Kliknite na dugme i sačekajte na analizu...</p> <!-- Ovdje će se prikazivati saveti -->
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
