@@ -106,6 +106,13 @@ input.file{ display:inline-block }
   background:#fff1f1; 
   color: #f44336; /* Crvena boja za maksimum */
 }
+.ai-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  grid-column: span 3;  /* Ovim širimo dugme na celu širinu */
+}
 
 .chip-row{ display:flex; flex-wrap:wrap; gap:.5rem; margin:.6rem 0 }
 .chip{
@@ -121,7 +128,7 @@ input.file{ display:inline-block }
 .table thead th{ color:#5b6b77; font-weight:600 }
 
 .ai-block{ display:flex; gap:.6rem; align-items:center; margin:1rem 0 .4rem }
-.ai-btn{ background:#0bb; color:#fff; }
+.ai-btn{ width:100%;background:#0bb; color:#fff; }
 
 .modal{ position:fixed; inset:0; background:rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center }
 .modal[hidden]{ display:none }
@@ -204,32 +211,47 @@ input.file{ display:inline-block }
   accent-color: var(--teal);  /* Boja akcenata */
 }
 
-/* Modal styles */
+/* Modal stilovi */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 90vh;
+  height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Osigurava da modal bude na vrhu ostalih elemenata */
+  z-index: 9999;
 }
 
 .modal-content {
   background: rgba(0, 201, 196, 0.9);
-  border-radius: 5px;
+  border-radius: 16px;
   width: 90%;
   max-width: 600px;
-  max-height: 90vh; /* Ovaj parametar postavlja maksimalnu visinu modala */
-  overflow: auto; /* Omogućava scroll ako sadržaj premaši visinu */
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  position: relative; /* Omogućava pozicioniranje dugmeta unutar modala */
+  position: relative;
+  animation: scaleModal 0.5s ease-out;
+}
+
+.modal-body {
+  max-height: 80vh; /* Ograničavamo visinu modala */
+  overflow-y: auto;
+}
+
+@keyframes scaleModal {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .modal-head {
@@ -237,40 +259,33 @@ input.file{ display:inline-block }
   justify-content: space-between;
   align-items: center;
   font-size: 1.3rem;
-  color: rgba(248, 248, 248, 0.9);
-  margin-bottom: 1rem;
+  margin-bottom: 1px;
 }
 
 .modal-head .close {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  color: #fff;
   cursor: pointer;
-  background: rgba(0, 201, 196, 0.9);
-  position: absolute; /* Pozicionira dugme za zatvaranje fiksirano na vrh desno */
-  top: 10px;
-  right: 10px;
+  background: rgba(0, 201, 196, 0.8);
+  border: none;
+  padding: 2px 2px;
+  border-radius: 2px;
 }
 
-.modal-body {
-  font-size: 1.3 rem;
-  color: rgba(248, 248, 248, 0.9);
-  flex: 1; /* Omogućava da telo modala koristi preostali prostor */
-  overflow-y: auto; /* Omogućava scroll ako telo modala pređe visinu */
+/* Dodajemo osnovnu animaciju za pojavljivanje modala */
+.modal-content {
+  animation: fadeIn 0.5s ease-out;
 }
 
-.modal-body p {
-  margin: 1px 0; /* Smanjivanje razmaka između paragrafa */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-.modal-body ul {
-  padding-left: 20px;
-  margin-top: 1px; /* Smanjivanje razmaka između liste i paragrafa */
-}
-
-.modal-body li {
-  margin: 1px 0; /* Smanjivanje razmaka između stavki u listi */
-  line-height: 1.0; /* Smanjenje razmaka između stavki u listama */
-}
 
 /* Mobile responsiveness */
 @media (max-width: 600px) {
