@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Gliko — Unos recepata</title>
+  <link rel="stylesheet" href="../css/style.css"/> <!-- Povezivanje sa zajedničkim CSS fajlom -->
+  <script src="recipe-creator.js" defer></script> <!-- JavaScript za unos recepata -->
+</head>
+<body>
+
+  <div class="card form-card">
+    <h3>Unesi recept</h3>
+
+    <!-- Forma za unos recepta -->
+    <label for="recipeTitle">Naziv recepta</label>
+    <input type="text" id="recipeTitle" placeholder="Unesite naziv recepta">
+
+    <label for="recipeTags">Tagovi (npr. Low-GI, Vegan)</label>
+    <input type="text" id="recipeTags" placeholder="Unesite tagove, odvojene zarezom">
+
+    <label for="recipeImage">Slika recepta (URL ili upload)</label>
+    <input type="file" id="recipeImage">
+
+    <label for="recipeKcal">Kalorije</label>
+    <input type="number" id="recipeKcal" placeholder="Unesite broj kalorija">
+
+    <label for="recipeCarbs">Ugljeni hidrati (g)</label>
+    <input type="number" id="recipeCarbs" placeholder="Unesite ugljene hidrate">
+
+    <label for="recipeProtein">Proteini (g)</label>
+    <input type="number" id="recipeProtein" placeholder="Unesite proteine">
+
+    <label for="recipeFat">Masti (g)</label>
+    <input type="number" id="recipeFat" placeholder="Unesite masti">
+
+    <label for="recipeGI">GI (Glikemijski indeks)</label>
+    <input type="number" id="recipeGI" placeholder="Unesite GI">
+
+    <label for="recipeIngredients">Sastojci</label>
+    <textarea id="recipeIngredients" placeholder="Unesite sastojke"></textarea>
+
+    <label for="recipePreparation">Način pripreme</label>
+    <textarea id="recipePreparation" placeholder="Unesite način pripreme"></textarea>
+
+    <button id="btnAddRecipe">Dodaj recept</button>
+  </div>
+
+</body>
+</html>
