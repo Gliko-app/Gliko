@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("btnAddRecipe");
   let db;
 
-  // Inicijalizacija IndexedDB
-  const request = indexedDB.open("glucoseDB", 2);  // Verzija baze je 2
+  // Inicijalizacija IndexedDB sa povećanjem verzije na 3
+  const request = indexedDB.open("glucoseDB", 3);  // Povećavamo verziju baze na 3
 
   request.onupgradeneeded = (e) => {
     db = e.target.result;
