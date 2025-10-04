@@ -10,7 +10,7 @@ body {
 
 /* Stil za carousel */
 .image-carousel {
-  margin-top: 0; /* Uklanjamo margine */
+  margin-top: 0;
   position: relative;
   width: 100%;
   height: auto;
@@ -48,16 +48,16 @@ body {
 
 /* Prostor ispod dugmeta - širina cele stranice */
 #aiAdviceWrapper {
-  width: 100%;  /* širina cele stranice */
+  width: 100%;
   display: block;
   padding: 0px;
-  text-align: center; /* Centriranje sadržaja unutar wrapper-a */
+  text-align: center;
 }
 
 /* Dugme za AI analizu */
 .ai-btn {
-  width: 100%; /* Dugme ce biti cela širina ekrana */
-  background-color: #00B2B1; /* Zelena boja */
+  width: 100%;
+  background-color: #00B2B1;
   color: white;
   padding: 15px;
   border: none;
@@ -76,7 +76,7 @@ body {
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7); /* Zatamnjenje pozadine */
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,7 +85,7 @@ body {
 }
 
 #aiModal {
-  width: 100%; /* Širina modala postavljena na 50% širine ekrana */
+  width: 100%;
   padding: 0px;
   background-color: #fff;
   border-radius: 16px;
@@ -145,6 +145,7 @@ body {
 .tag-tabs {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -159,6 +160,8 @@ body {
   font-weight: bold;
   font-size: 16px;
   transition: background-color 0.3s ease;
+  flex-grow: 1;
+  text-align: center;
 }
 
 .tag-btn:hover {
@@ -205,7 +208,7 @@ body {
 }
 
 .recipe-details h3 {
-  font-weight: bold; /* Bold za naziv */
+  font-weight: bold;
   font-size: 1.2rem;
 }
 
