@@ -1,4 +1,7 @@
-let db;  // Globalna deklaracija za 'db'
+let db;
+let filteredZone = "";  // Definišemo promenljivu za zonu (jutro, popodne, itd.)
+let filteredStart = ""; // Početni datum za filtriranje
+let filteredEnd = "";   // Krajnji datum za filtriranje
 
 document.addEventListener("DOMContentLoaded", () => {
   const slides = document.querySelectorAll('.image-slide');
@@ -133,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Uklonili smo stare vrednosti high/medium/low i koristimo up/down/stable
     if (trend === "up") {
-      advice = "Vaš nivo glukoze je u porastu. Preporučujemo da korigujete ishranu. Fokusirajte se na biljnu ishranu (Vegan) kako biste stabilizovali nivo glukoze.";
+      advice = "Vaš nivo glukoze je u porstu. Preporučujemo da korigujete ishranu. Fokusirajte se na biljnu ishranu (Vegan) kako biste stabilizovali nivo glukoze.";
     } else if (trend === "stable") {
       advice = "Trend glukoze je stabilan. Preporučujemo Low-GI ishranu. Uključite integralne žitarice i povrće u ishranu.";
     } else if (trend === "down") {
@@ -145,15 +148,25 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Savet koji je generisan:", advice);  // Log generisanog saveta
 
     // Provera da li je aiAdvice element prisutan
-    const aiAdvice = document.getElementById("aiAdvice");
     if (aiAdvice) {
-      aiAdvice.innerHTML = advice;
+      aiAdvice.innerHTML = advice;  // Postavljanje saveta u modal
+      console.log("Savet postavljen u modal.");  // Log kada je savet postavljen
+    } else {
+      console.error("Nije moguće pronaći element za aiAdvice.");
     }
 
     // Provera da li je modal otvoren
-    const aiModal = document.getElementById("aiModal");
     if (aiModal) {
-      aiModal.hidden = false;
+      aiModal.hidden = false;  // Uveravamo se da je modal otvoren
+      console.log("Modal je otvoren.");  // Log kada je modal otvoren
     }
   }
+
+  // Dodavanje event listener-a za filtere po dobu dana
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      filteredZone = chip.dataset.zone || "";  // Postavljamo filtriranu zonu
+      aiAnalyzeTable();  // Pokrećemo analizu sa novim filterima
+    });
+  });
 });
