@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Inicijalizacija IndexedDB
+  // Inicijalizacija IndexedDB (glucoseDB)
   const request = indexedDB.open("glucoseDB", 2);
 
   request.onupgradeneeded = (event) => {
@@ -149,24 +149,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Provera da li je aiAdvice element prisutan
     if (aiAdvice) {
-      aiAdvice.innerHTML = advice;  // Postavljanje saveta u modal
-      console.log("Savet postavljen u modal.");  // Log kada je savet postavljen
-    } else {
-      console.error("Nije moguće pronaći element za aiAdvice.");
+      aiAdvice.innerHTML = advice;
     }
 
     // Provera da li je modal otvoren
+    const aiModal = document.getElementById("aiModal");
     if (aiModal) {
-      aiModal.hidden = false;  // Uveravamo se da je modal otvoren
-      console.log("Modal je otvoren.");  // Log kada je modal otvoren
+      aiModal.hidden = false;
     }
   }
-
-  // Dodavanje event listener-a za filtere po dobu dana
-  document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      filteredZone = chip.dataset.zone || "";  // Postavljamo filtriranu zonu
-      aiAnalyzeTable();  // Pokrećemo analizu sa novim filterima
-    });
-  });
 });
