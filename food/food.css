@@ -1,14 +1,16 @@
+/* Osnovni stilovi za telo stranice */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f5f5f5;
-  display: block;
+  display: block; /* Uklanjamo flexbox */
+  height: auto; /* Nema potrebe za 100vh */
 }
 
 /* Stil za carousel */
 .image-carousel {
-  margin-top: 0;
+  margin-top: 0; /* Uklanjamo margine */
   position: relative;
   width: 100%;
   height: auto;
@@ -17,18 +19,18 @@ body {
 
 /* Stil za slike koje se smenjuju */
 .image-slide {
-  display: none;
+  display: none; /* Početno slike neće biti prikazane */
   width: 100%;
   height: auto;
 }
 
 .image-slide img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
+  width: 100%; /* Slike se skaliraju na 100% širine */
+  height: auto; /* Visina se automatski prilagođava proporcionalno */
+  object-fit: cover; /* Pokriva celo područje */
 }
 
-/* Animacija za prelaz između slika */
+/* Animacija za prelaz između slika (fade) */
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -41,17 +43,133 @@ body {
 /* Stil za trenutno prikazanu sliku (fade in efekat) */
 .image-carousel .image-slide.active {
   display: block;
-  animation: fadeIn 1.5s ease-in-out;
+  animation: fadeIn 1.5s ease-in-out; /* Animacija samo za prikazanu sliku */
+}
+
+/* Prostor ispod dugmeta - širina cele stranice */
+#aiAdviceWrapper {
+  width: 100%;  /* širina cele stranice */
+  display: block;
+  padding: 0px;
+  text-align: center; /* Centriranje sadržaja unutar wrapper-a */
+}
+
+/* Dugme za AI analizu */
+.ai-btn {
+  width: 100%; /* Dugme ce biti cela širina ekrana */
+  background-color: #00B2B1; /* Zelena boja */
+  color: white;
+  padding: 15px;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.ai-btn:hover {
+  background-color: #009a97; /* Tamnija boja kada se pređe mišem */
+}
+
+/* Modal za AI savet */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7); /* Zatamnjenje pozadine */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+
+#aiModal {
+  width: 100%; /* Širina modala postavljena na 50% širine ekrana */
+  padding: 0px;
+  background-color: #fff;
+  border-radius: 16px;
+  position: relative;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  max-height: 80vh;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  color: #000;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* Stil za AI savet */
+#aiAdvice {
+  font-size: 1.2rem;
+  margin-top: 20px;
+  text-align: center;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  display: inline-block;
+  opacity: 0;
+  animation: fadeInText 3s forwards;
+}
+
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+    width: 0;
+  }
+  100% {
+    opacity: 1;
+    width: auto;
+  }
+}
+
+/* Stil za tabove za filtriranje */
+.tag-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tag-btn {
+  background-color: #00B2B1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin: 0 10px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.tag-btn:hover {
+  background-color: #0AA2AA;
+}
+
+.tag-btn.active {
+  background-color: #007F7F; /* Boja za aktivni tab */
 }
 
 /* Pretraga i recepti */
-#recipeSearch {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  font-size: 16px;
-}
-
 #recipeContainer {
   display: flex;
   flex-wrap: wrap;
@@ -108,73 +226,4 @@ body {
 
 .details-btn:hover {
   background-color: #0AA2AA;
-}
-
-/* Modal za AI savet */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  transition: opacity 0.3s ease;
-}
-
-#aiModal {
-  width: 100%;
-  padding: 0px;
-  background-color: #fff;
-  border-radius: 16px;
-  position: relative;
-}
-
-.modal-content {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  width: 100%;
-  max-height: 80vh;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.5rem;
-  color: #000;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-/* Stil za AI savet */
-#aiAdvice {
-  font-size: 1.2rem;
-  margin-top: 20px;
-  text-align: center;
-  white-space: pre-wrap;
-  line-height: 1.5;
-  display: inline-block;
-  opacity: 0;
-  animation: fadeInText 3s forwards;
-}
-
-@keyframes fadeInText {
-  0% {
-    opacity: 0;
-    width: 0;
-  }
-  100% {
-    opacity: 1;
-    width: auto;
-  }
 }
