@@ -1,34 +1,78 @@
-function displayRecipes(recipes) {
-  // Pronaći sve tagove za pretragu
-  const tagButtons = document.querySelectorAll('.tag-btn');
-
-  // Pronaći container za recepta
-  const recipeContainer = document.getElementById('recipeContainer');
-  recipeContainer.innerHTML = ''; // Očistiti prethodne rezultate
-
-  recipes.forEach(recipe => {
-    // Ako tag nije niz, pretvaramo ga u niz
-    const tags = Array.isArray(recipe.tag) ? recipe.tag : recipe.tag.split(';');
-
-    // Kreirati HTML za recept
-    const recipeElement = document.createElement('div');
-    recipeElement.classList.add('recipe-card');
-
-    recipeElement.innerHTML = `
-      <img src="${recipe.slika}" alt="${recipe.naziv}">
-      <div class="recipe-details">
-        <h3>${recipe.naziv}</h3>
-        <p>Kalorije: ${recipe.kalorije}</p>
-        <p>UH: ${recipe.UH}</p>
-        <p>Proteini: ${recipe.proteini}</p>
-        <p>Masti: ${recipe.masti}</p>
-        <p>GI: ${recipe.GI}</p>
-        <p class="tags">${tags.join(', ')}</p>
-        <button class="details-btn">Više detalja</button>
-      </div>
-    `;
-
-    // Dodati recept na stranicu
-    recipeContainer.appendChild(recipeElement);
+// Učitavanje podataka iz recipes.json
+fetch('recipes.json')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);  // Za debug - proverite da li su podaci pravilno učitani
+    displayRecipes(data);  // Pozivanje funkcije za prikazivanje recepata
+  })
+  .catch(error => {
+    console.error('Greška pri učitavanju JSON podataka:', error);
   });
+
+// Funkcija za prikazivanje recepata
+function displayRecipes(recipes) {
+  const recipeContainer = document.getElementById('recipeContainer');
+  recipeContainer.innerHTML = ''; // Očisti prethodne recepte
+
+  // Prikazivanje svih recepata
+  recipes.forEach(recipe => {
+    const recipeCard = document.createElement('div');
+    recipeCard.classList.add('recipe-card');
+
+    // Kreiraj sliku i naziv recepta
+    const recipeImage = document.createElement('img');
+    recipeImage.src = recipe.slika;
+    recipeImage.alt = recipe.naziv;
+
+    const recipeDetails = document.createElement('div');
+    recipeDetails.classList.add('recipe-details');
+    const recipeTitle = document.createElement('h3');
+    recipeTitle.textContent = recipe.naziv;
+
+    // Dodaj kalorije i druge hranjive vrednosti
+    const calories = document.createElement('p');
+    calories.textContent = `Kalorije: ${recipe.kalorije} kcal`;
+
+    // Prikazivanje tagova
+    const tags = document.createElement('p');
+    tags.textContent = `Tagovi: ${recipe.tag.join(', ')}`;
+
+    // Dodaj dugme za detalje
+    const detailsBtn = document.createElement('button');
+    detailsBtn.classList.add('details-btn');
+    detailsBtn.textContent = 'Više Detalja';
+    detailsBtn.onclick = () => showDetails(recipe);
+
+    // Dodaj sve elemente u karticu recepta
+    recipeDetails.appendChild(recipeTitle);
+    recipeDetails.appendChild(calories);
+    recipeDetails.appendChild(tags);
+    recipeDetails.appendChild(detailsBtn);
+
+    recipeCard.appendChild(recipeImage);
+    recipeCard.appendChild(recipeDetails);
+    recipeContainer.appendChild(recipeCard);
+  });
+}
+
+// Funkcija za prikazivanje detalja recepta
+function showDetails(recipe) {
+  const details = document.createElement('div');
+  details.classList.add('recipe-details-popup');
+  details.innerHTML = `
+    <h2>${recipe.naziv}</h2>
+    <h3>Sastojci:</h3>
+    <ul>
+      ${recipe.sastojci.map(item => `<li>${item}</li>`).join('')}
+    </ul>
+    <h3>Priprema:</h3>
+    <p>${recipe.priprema}</p>
+  `;
+
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = 'Zatvori';
+  closeBtn.onclick = () => details.remove();
+  details.appendChild(closeBtn);
+
+  document.body.appendChild(details);
 }
