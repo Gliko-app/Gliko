@@ -35,7 +35,8 @@ function displayRecipes(recipes) {
 
     // Prikazivanje tagova
     const tags = document.createElement('p');
-    tags.textContent = `Tagovi: ${recipe.tag.join(', ')}`;
+    const tagArray = recipe.tag.split(';'); // Podeli tagove po ;
+    tags.textContent = `Tagovi: ${tagArray.join(', ')}`;
 
     // Dodaj dugme za detalje
     const detailsBtn = document.createElement('button');
@@ -63,7 +64,7 @@ function showDetails(recipe) {
     <h2>${recipe.naziv}</h2>
     <h3>Sastojci:</h3>
     <ul>
-      ${recipe.sastojci.map(item => `<li>${item}</li>`).join('')}
+      ${recipe.sastojci.split('\n').map(item => `<li>${item}</li>`).join('')}
     </ul>
     <h3>Priprema:</h3>
     <p>${recipe.priprema}</p>
