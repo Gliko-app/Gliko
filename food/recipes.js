@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
     const recipeContainer = document.getElementById("recipeContainer");
-    const searchInput = document.getElementById("recipeSearch");
     let recipes = [];
 
     // Funkcija za učitavanje CSV fajla
@@ -10,6 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 recipes = parseCSV(data);
                 displayRecipes(recipes);
+            })
+            .catch(error => {
+                console.error("Greška pri učitavanju CSV fajla:", error);
             });
     }
 
@@ -26,25 +28,38 @@ document.addEventListener("DOMContentLoaded", function () {
                 for (let j = 0; j < headers.length; j++) {
                     recipe[headers[j].trim()] = currentLine[j].trim();
                 }
+                // Popravljene putanje slika
+                recipe.slika = `../images/${recipe.slika}`;  // Prilagodjeno za relativne putanje
                 recipes.push(recipe);
             }
         }
         return recipes;
     }
 
-    // Funkcija za prikaz recepata
+    // Funkcija za prikaz recepata u karticama
     function displayRecipes(recipes) {
         recipeContainer.innerHTML = '';
         recipes.forEach(recipe => {
             const recipeCard = document.createElement("div");
             recipeCard.classList.add("recipe-card");
 
+            // Dodajemo tagove u HTML
+            const tags = recipe.tag ? `<p>Tagovi: ${recipe.tag.replace(",", ", ")}</p>` : "";
+
             recipeCard.innerHTML = `
-                <img src="${recipe.slika}" alt="${recipe.naziv}">
-                <h3>${recipe.naziv}</h3>
-                <p>Tag: ${recipe.tag}</p>
-                <p>Kalorije: ${recipe.kalorije} kcal</p>
-                <button class="details-btn" data-recipe='${JSON.stringify(recipe)}'>Više detalja</button>
+                <div class="recipe-image">
+                    <img src="${recipe.slika}" alt="${recipe.naziv}">
+                </div>
+                <div class="recipe-details">
+                    <h3>${recipe.naziv}</h3>
+                    <p>Kalorije: ${recipe.kalorije} kcal</p>
+                    <p>Ugljeni hidrati: ${recipe.UH} g</p>
+                    <p>Proteini: ${recipe.proteini} g</p>
+                    <p>Masti: ${recipe.masti} g</p>
+                    <p>GI: ${recipe.GI}</p>
+                    ${tags}
+                    <button class="details-btn" data-recipe='${JSON.stringify(recipe)}'>Više detalja</button>
+                </div>
             `;
             recipeContainer.appendChild(recipeCard);
 
@@ -55,13 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
-
-    // Pretraga recepata
-    searchInput.addEventListener("input", function () {
-        const searchQuery = this.value.toLowerCase();
-        const filteredRecipes = recipes.filter(recipe => recipe.naziv.toLowerCase().includes(searchQuery));
-        displayRecipes(filteredRecipes);
-    });
 
     // Učitaj CSV fajl sa podacima o receptima
     loadCSV("recipes.csv");
