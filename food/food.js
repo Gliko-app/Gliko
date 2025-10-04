@@ -1,7 +1,4 @@
-let db;
-let filteredZone = "";  // Definišemo promenljivu za zonu (jutro, popodne, itd.)
-let filteredStart = ""; // Početni datum za filtriranje
-let filteredEnd = "";   // Krajnji datum za filtriranje
+let db;  // Globalna deklaracija za 'db'
 
 document.addEventListener("DOMContentLoaded", () => {
   const slides = document.querySelectorAll('.image-slide');
