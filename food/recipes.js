@@ -43,9 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const recipeCard = document.createElement("div");
             recipeCard.classList.add("recipe-card");
 
-            // Dodajemo tagove u HTML
-            const tags = recipe.tag ? `<p>Tagovi: ${recipe.tag.replace(",", ", ")}</p>` : "";
-
             recipeCard.innerHTML = `
                 <div class="recipe-image">
                     <img src="${recipe.slika}" alt="${recipe.naziv}">
@@ -57,7 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     <p>Proteini: ${recipe.proteini} g</p>
                     <p>Masti: ${recipe.masti} g</p>
                     <p>GI: ${recipe.GI}</p>
-                    ${tags}
                     <button class="details-btn" data-recipe='${JSON.stringify(recipe)}'>Više detalja</button>
                 </div>
             `;
