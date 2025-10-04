@@ -1,7 +1,4 @@
 let db;
-let filteredZone = "";  // Definišemo promenljivu za zonu (jutro, popodne, itd.)
-let filteredStart = ""; // Početni datum za filtriranje
-let filteredEnd = "";   // Krajnji datum za filtriranje
 
 document.addEventListener("DOMContentLoaded", () => {
   const slides = document.querySelectorAll('.image-slide');
@@ -43,8 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Inicijalizacija IndexedDB (glucoseDB)
-  const request = indexedDB.open("glucoseDB", 2);
+  // Inicijalizacija IndexedDB za glukozu
+  const request = indexedDB.open("glucoseDB", 2);  // Baza za glukozu
 
   request.onupgradeneeded = (event) => {
     db = event.target.result;
@@ -57,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   request.onsuccess = (event) => {
     db = event.target.result;  // db objekat je sada dostupan
-    console.log("IndexedDB baza je otvorena i povezana.");
+    console.log("IndexedDB baza za glukozu je otvorena i povezana.");
   };
 
   request.onerror = (event) => {
