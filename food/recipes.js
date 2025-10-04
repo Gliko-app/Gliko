@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const recipeContainer = document.getElementById("recipeContainer");
+    const tagButtons = document.querySelectorAll(".tag-btn");
     let recipes = [];
 
     // Funkcija za učitavanje CSV fajla
@@ -28,8 +29,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 for (let j = 0; j < headers.length; j++) {
                     recipe[headers[j].trim()] = currentLine[j].trim();
                 }
-                // Popravljene putanje slika
-                recipe.slika = `../images/${recipe.slika}`;  // Prilagodjeno za relativne putanje
+
+                // Ispravljanje putanja slika
+                recipe.slika = `../images/${recipe.slika}`;
+
+                // Tagovi su sada odvojeni sa ';'
+                recipe.tag = recipe.tag ? recipe.tag.split(';').map(tag => tag.trim()) : [];
+
                 recipes.push(recipe);
             }
         }
@@ -66,6 +72,19 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
+
+    // Filtriranje recepata prema tagovima kada se klikne na jedan od tabova
+    tagButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            const tag = this.dataset.tag;
+            const filteredRecipes = recipes.filter(recipe => recipe.tag.includes(tag));
+            displayRecipes(filteredRecipes);
+
+            // Dodajemo aktivni stil na selektovani tab
+            tagButtons.forEach(btn => btn.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
 
     // Učitaj CSV fajl sa podacima o receptima
     loadCSV("recipes.csv");
