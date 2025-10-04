@@ -9,6 +9,18 @@
   <script src="recipes.js" defer></script> <!-- Dodato za prikaz recepata -->
 </head>
 <body>
+  <!-- Dugme za AI analizu i savet -->
+  <button id="aiButton" class="ai-btn">AI Savet za Ishranu</button>
+
+  <!-- Modal za AI savete -->
+  <div id="aiModal" class="modal" hidden>
+    <div class="modal-content">
+      <div class="modal-body">
+        <p id="aiAdvice">Kliknite na dugme i sačekajte na analizu...</p> <!-- Ovdje će se prikazivati saveti -->
+      </div>
+    </div>
+  </div>
+
   <!-- Tabovi za filtriranje -->
   <div class="tag-tabs">
     <button class="tag-btn" data-tag="nizak_gi">Nizak GI</button>
