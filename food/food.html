@@ -3,31 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Gliko — Recepti za dijabetičare</title>
-  <link rel="stylesheet" href="food.css"/>
+  <title>Gliko — Animacija slika i AI savet</title>
+  <link rel="stylesheet" href="food.css"/> <!-- Povezivanje sa CSS fajlom -->
   <script src="food.js" defer></script> <!-- JavaScript za animaciju -->
   <script src="recipes.js" defer></script> <!-- Dodato za prikaz recepata -->
 </head>
 <body>
-  <!-- Dugme za AI analizu i savet -->
-  <button id="aiButton" class="ai-btn">AI Savet za Ishranu</button>
-
-  <!-- Modal za AI savete -->
-  <div id="aiModal" class="modal" hidden>
-    <div class="modal-content">
-      <div class="modal-body">
-        <p id="aiAdvice">Kliknite na dugme i sačekajte na analizu...</p> <!-- Ovdje će se prikazivati saveti -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Tabovi za filtriranje -->
-  <div class="tag-tabs">
-    <button class="tag-btn" data-tag="nizak_gi">Nizak GI</button>
-    <button class="tag-btn" data-tag="niski_UH">Niski UH</button>
-    <button class="tag-btn" data-tag="niskokalorično">Niskokalorično</button>
-  </div>
-
   <!-- Slideshow sa tri slike -->
   <div class="image-carousel">
     <div class="image-slide">
@@ -45,6 +26,25 @@
         <img src="https://gliko-app.github.io/Gliko/images/advert3.jpg" alt="Advert 3">
       </a>
     </div>
+  </div>
+
+  <!-- Dugme za AI analizu i savet -->
+  <button id="aiButton" class="ai-btn">AI Savet za Ishranu</button>
+
+  <!-- Modal za AI savete -->
+  <div id="aiModal" class="modal" hidden>
+    <div class="modal-content">
+      <div class="modal-body">
+        <p id="aiAdvice">Kliknite na dugme i sačekajte na analizu...</p> <!-- Ovdje će se prikazivati saveti -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabovi za filtriranje -->
+  <div class="tag-tabs">
+    <button class="tag-btn" data-tag="nizak_gi">Nizak GI</button>
+    <button class="tag-btn" data-tag="niski_UH">Niski UH</button>
+    <button class="tag-btn" data-tag="niskokalorično">Niskokalorično</button>
   </div>
 
   <!-- Sekcija za recepti -->
