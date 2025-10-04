@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Gliko — Ishrana i recepti</title>
+  <link rel="stylesheet" href="food.css"/>
+</head>
+<body>
+
+  <!-- Slideshow sa reklamama -->
+  <div class="image-carousel">
+    <div class="image-slide">
+      <a href="https://biotacka.com/" target="_blank">
+        <img src="https://gliko-app.github.io/Gliko/images/advert1.jpg" alt="Advert 1">
+      </a>
+    </div>
+    <div class="image-slide">
+      <a href="https://www.biopijaca.com/" target="_blank">
+        <img src="https://gliko-app.github.io/Gliko/images/advert2.jpg" alt="Advert 2">
+      </a>
+    </div>
+    <div class="image-slide">
+      <a href="https://www.bio-vita.rs/" target="_blank">
+        <img src="https://gliko-app.github.io/Gliko/images/advert3.jpg" alt="Advert 3">
+      </a>
+    </div>
+  </div>
+
+  <!-- Dugme za AI savet -->
+  <button id="aiButton" class="ai-btn">AI Savet za Ishranu</button>
+
+  <!-- AI Modal -->
+  <div id="aiModal" class="modal" hidden>
+    <div class="modal-content">
+      <div class="modal-body">
+        <p id="aiAdvice">Kliknite na dugme i sačekajte na analizu...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sekcija za recept kartice -->
+  <section id="recipe-section">
+    <h3>Naši recepti</h3>
+    <div id="recipe-list" class="recipe-list">
+      <!-- Dinamički učitani recepti -->
+    </div>
+  </section>
+
+  <!-- Skripte: prvo V2 funkcionalnosti, zatim V3 -->
+  <script src="js/food.js" defer></script> <!-- Carousel, AI modal, analiza -->
+  <script src="js/food-recipes.js" defer></script> <!-- Prikaz recepata -->
+
+</body>
+</html>
