@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Ispravljanje putanja slika
                 recipe.slika = `../images/${recipe.slika}`;
 
-                // Tagovi su sada odvojeni sa ';'
+                // Ako nema tagova, postavljamo tag kao prazan niz
                 recipe.tag = recipe.tag ? recipe.tag.split(';').map(tag => tag.trim()) : [];
 
                 recipes.push(recipe);
@@ -44,10 +44,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Funkcija za prikaz recepata u karticama
     function displayRecipes(recipes) {
-        recipeContainer.innerHTML = '';
+        recipeContainer.innerHTML = '';  // Očistimo prethodni sadržaj
         recipes.forEach(recipe => {
             const recipeCard = document.createElement("div");
             recipeCard.classList.add("recipe-card");
+
+            // Ako nema tagova, tagovi neće biti prikazani u HTML-u
+            const tags = recipe.tag.length > 0 ? `<p>Tagovi: ${recipe.tag.join(' / ')}</p>` : "";
 
             recipeCard.innerHTML = `
                 <div class="recipe-image">
@@ -60,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <p>Proteini: ${recipe.proteini} g</p>
                     <p>Masti: ${recipe.masti} g</p>
                     <p>GI: ${recipe.GI}</p>
+                    ${tags}
                     <button class="details-btn" data-recipe='${JSON.stringify(recipe)}'>Više detalja</button>
                 </div>
             `;
