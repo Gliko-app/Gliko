@@ -6,8 +6,6 @@ body {
   background-color: #f5f5f5;
   display: block;
   height: auto;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 /* Stil za carousel */
@@ -32,49 +30,12 @@ body {
   object-fit: cover;
 }
 
-/* Animacija za prelaz između slika (fade) */
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 .image-carousel .image-slide.active {
   display: block;
   animation: fadeIn 1.5s ease-in-out;
 }
 
-/* Modal za AI savet */
-#aiModal {
-  width: 100%;
-  padding: 0px;
-  background-color: #fff;
-  border-radius: 16px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  width: 80%;
-  max-height: 80vh;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Dugme za AI analizu i savet */
+/* Dugme za AI analizu */
 .ai-btn {
   background-color: #00B2B1;
   color: white;
@@ -85,39 +46,32 @@ body {
   border-radius: 8px;
   margin-top: 20px;
   font-weight: bold;
-  width: 50%;
-  max-width: 300px;
-  text-align: center;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
 }
 
 .ai-btn:hover {
   background-color: #009a97;
 }
 
-/* Tabovi za filtriranje */
+/* Stil za tagove (tabs) */
 .tag-tabs {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
   margin-bottom: 20px;
+  flex-wrap: wrap; /* Dodato za responsivnost */
 }
 
 .tag-btn {
   background-color: #00B2B1;
   color: white;
-  border: none;
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 8px;
-  margin: 0 10px;
+  margin: 10px;
   font-weight: bold;
   font-size: 16px;
   transition: background-color 0.3s ease;
-  flex-grow: 1;
-  text-align: center;
+  flex: 1 1 30%; /* Dodato za responsivnost */
 }
 
 .tag-btn:hover {
@@ -137,7 +91,7 @@ body {
 }
 
 .recipe-card {
-  width: 90%; /* Kartice sada zauzimaju 90% širine */
+  width: 90%; /* Povećana širina za mobilne uređaje */
   margin: 10px;
   padding: 15px;
   border: 1px solid #ccc;
@@ -146,6 +100,7 @@ body {
   background-color: #f9f9f9;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  flex: 1 1 45%; /* Dodato za responsivnost */
 }
 
 .recipe-card:hover {
@@ -153,8 +108,8 @@ body {
 }
 
 .recipe-card img {
-  width: 100%;
-  height: 100px; /* Slike su sada manje */
+  width: 80%; /* Manje slike */
+  height: auto;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -185,4 +140,24 @@ body {
 
 .details-btn:hover {
   background-color: #0AA2AA;
+}
+
+/* Responzivnost: prilagoditi dugme i tabove */
+@media screen and (max-width: 768px) {
+  .ai-btn {
+    font-size: 16px;
+  }
+
+  .tag-btn {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .recipe-card {
+    width: 100%; /* Kartice ce biti 100% širine na manjim ekranima */
+  }
+
+  .tag-tabs {
+    flex-direction: column; /* Prikazivanje tagova u vertikalnom rasporedu */
+  }
 }
