@@ -15,7 +15,7 @@
   },
   {
     "naziv": "Čorba od karfiola",
-    "slika": "../images/recipe2.jpg;",
+    "slika": "../images/recipe2.jpg",
     "tag": [
       "Nizak_GI",
       "Niski_UH",
@@ -187,7 +187,7 @@
   },
   {
     "naziv": "Punjene tikvice",
-    "slika": "../imagesp/recipe14.jpg",
+    "slika": "../images/recipe14.jpg",
     "tag": [
       "Nizak_GI",
       "Niskokaloricno"
