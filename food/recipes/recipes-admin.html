@@ -1,60 +1,59 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gliko — Admin Panel za Recepte</title>
-  <link rel="stylesheet" href="recipes-admin.css">
-  <script src="recipes-admin.js" defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gliko — Admin panel za recepte</title>
+  <link rel="stylesheet" href="recipes-admin.css" />
 </head>
 <body>
-
-  <h1>🧑‍🍳 Admin panel — Gliko recepti</h1>
+  <h1>🧑‍🍳 Admin panel — Unos recepata</h1>
 
   <form id="recipeForm">
     <label>Naziv recepta:</label>
-    <input type="text" id="naziv" required>
+    <input type="text" id="naziv" required />
 
-    <label>Putanja slike:</label>
-    <input type="text" id="slika" placeholder="../images/recipe1.jpg" required>
+    <label>Slika (putanja ili URL):</label>
+    <input type="text" id="slika" placeholder="../images/recipe1.jpg" required />
 
-    <fieldset>
-      <legend>Tagovi (izaberi)</legend>
-      <label><input type="checkbox" name="tag" value="Nizak_GI"> Nizak GI</label>
-      <label><input type="checkbox" name="tag" value="Niski_UH"> Niski UH</label>
-      <label><input type="checkbox" name="tag" value="Niskokaloricno"> Niskokalorično</label>
-    </fieldset>
+    <label>Tagovi:</label>
+    <div id="tagovi">
+      <label><input type="checkbox" value="nizak_gi" /> Nizak GI</label>
+      <label><input type="checkbox" value="niski_UH" /> Niski UH</label>
+      <label><input type="checkbox" value="niskokaloricno" /> Niskokalorično</label>
+    </div>
 
     <label>Kalorije (kcal):</label>
-    <input type="number" id="kalorije" required>
+    <input type="number" id="kalorije" required />
 
     <label>Ugljeni hidrati (g):</label>
-    <input type="number" id="UH" step="0.1" required>
+    <input type="number" id="UH" required />
 
     <label>Proteini (g):</label>
-    <input type="number" id="proteini" step="0.1" required>
+    <input type="number" id="proteini" required />
 
     <label>Masti (g):</label>
-    <input type="number" id="masti" step="0.1" required>
+    <input type="number" id="masti" required />
 
     <label>Glikemijski indeks (GI):</label>
-    <input type="number" id="GI" step="0.1">
+    <input type="number" id="GI" required />
 
     <label>Sastojci:</label>
-    <textarea id="sastojci" rows="5" placeholder="Unesi sastojke, svaki u novom redu" required></textarea>
+    <textarea id="sastojci" rows="4" required></textarea>
 
     <label>Priprema:</label>
-    <textarea id="priprema" rows="6" placeholder="Opis pripreme" required></textarea>
+    <textarea id="priprema" rows="5" required></textarea>
 
     <button type="submit">💾 Sačuvaj recept</button>
   </form>
 
-  <hr>
+  <hr />
 
-  <h2>📋 Lista recepata</h2>
+  <h2>📋 Lista unetih recepata</h2>
   <div id="recipeList"></div>
 
-  <button id="downloadJson">⬇️ Preuzmi JSON fajl</button>
+  <button id="exportBtn">📤 Izvezi u JSON</button>
 
+  <script src="recipes-admin.js"></script>
 </body>
 </html>
