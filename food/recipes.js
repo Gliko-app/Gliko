@@ -74,3 +74,25 @@ function closeModal() {
   const modal = document.getElementById('recipeModal');
   modal.style.display = 'none';
 }
+
+// Filtriranje recepata prema tagovima
+const filterButtons = document.querySelectorAll('.tag-btn');
+filterButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const tag = button.textContent.trim();
+    filterRecipesByTag(tag);
+  });
+});
+
+// Funkcija za filtriranje recepata prema tagu
+function filterRecipesByTag(tag) {
+  fetch('recipes.json')
+    .then(response => response.json())
+    .then(data => {
+      const filteredRecipes = data.filter(recipe => recipe.tag.includes(tag));
+      displayRecipes(filteredRecipes);  // Ponovno prikazivanje filtriranih recepata
+    })
+    .catch(error => {
+      console.error('Greška pri filtriranju podataka:', error);
+    });
+}
