@@ -41,6 +41,7 @@ body {
 .recipe-details h3 {
   font-size: 1.2em;
   color: #333;
+  font-weight: bold;
 }
 
 .recipe-details p {
