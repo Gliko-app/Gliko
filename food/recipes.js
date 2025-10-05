@@ -1,79 +1,54 @@
-// Učitavanje podataka iz recipes.json
+// Učitavanje JSON podataka
 fetch('recipes.json')
   .then(response => response.json())
-  .then(data => {
-    console.log(data);  // Za debug - proverite da li su podaci pravilno učitani
-    displayRecipes(data);  // Pozivanje funkcije za prikazivanje recepata
-  })
-  .catch(error => {
-    console.error('Greška pri učitavanju JSON podataka:', error);
-  });
+  .then(data => displayRecipes(data))
+  .catch(error => console.error('Greška pri učitavanju JSON podataka:', error));
 
-// Funkcija za prikazivanje recepata
 function displayRecipes(recipes) {
-  const recipeContainer = document.getElementById('recipeContainer');
-  recipeContainer.innerHTML = ''; // Očisti prethodne recepte
+  const container = document.getElementById('recipeContainer');
+  container.innerHTML = '';
 
-  // Prikazivanje svih recepata
   recipes.forEach(recipe => {
-    const recipeCard = document.createElement('div');
-    recipeCard.classList.add('recipe-card');
+    const card = document.createElement('div');
+    card.className = 'recipe-card';
 
-    // Kreiraj sliku i naziv recepta
-    const recipeImage = document.createElement('img');
-    recipeImage.src = recipe.slika;
-    recipeImage.alt = recipe.naziv;
+    const img = document.createElement('img');
+    img.src = recipe.slika;
+    img.alt = recipe.naziv;
 
-    const recipeDetails = document.createElement('div');
-    recipeDetails.classList.add('recipe-details');
-    const recipeTitle = document.createElement('h3');
-    recipeTitle.textContent = recipe.naziv;
+    const title = document.createElement('h3');
+    title.textContent = recipe.naziv;
 
-    // Dodaj kalorije i druge hranjive vrednosti
-    const calories = document.createElement('p');
-    calories.textContent = `Kalorije: ${recipe.kalorije} kcal`;
+    const tags = document.createElement('div');
+    tags.className = 'recipe-tags';
+    tags.textContent = (recipe.tag || '').replace(/;/g, ' | ');
 
-    // Prikazivanje tagova
-    const tags = document.createElement('p');
-    const tagArray = recipe.tag.split(';'); // Podeli tagove po ;
-    tags.textContent = `Tagovi: ${tagArray.join(', ')}`;
+    const kcal = document.createElement('p');
+    kcal.textContent = `Kalorije: ${recipe.kalorije} kcal`;
 
-    // Dodaj dugme za detalje
-    const detailsBtn = document.createElement('button');
-    detailsBtn.classList.add('details-btn');
-    detailsBtn.textContent = 'Više Detalja';
-    detailsBtn.onclick = () => showDetails(recipe);
+    const btn = document.createElement('button');
+    btn.textContent = 'Više informacija';
 
-    // Dodaj sve elemente u karticu recepta
-    recipeDetails.appendChild(recipeTitle);
-    recipeDetails.appendChild(calories);
-    recipeDetails.appendChild(tags);
-    recipeDetails.appendChild(detailsBtn);
+    const details = document.createElement('div');
+    details.className = 'recipe-details';
+    details.innerHTML = `
+      <h4>Sastojci:</h4>
+      <ul>${recipe.sastojci.split('\n').map(line => `<li>${line.trim()}</li>`).join('')}</ul>
+      <h4>Priprema:</h4>
+      <p>${recipe.priprema}</p>
+    `;
 
-    recipeCard.appendChild(recipeImage);
-    recipeCard.appendChild(recipeDetails);
-    recipeContainer.appendChild(recipeCard);
+    btn.addEventListener('click', () => {
+      details.style.display = details.style.display === 'block' ? 'none' : 'block';
+    });
+
+    card.appendChild(img);
+    card.appendChild(title);
+    card.appendChild(tags);
+    card.appendChild(kcal);
+    card.appendChild(btn);
+    card.appendChild(details);
+
+    container.appendChild(card);
   });
-}
-
-// Funkcija za prikazivanje detalja recepta
-function showDetails(recipe) {
-  const details = document.createElement('div');
-  details.classList.add('recipe-details-popup');
-  details.innerHTML = `
-    <h2>${recipe.naziv}</h2>
-    <h3>Sastojci:</h3>
-    <ul>
-      ${recipe.sastojci.split('\n').map(item => `<li>${item}</li>`).join('')}
-    </ul>
-    <h3>Priprema:</h3>
-    <p>${recipe.priprema}</p>
-  `;
-
-  const closeBtn = document.createElement('button');
-  closeBtn.textContent = 'Zatvori';
-  closeBtn.onclick = () => details.remove();
-  details.appendChild(closeBtn);
-
-  document.body.appendChild(details);
 }
