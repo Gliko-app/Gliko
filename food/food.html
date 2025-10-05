@@ -3,36 +3,54 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Gliko — Recepti</title>
+  <title>Gliko — Ishrana</title>
+  <link rel="stylesheet" href="food.css"/>
   <link rel="stylesheet" href="recipes.css"/>
+  <script src="food.js" defer></script>
   <script src="recipes.js" defer></script>
 </head>
 <body>
 
-  <!-- Carousel reklame -->
+  <!-- Slideshow sa tri slike -->
   <div class="image-carousel">
-    <div class="image-slide"><img src="../images/advert1.jpg" alt="Advert 1"></div>
-    <div class="image-slide"><img src="../images/advert2.jpg" alt="Advert 2"></div>
-    <div class="image-slide"><img src="../images/advert3.jpg" alt="Advert 3"></div>
+    <div class="image-slide">
+      <a href="https://biotacka.com/" target="_blank">
+        <img src="https://gliko-app.github.io/Gliko/images/advert1.jpg" alt="Advert 1">
+      </a>
+    </div>
+    <div class="image-slide">
+      <a href="https://www.biopijaca.com/" target="_blank">
+        <img src="https://gliko-app.github.io/Gliko/images/advert2.jpg" alt="Advert 2">
+      </a>
+    </div>
+    <div class="image-slide">
+      <a href="https://www.bio-vita.rs/" target="_blank">
+        <img src="https://gliko-app.github.io/Gliko/images/advert3.jpg" alt="Advert 3">
+      </a>
+    </div>
   </div>
 
-  <!-- Dugme za AI savet -->
+  <!-- Dugme za AI analizu i savet -->
   <button id="aiButton" class="ai-btn">AI Savet za Ishranu</button>
 
-  <!-- Modal -->
+  <!-- Modal za AI savete -->
   <div id="aiModal" class="modal" hidden>
     <div class="modal-content">
       <div class="modal-body">
-        <p id="aiAdvice">Kliknite na dugme i sačekajte na analizu...</p>
+        <p id="aiAdvice">Kliknite na dugme i sačekajte analizu...</p>
       </div>
     </div>
   </div>
 
-  <!-- Kontejner za recepte -->
+  <!-- Filter tagovi -->
+  <div class="tag-tabs">
+    <button class="tag-btn" data-tag="nizak_gi">Nizak GI</button>
+    <button class="tag-btn" data-tag="niski_UH">Niski UH</button>
+    <button class="tag-btn" data-tag="niskokaloricno">Niskokalorično</button>
+  </div>
+
+  <!-- Kontejner za prikaz recepata -->
   <div id="recipeContainer"></div>
 
 </body>
 </html>
-
-
-
