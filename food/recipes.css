@@ -1,0 +1,135 @@
+/* Stilovi za prikaz recepata */
+#recipeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 15px;
+}
+
+.recipe-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 95%;
+  margin: 0 auto;
+  transition: transform 0.3s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-4px);
+}
+
+.recipe-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.recipe-info {
+  flex: 1;
+}
+
+.recipe-info h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #00b2b1;
+  margin: 0 0 6px 0;
+}
+
+.recipe-info p {
+  margin: 0;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.details-btn {
+  margin-top: 8px;
+  background-color: #00b2b1;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.details-btn:hover {
+  background-color: #009a97;
+}
+
+/* Tag dugmad */
+.tag-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin: 15px auto;
+  width: 95%;
+  gap: 10px;
+}
+
+.tag-btn {
+  flex: 1;
+  background-color: #00b2b1;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.tag-btn.active,
+.tag-btn:hover {
+  background-color: #007f7f;
+}
+
+/* Modal za detalje recepta */
+.recipe-details-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 178, 177, 0.3);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1200;
+}
+
+.modal-inner {
+  background: #fff;
+  border-radius: 16px;
+  padding: 25px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal-inner h2 {
+  color: #00b2b1;
+  margin-bottom: 10px;
+}
+
+.modal-inner pre {
+  background: #f7f7f7;
+  padding: 10px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+}
+
+.close-btn {
+  display: block;
+  margin: 15px auto 0;
+  background-color: #00b2b1;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
