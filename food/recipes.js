@@ -1,85 +1,104 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Učitavanje JSON fajla
+  const recipeContainer = document.getElementById("recipeContainer");
+  const tagButtons = document.querySelectorAll(".tag-btn");
+
+  // Učitavanje JSON-a
   fetch("recipes.json")
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) throw new Error("Ne mogu učitati JSON fajl");
+      return response.json();
+    })
     .then((recipes) => {
       displayRecipes(recipes);
-      setupTagFilter(recipes);
+      setupTagFiltering(recipes);
     })
     .catch((error) => {
       console.error("Greška pri učitavanju JSON podataka:", error);
     });
-});
 
-// Prikaz svih recepata
-function displayRecipes(recipes) {
-  const recipeContainer = document.getElementById("recipeContainer");
-  recipeContainer.innerHTML = "";
+  // Funkcija za prikaz recepata
+  function displayRecipes(recipes) {
+    recipeContainer.innerHTML = "";
 
-  recipes.forEach((recipe) => {
-    const card = document.createElement("div");
-    card.classList.add("recipe-card");
+    if (!recipes || recipes.length === 0) {
+      recipeContainer.innerHTML = "<p>Nema dostupnih recepata.</p>";
+      return;
+    }
 
-    const img = document.createElement("img");
-    img.src = recipe.slika;
-    img.alt = recipe.naziv;
+    recipes.forEach((recipe) => {
+      const card = document.createElement("div");
+      card.classList.add("recipe-card");
 
-    const info = document.createElement("div");
-    info.classList.add("recipe-info");
+      const img = document.createElement("img");
+      img.src = recipe.slika || "../images/no-image.jpg";
+      img.alt = recipe.naziv;
 
-    const title = document.createElement("h3");
-    title.textContent = recipe.naziv;
+      const details = document.createElement("div");
+      details.classList.add("recipe-details");
 
-    const kcal = document.createElement("p");
-    kcal.textContent = `Kalorije: ${recipe.kalorije} kcal`;
+      const title = document.createElement("h3");
+      title.textContent = recipe.naziv;
 
-    const detailsBtn = document.createElement("button");
-    detailsBtn.classList.add("details-btn");
-    detailsBtn.textContent = "Više informacija";
-    detailsBtn.onclick = () => showRecipeDetails(recipe);
+      const kcal = document.createElement("p");
+      kcal.textContent = `Kalorije: ${recipe.kalorije} kcal`;
 
-    info.appendChild(title);
-    info.appendChild(kcal);
-    info.appendChild(detailsBtn);
+      const macros = document.createElement("p");
+      macros.textContent = `UH: ${recipe.UH}g | Proteini: ${recipe.proteini}g | Masti: ${recipe.masti}g`;
 
-    card.appendChild(img);
-    card.appendChild(info);
-    recipeContainer.appendChild(card);
-  });
-}
+      // Dugme za prikaz detalja
+      const btn = document.createElement("button");
+      btn.textContent = "🍽️ Više informacija";
+      btn.classList.add("details-btn");
+      btn.addEventListener("click", () => showDetails(recipe));
 
-// Filter po tagovima
-function setupTagFilter(recipes) {
-  const buttons = document.querySelectorAll(".tag-btn");
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      buttons.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
+      details.appendChild(title);
+      details.appendChild(kcal);
+      details.appendChild(macros);
+      details.appendChild(btn);
 
-      const tag = btn.getAttribute("data-tag");
-      const filtered = recipes.filter(
-        (r) => r.tag && r.tag.toLowerCase().includes(tag.toLowerCase())
-      );
-      displayRecipes(filtered);
+      card.appendChild(img);
+      card.appendChild(details);
+      recipeContainer.appendChild(card);
     });
-  });
-}
+  }
 
-// Detalji recepta
-function showRecipeDetails(recipe) {
-  const modal = document.createElement("div");
-  modal.classList.add("recipe-details-modal");
-  modal.innerHTML = `
-    <div class="modal-inner">
-      <h2>${recipe.naziv}</h2>
-      <h3>Sastojci:</h3>
-      <pre>${recipe.sastojci}</pre>
-      <h3>Priprema:</h3>
-      <p>${recipe.priprema}</p>
-      <button class="close-btn">Zatvori</button>
-    </div>
-  `;
-  document.body.appendChild(modal);
+  // Prikaz detalja recepta u modalu
+  function showDetails(recipe) {
+    const modal = document.createElement("div");
+    modal.classList.add("modal");
 
-  modal.querySelector(".close-btn").onclick = () => modal.remove();
-}
+    modal.innerHTML = `
+      <div class="modal-content">
+        <h2>${recipe.naziv}</h2>
+        <p><strong>Kalorije:</strong> ${recipe.kalorije} kcal</p>
+        <p><strong>UH:</strong> ${recipe.UH}g | <strong>Proteini:</strong> ${recipe.proteini}g | <strong>Masti:</strong> ${recipe.masti}g</p>
+        <h3>Sastojci:</h3>
+        <pre>${recipe.sastojci}</pre>
+        <h3>Priprema:</h3>
+        <pre>${recipe.priprema}</pre>
+        <button class="close-modal">Zatvori</button>
+      </div>
+    `;
+
+    modal.querySelector(".close-modal").addEventListener("click", () => modal.remove());
+    document.body.appendChild(modal);
+  }
+
+  // Funkcija za filtriranje po tagovima
+  function setupTagFiltering(recipes) {
+    tagButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tagButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const tag = btn.dataset.tag;
+        if (tag === "all") {
+          displayRecipes(recipes);
+        } else {
+          const filtered = recipes.filter((r) => r.tag && r.tag.includes(tag));
+          displayRecipes(filtered);
+        }
+      });
+    });
+  }
+});
