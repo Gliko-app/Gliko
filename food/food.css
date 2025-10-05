@@ -161,3 +161,33 @@ body {
     flex-direction: column; /* Prikazivanje tagova u vertikalnom rasporedu */
   }
 }
+.tag-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 15px 0;
+  flex-wrap: wrap;
+}
+
+.tag-btn {
+  background-color: rgba(0, 178, 177, 0.2);
+  color: #00B2B1;
+  border: 1px solid #00B2B1;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tag-btn:hover {
+  background-color: #00B2B1;
+  color: white;
+}
+
+.tag-btn.active {
+  background-color: #00B2B1;
+  color: white;
+}
+
