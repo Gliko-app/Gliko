@@ -10,7 +10,7 @@
   <script src="recipes.js" defer></script> <!-- Dodato za prikaz recepata -->
 </head>
 <body>
-  <!-- Carousel sa slikama za reklame -->
+  <!-- Slideshow sa tri slike -->
   <div class="image-carousel">
     <div class="image-slide">
       <a href="https://biotacka.com/" target="_blank">
@@ -41,30 +41,13 @@
     </div>
   </div>
 
-  <!-- Naslov za sekciju recepata -->
-  <h1 id="pageTitle">Naši recepti</h1>
+  <!-- Sekcija za recepti -->
+  <h2>Recepti za dijabetičare</h2>
+  <input type="text" id="recipeSearch" placeholder="Pretraga recepata..." />
 
-  <!-- Tagovi za pretragu -->
-  <div id="tags">
-    <span class="tag">#Nizak_GI</span>
-    <span class="tag">#Niski_UH</span>
-    <span class="tag">#Niskokaloricno</span>
-  </div>
-
-  <!-- Prikaz recepata -->
+  <!-- Div za kartice recepata -->
   <div id="recipeContainer"></div>
-
-  <!-- Modal za detalje recepta -->
-  <div id="recipeModal" class="modal">
-    <div class="modal-content">
-      <h2 id="modalTitle"></h2>
-      <div id="modalIngredients"></div>
-      <div id="modalPreparation"></div>
-      <button class="close-btn" onclick="closeModal()">Zatvori</button>
-    </div>
-  </div>
 
   <script src="recipes.js"></script> <!-- Učitavanje podataka iz recipes.json -->
 </body>
 </html>
-
