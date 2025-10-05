@@ -1,135 +1,140 @@
-/* Stilovi za prikaz recepata */
+/* General */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 2em;
+  color: #333;
+}
+
+/* Tagovi */
+#tags {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.tag {
+  background-color: rgba(0, 185, 177, 0.3);
+  color: #00B2B1;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
+.tag:hover {
+  background-color: rgba(0, 185, 177, 0.5);
+}
+
+/* Recepti */
 #recipeContainer {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .recipe-card {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  width: 95%;
-  margin: 0 auto;
-  transition: transform 0.3s ease;
+  background-color: white;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  margin: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
 }
 
 .recipe-card:hover {
-  transform: translateY(-4px);
+  transform: scale(1.05);
 }
 
 .recipe-card img {
-  width: 120px;
-  height: 120px;
-  border-radius: 10px;
+  width: 100%;
+  height: 200px;
   object-fit: cover;
 }
 
-.recipe-info {
-  flex: 1;
+.recipe-details {
+  padding: 15px;
 }
 
-.recipe-info h3 {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #00b2b1;
-  margin: 0 0 6px 0;
+.recipe-details h3 {
+  font-size: 1.2em;
+  color: #333;
 }
 
-.recipe-info p {
-  margin: 0;
-  color: #444;
-  font-size: 0.95rem;
+.recipe-details p {
+  color: #777;
 }
 
 .details-btn {
-  margin-top: 8px;
-  background-color: #00b2b1;
+  background-color: #00B2B1;
   color: white;
+  padding: 10px;
   border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
+  font-size: 1em;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .details-btn:hover {
-  background-color: #009a97;
+  background-color: #008c8a;
 }
 
-/* Tag dugmad */
-.tag-tabs {
-  display: flex;
-  justify-content: space-around;
-  margin: 15px auto;
-  width: 95%;
-  gap: 10px;
-}
-
-.tag-btn {
-  flex: 1;
-  background-color: #00b2b1;
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.tag-btn.active,
-.tag-btn:hover {
-  background-color: #007f7f;
-}
-
-/* Modal za detalje recepta */
-.recipe-details-modal {
+/* Modal */
+.modal {
+  display: none;
   position: fixed;
-  inset: 0;
-  background: rgba(0, 178, 177, 0.3);
-  backdrop-filter: blur(6px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1200;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-inner {
-  background: #fff;
-  border-radius: 16px;
-  padding: 25px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-}
-
-.modal-inner h2 {
-  color: #00b2b1;
-  margin-bottom: 10px;
-}
-
-.modal-inner pre {
-  background: #f7f7f7;
-  padding: 10px;
-  border-radius: 8px;
-  white-space: pre-wrap;
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  margin: 10% auto;
+  width: 80%;
+  border-radius: 10px;
+  max-width: 600px;
 }
 
 .close-btn {
-  display: block;
-  margin: 15px auto 0;
-  background-color: #00b2b1;
-  color: #fff;
+  background-color: #00B2B1;
+  color: white;
+  padding: 10px;
   border: none;
-  padding: 10px 15px;
-  border-radius: 10px;
-  font-weight: bold;
+  border-radius: 5px;
   cursor: pointer;
+  font-size: 1em;
+  width: 100%;
+}
+
+.close-btn:hover {
+  background-color: #008c8a;
+}
+
+#modalIngredients, #modalPreparation {
+  margin-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .recipe-card {
+    width: 90%;
+  }
 }
