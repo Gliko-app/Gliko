@@ -1,59 +1,85 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Gliko — Ishrana</title>
-  <link rel="stylesheet" href="food.css"/>
-  <link rel="stylesheet" href="recipes.css"/>
-  <script src="food.js" defer></script>
-  <script src="recipes.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Naši recepti</title>
+  <link rel="stylesheet" href="food.css">
+  <link rel="stylesheet" href="recipes.css">
 </head>
 <body>
+  <!-- Naslov -->
+  <h1 id="pageTitle">Naši recepti</h1>
 
-  <!-- Slideshow sa tri slike -->
+  <!-- Carousel sa slikama za reklame (Slike se menjaju) -->
   <div class="image-carousel">
     <div class="image-slide">
-      <a href="https://biotacka.com/" target="_blank">
-        <img src="https://gliko-app.github.io/Gliko/images/advert1.jpg" alt="Advert 1">
+      <a href="https://example.com">
+        <img src="../images/advert1.jpg" alt="Advert 1">
       </a>
     </div>
     <div class="image-slide">
-      <a href="https://www.biopijaca.com/" target="_blank">
-        <img src="https://gliko-app.github.io/Gliko/images/advert2.jpg" alt="Advert 2">
+      <a href="https://example.com">
+        <img src="../images/advert2.jpg" alt="Advert 2">
       </a>
     </div>
     <div class="image-slide">
-      <a href="https://www.bio-vita.rs/" target="_blank">
-        <img src="https://gliko-app.github.io/Gliko/images/advert3.jpg" alt="Advert 3">
+      <a href="https://example.com">
+        <img src="../images/advert3.jpg" alt="Advert 3">
       </a>
     </div>
   </div>
 
-  <!-- Dugme za AI analizu i savet -->
+  <!-- Tagovi -->
+  <div id="tags">
+    <span class="tag">#Nizak_GI</span>
+    <span class="tag">#Niski_UH</span>
+    <span class="tag">#Niskokaloricno</span>
+  </div>
+
+  <!-- AI savet dugme -->
   <button id="aiButton" class="ai-btn">AI Savet za Ishranu</button>
 
-  <!-- Modal za AI savete -->
+  <!-- Modal za AI savet -->
   <div id="aiModal" class="modal" hidden>
     <div class="modal-content">
       <div class="modal-body">
-        <p id="aiAdvice">Kliknite na dugme i sačekajte analizu...</p>
+        <p id="aiAdvice">Kliknite na dugme i sačekajte na analizu...</p> <!-- Ovdje će se prikazivati saveti -->
       </div>
     </div>
   </div>
 
-  <div class="tag-tabs">
-  <button class="tag-btn active" data-tag="all"># Svi recepti</button>
-  <button class="tag-btn" data-tag="Nizak_GI"># Nizak GI</button>
-  <button class="tag-btn" data-tag="Niski_UH"># Niski UH</button>
-  <button class="tag-btn" data-tag="Niskokaloricno"># Niskokalorično</button>
-</div>
-
-<div id="recipeContainer"></div>
-
+  <!-- Prikaz recepata -->
   <div id="recipeContainer"></div>
 
+  <!-- Modal za detalje -->
+  <div id="recipeModal" class="modal">
+    <div class="modal-content">
+      <h2 id="modalTitle"></h2>
+      <div id="modalIngredients"></div>
+      <div id="modalPreparation"></div>
+      <button class="close-btn" onclick="closeModal()">Zatvori</button>
+    </div>
+  </div>
+
+  <script src="recipes.js"></script>
+  <script>
+    // AI savet
+    document.getElementById('aiButton').addEventListener('click', function() {
+      const aiAdvice = document.getElementById('aiAdvice');
+      aiAdvice.textContent = "AI analiza u toku..."; // AI analiza se simulira
+      document.getElementById('aiModal').style.display = 'block'; // Otvoriti modal sa savetom
+
+      // Ovdje možete implementirati API poziv za AI analizu
+      setTimeout(() => {
+        aiAdvice.textContent = "Savet: Povećajte unos vlakana i smanjite unos procesiranih namirnica.";
+      }, 2000); // Simulacija AI analize
+    });
+
+    // Funkcija za zatvaranje AI modala
+    function closeModal() {
+      document.getElementById('aiModal').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
-
-
