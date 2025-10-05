@@ -67,7 +67,8 @@ body {
 /* Tagovi za pretragu */
 .tag-tabs {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
   gap: 8px;
   margin: 15px 0;
 }
@@ -82,6 +83,7 @@ body {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
+  flex: 1 1 30%;
 }
 
 .tag-btn:hover {
@@ -92,7 +94,6 @@ body {
 .tag-btn.active {
   background-color: #00B2B1;
   color: white;
-}
 
 /* Modal */
 .modal {
@@ -133,4 +134,16 @@ body {
 
 #modalIngredients, #modalPreparation {
   margin-top: 20px;
+}
+
+/* Responzivnost */
+@media (max-width: 768px) {
+  .recipe-card {
+    width: 100%;
+  }
+
+  .tag-btn {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
 }
