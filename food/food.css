@@ -158,8 +158,7 @@ body {
 /* Modal za AI savet (poseban stil za AI modal) */
 #aiModal {
   background: rgba(0, 0, 0, 0.1);  /* Zatamnjenje pozadine */
-  width: 90%;
-  max-width: 500px;
+  width: 100%;
 }
 
 .ai-modal-head {
@@ -237,5 +236,6 @@ body {
 .modal[hidden] {
   display: none;
 }
+
 
 
