@@ -1,55 +1,48 @@
-const CACHE_NAME = 'gliko-cache-v1';
-const urlsToCache = [
-  '/index.html',              // Home page (index.html)
-  '/index.html',    // Glavni HTML
-  '/css/style.css', // CSS fajl
-  '/app.js',         // JavaScript fajl
-  '/icon-192.png',   // Ikona
-  '/icon-512.png',   // Ikona
-  '/manifest.json'   // Manifest fajl
-];
-
-// Instalacija service worker-a
 self.addEventListener('install', (event) => {
+  console.log('Service Worker installed');
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        return cache.addAll(urlsToCache);
-      })
-      .catch(error => {
-        console.error('Failed to cache resources:', error);
-      })
-  );
-});
-
-// Aktivacija service worker-a
-self.addEventListener('activate', (event) => {
-  const cacheWhitelist = [CACHE_NAME];
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (!cacheWhitelist.includes(cacheName)) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
+    caches.open('cache-v1').then((cache) => {
+      return cache.addAll([
+        '/', 
+        '/index.html', 
+        '/css/style.css',
+        '/images/icon.png',
+        '/images/badge.png'
+      ]);
     })
   );
 });
 
-// Fetch događaj
+self.addEventListener('activate', (event) => {
+  console.log('Service Worker activated');
+});
+
 self.addEventListener('fetch', (event) => {
+  console.log('Fetching:', event.request.url);
   event.respondWith(
-    caches.match(event.request)
-      .then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse; // Ako je u cache-u, koristi keširani sadržaj
-        }
-        return fetch(event.request); // Ako nije, fetchaj iz mreže
-      })
-      .catch(error => {
-        console.error('Failed to fetch resource:', error);
-      })
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
+  );
+});
+
+self.addEventListener('push', function(event) {
+  const options = {
+    body: event.data.text(),
+    icon: '/images/icon.png',
+    badge: '/images/badge.png'
+  };
+
+  event.waitUntil(
+    self.registration.showNotification('Podsetnik za terapiju/pregled', options)
+  );
+});
+
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+  
+  // Otvoriti stranicu kada korisnik klikne na notifikaciju
+  event.waitUntil(
+    clients.openWindow('/pregledi.html')  // Stranica koju želiš otvoriti
   );
 });
