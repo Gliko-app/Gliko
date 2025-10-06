@@ -5,22 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Gliko — Dnevnik glukoze</title>
   
-    <!-- Link ka manifestu -->
+  <!-- Link ka manifestu -->
   <link rel="manifest" href="manifest.json">
 
   <!-- Zajednički CSS -->
   <link rel="stylesheet" href="css/style.css"/>
 
   <style>
-iframe {
-  border: none;        /* Uklanja okvir oko iframe-a */
-  width: 100%;         /* Postavlja širinu iframe-a na 100% roditeljskog elementa */
-  height: 100vh;       /* Visina iframe-a postavljena na 100% visine ekrana (viewport) */
-  max-width: 100%;  /* Sprečava širinu koja izlazi iz okvira */
-  display: block;      /* Postavlja iframe kao blok element */
-  overflow: hidden;    /* Sprečava pomeranje sadržaja unutar iframe-a */
-  box-sizing: border-box;  /* Uključuje padding i border u ukupnu veličinu iframe-a */
-}
+    iframe {
+      border: none;        /* Uklanja okvir oko iframe-a */
+      width: 100%;         /* Postavlja širinu iframe-a na 100% roditeljskog elementa */
+      height: 100vh;       /* Visina iframe-a postavljena na 100% visine ekrana (viewport) */
+      max-width: 100%;     /* Sprečava širinu koja izlazi iz okvira */
+      display: block;      /* Postavlja iframe kao blok element */
+      overflow: hidden;    /* Sprečava pomeranje sadržaja unutar iframe-a */
+      box-sizing: border-box;  /* Uključuje padding i border u ukupnu veličinu iframe-a */
+    }
   </style>
 </head>
 <body>
@@ -74,17 +74,18 @@ iframe {
           });
         });
       });
+
+      // Registracija Service Worker-a
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then((registration) => {
+            console.log('Service Worker registrovan sa opsegom:', registration.scope);
+          })
+          .catch((error) => {
+            console.log('Service Worker registracija nije uspela:', error);
+          });
+      }
     });
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
