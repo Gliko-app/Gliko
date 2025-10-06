@@ -1,5 +1,6 @@
 let db;
 
+// Kada je stranica učitana, inicijalizuje se baza i postavljaju event listener-i
 document.addEventListener("DOMContentLoaded", () => {
   // Inicijalizacija IndexedDB baze
   const request = indexedDB.open("therapyDB", 1);
@@ -21,26 +22,30 @@ document.addEventListener("DOMContentLoaded", () => {
     loadTherapies();  // Učitavanje terapija odmah
   };
 
-  // Dodavanje novog unosa terapije
+  // Event listener za dodavanje nove terapije
   document.getElementById("btnAddTherapy").addEventListener("click", () => {
     const drugName = document.getElementById("drugName").value.trim();
     const dosage = document.getElementById("dosage").value.trim();
     const occasion = document.getElementById("occasion").value;
-    const time = {
-      dorucak: document.getElementById("timeBreakfast").value,
-      rucak: document.getElementById("timeLunch").value,
-      vecera: document.getElementById("timeDinner").value,
-      spavanje: document.getElementById("timeSleep").value
-    };
+    const timeMeal = document.getElementById("timeMeal").value;
+    const timePostMeal = document.getElementById("timePostMeal").value;
+    const timeBeforeSleep = document.getElementById("timeBeforeSleep").value;
 
-    // Obavezna polja
-    if (!drugName || !dosage || (!time.dorucak && !time.rucak && !time.vecera && !time.spavanje)) {
+    if (!drugName || !dosage || !occasion) {
       alert("Sva polja su obavezna!");
       return;
     }
 
-    const therapy = { drugName, dosage, occasion, time };
+    // Validacija da satnica bude postavljena ako je obrok označen
+    if ((document.getElementById("meal").checked && !timeMeal) || 
+        (document.getElementById("postMeal").checked && !timePostMeal) || 
+        (document.getElementById("beforeSleep").checked && !timeBeforeSleep)) {
+      alert("Morate uneti satnicu za označene obroke!");
+      return;
+    }
 
+    const therapy = { drugName, dosage, occasion, timeMeal, timePostMeal, timeBeforeSleep };
+    
     const transaction = db.transaction("therapies", "readwrite");
     const objectStore = transaction.objectStore("therapies");
     objectStore.add(therapy);
@@ -49,10 +54,80 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Terapija dodata");
       loadTherapies();  // Ažuriranje tabele sa novim unosom
       resetForm();  // Resetovanje forme
+
+      // Postavljanje alarma na osnovu unesenog vremena
+      setReminder(timeMeal, "Uz obrok");
+      setReminder(timePostMeal, "Posle obroka");
+      setReminder(timeBeforeSleep, "Pred spavanje");
     };
   });
 
-  // Funkcija za učitavanje svih terapija iz baze
+  // Funkcija za postavljanje podsetnika (notifikacije)
+  function setReminder(time, occasion) {
+    if (!time) return;
+
+    const now = new Date();
+    const reminderTime = new Date(now.toDateString() + " " + time); // Spajanje dana i vremena
+    if (reminderTime <= now) {
+      reminderTime.setDate(reminderTime.getDate() + 1); // Ako je vreme prošlo, postavi za sledeći dan
+    }
+
+    const timeout = reminderTime.getTime() - now.getTime(); // Razlika u milisekundama
+
+    setTimeout(() => {
+      if (Notification.permission === "granted") {
+        new Notification(`Podsetnik: ${occasion}`, {
+          body: `Vreme je za uzimanje leka: ${occasion}`,
+          icon: '/images/notification-icon.png',  // Zameni ikonu po želji
+        });
+      }
+    }, timeout);  // Notifikacija će biti poslata u tačno to vreme
+  }
+
+  // Funkcija za postavljanje podsetnika za pregled/laboratoriju
+  document.getElementById("btnSetReviewReminder").addEventListener("click", () => {
+    const reviewDate = document.getElementById("reviewDate").value;
+    const reviewTime = document.getElementById("reviewTime").value;
+    const reviewComment = document.getElementById("reviewComment").value.trim();
+
+    if (!reviewDate || !reviewTime) {
+      alert("Morate uneti datum i vreme pregleda!");
+      return;
+    }
+
+    // Kombinovanje datuma i vremena u jedan objekat
+    const reviewDateTime = new Date(`${reviewDate}T${reviewTime}:00`);
+
+    const now = new Date();
+    if (reviewDateTime <= now) {
+      alert("Datum i vreme pregleda moraju biti u budućnosti!");
+      return;
+    }
+
+    // Postavljanje podsetnika za pregled
+    const timeout = reviewDateTime.getTime() - now.getTime(); // Razlika u milisekundama
+
+    setTimeout(() => {
+      if (Notification.permission === "granted") {
+        new Notification("Podsetnik za pregled", {
+          body: reviewComment ? `Podsećamo vas na pregled: ${reviewComment}` : "Podsećamo vas na predstojeći pregled.",
+          icon: '/images/notification-icon.png',  // Zameni ikonu po želji
+        });
+      }
+    }, timeout);  // Notifikacija će biti poslata u tačno to vreme
+  });
+
+  // Funkcija za resetovanje forme
+  function resetForm() {
+    document.getElementById("drugName").value = "";
+    document.getElementById("dosage").value = "";
+    document.getElementById("occasion").value = "jutro";
+    document.getElementById("timeMeal").value = "";
+    document.getElementById("timePostMeal").value = "";
+    document.getElementById("timeBeforeSleep").value = "";
+  }
+
+  // Učitavanje svih terapija iz IndexedDB baze
   function loadTherapies() {
     const tbody = document.querySelector("#therapyTable tbody");
     tbody.innerHTML = "";
@@ -69,34 +144,12 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${therapy.drugName}</td>
           <td>${therapy.dosage}</td>
           <td>${therapy.occasion}</td>
-          <td>${therapy.time.dorucak || ''} / ${therapy.time.rucak || ''} / ${therapy.time.vecera || ''} / ${therapy.time.spavanje || ''}</td>
+          <td>${therapy.timeMeal || therapy.timePostMeal || therapy.timeBeforeSleep}</td>
         `;
         tbody.appendChild(tr);
       });
     };
   }
-
-  // Funkcija za resetovanje forme
-  function resetForm() {
-    document.getElementById("drugName").value = "";
-    document.getElementById("dosage").value = "";
-    document.getElementById("occasion").value = "jutro";
-    document.getElementById("timeBreakfast").value = "";
-    document.getElementById("timeLunch").value = "";
-    document.getElementById("timeDinner").value = "";
-    document.getElementById("timeSleep").value = "";
-  }
-
-  // Prikazivanje satnice samo kad je obrok označen
-  document.querySelectorAll('.therapy-options input[type="checkbox"]').forEach(checkbox => {
-    checkbox.addEventListener('change', function () {
-      const timeInputGroup = document.getElementById(`${this.id}Time`);
-      if (this.checked) {
-        timeInputGroup.classList.remove('hidden');
-      } else {
-        timeInputGroup.classList.add('hidden');
-      }
-    });
-  });
 });
+
 
