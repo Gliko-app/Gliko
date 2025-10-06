@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Terapija — Gliko</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="therapy.css"/>
+  <script src="therapy.js" defer></script>
+</head>
+<body>
+  <h2>Unos Terapije</h2>
+
+  <!-- Forma za unos terapije -->
+  <div class="card form-card">
+    <label for="drugName">Naziv leka</label>
+    <input type="text" id="drugName" placeholder="Unesite naziv leka" required>
+
+    <label for="dosage">Doza</label>
+    <input type="text" id="dosage" placeholder="Unesite dozu leka" required>
+
+    <label for="occasion">Prilika</label>
+    <select id="occasion">
+      <option value="jutro">Ujutro</option>
+      <option value="uz_obrok">Uz obrok</option>
+      <option value="posle_obroka">Posle obroka</option>
+      <option value="pred_spavanje">Pred spavanje</option>
+    </select>
+
+    <!-- Opcije za obroke i satnice -->
+    <div class="therapy-options">
+      <label><input type="checkbox" value="doručak" id="breakfast"> Doručak</label>
+      <div id="breakfastTime" class="time-input-group hidden">
+        <label for="timeBreakfast">Satnica:</label>
+        <input type="time" id="timeBreakfast">
+      </div>
+
+      <label><input type="checkbox" value="ručak" id="lunch"> Ručak</label>
+      <div id="lunchTime" class="time-input-group hidden">
+        <label for="timeLunch">Satnica:</label>
+        <input type="time" id="timeLunch">
+      </div>
+
+      <label><input type="checkbox" value="večera" id="dinner"> Večera</label>
+      <div id="dinnerTime" class="time-input-group hidden">
+        <label for="timeDinner">Satnica:</label>
+        <input type="time" id="timeDinner">
+      </div>
+
+      <label><input type="checkbox" value="spavanje" id="sleep"> Pred spavanje</label>
+      <div id="sleepTime" class="time-input-group hidden">
+        <label for="timeSleep">Satnica:</label>
+        <input type="time" id="timeSleep">
+      </div>
+    </div>
+
+    <button id="btnAddTherapy">Dodaj terapiju</button>
+  </div>
+
+  <!-- Tabela za pregled unosa terapije -->
+  <div class="card">
+    <h3>Vaša Terapija</h3>
+    <table class="table" id="therapyTable">
+      <thead>
+        <tr><th>Naziv leka</th><th>Doza</th><th>Prilika</th><th>Satnica</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <h2>Unos Podsetnika za Pregled/Laboratoriju</h2>
+
+  <!-- Forma za unos pregleda/laboratorije -->
+  <div class="card form-card">
+    <label for="reviewDate">Datum pregleda</label>
+    <input type="date" id="reviewDate">
+
+    <label for="reviewTime">Vreme pregleda</label>
+    <input type="time" id="reviewTime">
+
+    <label for="reviewComment">Komentar</label>
+    <textarea id="reviewComment" placeholder="Unesite dodatne informacije (npr. vrsta pregleda)"></textarea>
+
+    <button id="btnSetReviewReminder">Postavi podsetnik</button>
+  </div>
+</body>
+</html>
