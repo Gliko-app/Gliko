@@ -4,68 +4,79 @@ body {
   padding: 5px;
 }
 
-/* Stil za kartice */
+/* Kontejner za kartice recepata */
+#recipeContainer {
+  display: flex;
+  flex-wrap: wrap;             /* Omogućava prelazak u sledeći red kada je potrebno */
+  gap: 20px;                   /* Razmak između kartica */
+  justify-content: space-between; /* Ravnomerno raspoređivanje kartica po širini */
+  width: 100%;                 /* Zauzima celu širinu ekrana */
+  box-sizing: border-box;      /* Osigurava da razmaci i margine ne prelaze širinu */
+}
+
+/* Stilizacija za kartice recepata */
 .recipe-card {
-  width: 100%; /* Širina kartice na celu širinu ekrana */
-  margin: 5px;
-  padding: 3px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  flex: 1 1 30%;               /* Svaka kartica zauzima oko 30% širine, a može se smanjiti */
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  background-color: #f9f9f9;
-  display: flex;
-  flex-direction: column; /* Kartica je u koloni */
-  height: 12rem; /* Visina kartice 11 redova */
+  min-height: 150px;           /* Minimalna visina kartica */
+  max-height: 200px;           /* Maksimalna visina kartica */
+  overflow: hidden;            /* Osećaj da sadržaj ne izlazi iz kartice */
 }
 
-.recipe-header {
-  font-size: 0.5rem; /* Veći font za naziv recepta */
-  font-weight: bold;
-}
-
-.recipe-nutrition {
-  font-size: 0.4rem; /* Manji font za nutritivne vrednosti */
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-.recipe-body {
-  display: flex;
-  margin-top: 10px;
-  justify-content: space-between;
-}
-
-.recipe-image {
-  width: 50%; /* Leva kolona sa slikom */
-  padding-right: 10px;
-}
-
-.recipe-tags {
-  width: 50%; /* Desna kolona sa tagovima */
-  text-align: left;
-  font-size: 0.4rem; /* Veći font tagova */
-  font-weight: normal; /* Regularan font za tagove */
-}
-
-.recipe-body img {
+/* Slika unutar kartice */
+.recipe-card img {
   width: 100%;
   height: auto;
   border-radius: 8px;
 }
 
-.details-btn {
-  background-color: #00B2B1;
+/* Naslov i tekst unutar kartice */
+.recipe-card h3 {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.recipe-card p {
+  font-size: 14px;
+  color: #777;
+}
+
+/* Dugme unutar kartice */
+.recipe-card button {
+  background-color: #00b2b1;
   color: white;
-  padding: 5px;
+  padding: 8px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
-.details-btn:hover {
+.recipe-card button:hover {
   background-color: #009a97;
 }
+
+/* Responzivno ponašanje kartica na manjim ekranima */
+@media (max-width: 768px) {
+  .recipe-card {
+    flex: 1 1 48%;  /* Na manjim ekranima kartice zauzimaju 48% širine */
+  }
+}
+
+@media (max-width: 480px) {
+  .recipe-card {
+    flex: 1 1 100%; /* Na mobilnim uređajima kartice zauzimaju 100% širine */
+  }
+}
+
 
 /* Stil za modal */
 .modal {
@@ -85,10 +96,10 @@ body {
   background-color: white;
   border-radius: 8px;
   padding: 20px;
-  width:90%;
+  width: 90%;
   max-width: 600px;
   overflow-y: auto;
-  max-height: 80vh; /* Ograničavamo maksimalnu visinu modala */
+  max-height: 70vh; /* Ograničavamo maksimalnu visinu modala */
   display: flex;
   flex-direction: column;
 }
@@ -101,7 +112,8 @@ body {
   top: 0;
   background-color: #fff; /* Pozadina za zaglavlje */
   z-index: 100; /* Prvenstvo u prikazu */
-  padding: 5px 0;
+  border-bottom: 2px solid #ccc; /* Dodavanje linije ispod */
+  padding: 10px 0;
 }
 
 .close {
@@ -113,16 +125,10 @@ body {
 }
 
 .modal-body {
-  padding-top: 5px;
+  padding-top: 10px;
   overflow-y: auto; /* Omogućava skrolovanje tela modala */
 }
 
 .modal[hidden] {
   display: none;
 }
-
-
-
-
-
-
