@@ -19,12 +19,12 @@ body {
 }
 
 .recipe-header {
-  font-size: 0.7rem; /* Veći font za naziv recepta */
+  font-size: 0.5rem; /* Veći font za naziv recepta */
   font-weight: bold;
 }
 
 .recipe-nutrition {
-  font-size: 0.6rem; /* Manji font za nutritivne vrednosti */
+  font-size: 0.4rem; /* Manji font za nutritivne vrednosti */
   margin-top: 10px;
   font-weight: bold;
 }
@@ -43,7 +43,7 @@ body {
 .recipe-tags {
   width: 50%; /* Desna kolona sa tagovima */
   text-align: left;
-  font-size: 0.7rem; /* Veći font tagova */
+  font-size: 0.4rem; /* Veći font tagova */
   font-weight: normal; /* Regularan font za tagove */
 }
 
@@ -56,11 +56,11 @@ body {
 .details-btn {
   background-color: #00B2B1;
   color: white;
-  padding: 10px;
+  padding: 5px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .details-btn:hover {
@@ -120,6 +120,7 @@ body {
 .modal[hidden] {
   display: none;
 }
+
 
 
 
