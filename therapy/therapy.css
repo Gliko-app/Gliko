@@ -5,7 +5,6 @@ body {
   color: #333;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 h3 {
@@ -61,4 +60,35 @@ th, td {
 th {
   background-color: #e6f7f6;
   color: #007978;
+}
+
+/* Stil za dugme "Napravi podsetnik" */
+.action-btn {
+  background-color: #00b2b1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.action-btn:hover {
+  background-color: #008f8c;
+}
+
+/* Stil za ikone u tabelama */
+td {
+  font-size: 16px;
+}
+
+/* Responsivnost */
+@media (max-width: 768px) {
+  .card {
+    max-width: 90%;
+  }
+
+  table {
+    font-size: 14px;
+  }
 }
