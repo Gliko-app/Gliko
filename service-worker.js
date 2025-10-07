@@ -7,9 +7,7 @@ self.addEventListener('install', (event) => {
       return cache.addAll([
         '/', 
         '/index.html', 
-        '/css/style.css',
-        '/images/icon.png',
-        '/images/badge.png'
+        '/css/style.css'
       ]);
     })
   );
@@ -31,8 +29,7 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('push', function(event) {
   const options = {
     body: event.data.text(),
-    icon: '/images/icon.png',
-    badge: '/images/badge.png'
+    // Nema ikona ni badge dok ne postavite slike
   };
 
   event.waitUntil(
