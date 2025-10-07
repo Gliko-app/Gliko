@@ -1,9 +1,11 @@
+/* Globalni stilovi */
 body {
   font-family: 'Poppins', sans-serif;
   background: #f4f8f8;
   color: #333;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 h3 {
@@ -43,7 +45,7 @@ button:hover {
   background-color: #009a97;
 }
 
-/* tabela vertikalna */
+/* Tabela */
 table {
   width: 100%;
   border-collapse: collapse;
