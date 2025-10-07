@@ -12,14 +12,32 @@
   <link rel="stylesheet" href="css/style.css"/>
 
   <style>
-    iframe {
-      border: none;        /* Uklanja okvir oko iframe-a */
-      width: 100%;         /* Postavlja širinu iframe-a na 100% roditeljskog elementa */
-      height: 100vh;       /* Visina iframe-a postavljena na 100% visine ekrana (viewport) */
-      max-width: 100%;     /* Sprečava širinu koja izlazi iz okvira */
-      display: block;      /* Postavlja iframe kao blok element */
-      overflow: hidden;    /* Sprečava pomeranje sadržaja unutar iframe-a */
-      box-sizing: border-box;  /* Uključuje padding i border u ukupnu veličinu iframe-a */
+    .tab-view {
+      display: none;  /* Skrivamo sve sekcije inicijalno */
+    }
+
+    .tab-view.active {
+      display: block;  /* Prikazujemo aktivnu sekciju */
+    }
+
+    .tabs-bar {
+      display: flex;
+      gap: 1rem;
+      padding: 0.5rem;
+      background: #f0f0f0;
+    }
+
+    .tab-btn {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      background: #00b2b1;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .tab-btn.active {
+      background: #009a97;
     }
   </style>
 </head>
@@ -34,28 +52,43 @@
   <main id="tabs-root">
     <!-- TAB: TRENDS -->
     <section id="tab-trends" class="tab-view active">
-      <!-- Učitaj trends.html sa iframe -->
-      <iframe src="trends/trends.html"></iframe>
+      <!-- Dinamički iframe za trends -->
     </section>
 
     <!-- TAB: ISHRANA -->
-    <section id="tab-food" class="tab-view" hidden>
-      <!-- Učitaj food.html sa iframe -->
-      <iframe src="food/food.html"></iframe>
+    <section id="tab-food" class="tab-view">
+      <!-- Dinamički iframe za food -->
     </section>
 
     <!-- TAB: TERAPIJA -->
-    <section id="tab-therapy" class="tab-view" hidden>
-      <!-- Učitaj therapy.html sa iframe -->
-      <iframe src="therapy/therapy.html"></iframe>
+    <section id="tab-therapy" class="tab-view">
+      <!-- Dinamički iframe za therapy -->
     </section>
   </main>
 
-  <!-- Skripte za učitavanje sadržaja tabova -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const tabs = document.querySelectorAll('.tab-btn');
       const sections = document.querySelectorAll('.tab-view');
+
+      // Funkcija za dodavanje iframe-a za svaki tab
+      function loadTabContent(tabName) {
+        const section = document.getElementById(`tab-${tabName}`);
+        
+        // Dinamičko kreiranje iframe-a
+        const iframe = document.createElement('iframe');
+        iframe.src = `${tabName}/${tabName}.html`;
+        iframe.style.width = '100%';
+        iframe.style.height = '100vh';  // Možete prilagoditi visinu ako želite
+        iframe.frameBorder = '0';
+        
+        // Dodavanje iframe-a unutar sekcije
+        section.innerHTML = ''; // Očistiti prethodni sadržaj, ako postoji
+        section.appendChild(iframe);
+      }
+
+      // Učitaj sadržaj za prvi tab (Trendovi)
+      loadTabContent('trends');
 
       // Dodavanje funkcionalnosti za tabove
       tabs.forEach(tab => {
@@ -67,24 +100,16 @@
           // Prikazivanje odgovarajuće sekcije
           sections.forEach(section => {
             if (section.id === `tab-${tab.dataset.tab}`) {
-              section.style.display = 'block';
+              section.classList.add('active');
+              if (!section.querySelector('iframe')) {  // Ako iframe nije već prisutan
+                loadTabContent(tab.dataset.tab);  // Učitaj sadržaj za taj tab
+              }
             } else {
-              section.style.display = 'none';
+              section.classList.remove('active');
             }
           });
         });
       });
-
-      // Registracija Service Worker-a
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then((registration) => {
-            console.log('Service Worker registrovan sa opsegom:', registration.scope);
-          })
-          .catch((error) => {
-            console.log('Service Worker registracija nije uspela:', error);
-          });
-      }
     });
   </script>
 </body>
