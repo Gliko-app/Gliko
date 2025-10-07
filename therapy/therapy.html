@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Terapija — Gliko</title>
+  <link rel="stylesheet" href="therapy.css"/>
+  <script src="therapy.js" defer></script>
+</head>
+<body>
+
+  <!-- Forma za unos dnevnih navika -->
+  <div class="card form-card">
+    <h3>Unesite svoje dnevne navike</h3>
+    <label for="wakeTime">Vreme buđenja</label>
+    <input type="time" id="wakeTime">
+    
+    <label for="breakfastTime">Vreme doručka</label>
+    <input type="time" id="breakfastTime">
+    
+    <label for="lunchTime">Vreme ručka</label>
+    <input type="time" id="lunchTime">
+    
+    <label for="dinnerTime">Vreme večere</label>
+    <input type="time" id="dinnerTime">
+    
+    <label for="sleepTime">Vreme spavanja</label>
+    <input type="time" id="sleepTime">
+
+    <button id="saveHabits">Spremi navike</button>
+  </div>
+
+  <!-- Tabela sa navikama -->
+  <div class="card" id="habitsTableContainer" style="display:none;">
+    <h3>Vaše dnevne navike</h3>
+    <table id="habitsTable">
+      <thead>
+        <tr>
+          <th>Navika</th>
+          <th>Vreme</th>
+          <th>Ikona</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Navike će biti učitane ovde -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Forma za unos terapije -->
+  <div class="card form-card">
+    <h3>Unesite terapiju</h3>
+    <label for="therapyName">Naziv leka</label>
+    <input type="text" id="therapyName">
+    
+    <label for="therapyDosage">Doza</label>
+    <input type="text" id="therapyDosage">
+    
+    <label for="therapyPeriod">Izaberite period</label>
+    <select id="therapyPeriod">
+      <option value="doručak">Doručak</option>
+      <option value="ručak">Ručak</option>
+      <option value="večera">Večera</option>
+      <option value="spavanje">Spavanje</option>
+    </select>
+
+    <button id="addTherapy">Dodaj terapiju</button>
+  </div>
+
+  <!-- Tabela sa terapijama -->
+  <div class="card" id="therapyTableContainer">
+    <h3>Vaše terapije</h3>
+    <table id="therapyTable">
+      <thead>
+        <tr>
+          <th>Naziv leka</th>
+          <th>Doza</th>
+          <th>Period</th>
+          <th>Podsetnik</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Terapije će biti učitane ovde -->
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
