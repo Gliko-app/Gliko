@@ -2,8 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let db;
 
   // Otvoriti bazu za navike i terapiju
-  const request = indexedDB.open("therapyDB", 2);
+  const request = indexedDB.open("therapyDB", 2);  // Koristimo therapyDB za terapije
 
+  // Kreiramo obje baze ako ne postoje
   request.onupgradeneeded = (event) => {
     db = event.target.result;
 
@@ -47,21 +48,26 @@ document.addEventListener("DOMContentLoaded", () => {
       sleepTime
     };
 
+    // Kreiranje transakcije za IndexedDB
     const transaction = db.transaction("habits", "readwrite");
     const objectStore = transaction.objectStore("habits");
-    objectStore.clear();  // Očisti prethodne navike
+    objectStore.clear();  // Očisti prethodne podatke
     objectStore.add(habits);
 
     transaction.oncomplete = () => {
       alert("Navike su sačuvane!");
-      loadHabits(); // Ažuriraj tabelu sa navikama
+      loadHabits();  // Ažuriraj tabelu sa novim podacima
+    };
+
+    transaction.onerror = () => {
+      alert("Došlo je do greške prilikom čuvanja podataka.");
     };
   });
 
   // Funkcija za učitavanje navika u tabelu
   function loadHabits() {
     const tbody = document.querySelector("#habitsTable tbody");
-    tbody.innerHTML = "";
+    tbody.innerHTML = "";  // Očistiti prethodni sadržaj
 
     const transaction = db.transaction("habits", "readonly");
     const objectStore = transaction.objectStore("habits");
@@ -109,14 +115,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     transaction.oncomplete = () => {
       alert("Terapija je sačuvana!");
-      loadTherapies(); // Ažuriraj tabelu sa terapijama
+      loadTherapies();  // Ažuriraj tabelu sa terapijama
+    };
+
+    transaction.onerror = () => {
+      alert("Došlo je do greške prilikom čuvanja terapije.");
     };
   });
 
   // Funkcija za učitavanje terapija u tabelu
   function loadTherapies() {
     const tbody = document.querySelector("#therapyTable tbody");
-    tbody.innerHTML = "";
+    tbody.innerHTML = "";  // Očistiti prethodni sadržaj
 
     const transaction = db.transaction("medicines", "readonly");
     const objectStore = transaction.objectStore("medicines");
@@ -150,49 +160,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
     };
-  }
-
-  // Funkcija za kreiranje podsetnika
-  function createReminder(id) {
-    const tx = db.transaction("medicines", "readonly");
-    const store = tx.objectStore("medicines");
-    const request = store.get(id);
-
-    request.onsuccess = (event) => {
-      const item = event.target.result;
-      setMedicineReminder(item.medicineName, item.dosage, item.period);
-    };
-  }
-
-  // Funkcija za postavljanje podsetnika
-  function setMedicineReminder(name, dosage, period) {
-    const now = new Date();
-    const reminderTime = new Date(now);
-
-    // Definišemo vreme za podsetnik na osnovu perioda
-    if (period === "doručak") reminderTime.setHours(9, 0, 0, 0);
-    else if (period === "ručak") reminderTime.setHours(14, 0, 0, 0);
-    else if (period === "večera") reminderTime.setHours(20, 0, 0, 0);
-    else if (period === "spavanje") reminderTime.setHours(23, 0, 0, 0);
-
-    // Ako je vreme prošlo, postavi podsetnik za sutra
-    if (reminderTime <= now) reminderTime.setDate(reminderTime.getDate() + 1);
-
-    const timeout = reminderTime - now;
-
-    console.log(`Podsetnik za "${name}" zakazan za ${reminderTime.toLocaleTimeString()}`);
-
-    // Ako su push notifikacije dozvoljene, zakazujemo notifikaciju
-    setTimeout(() => {
-      if (Notification.permission === 'granted') {
-        navigator.serviceWorker.ready.then(function(registration) {
-          registration.showNotification(`Terapija "${name}" - doza: ${dosage}`, {
-            body: `Vreme je za uzimanje leka "${name}"!`,
-            icon: '/images/notification-icon.png',
-            badge: '/images/badge.png'
-          });
-        });
-      }
-    }, timeout);
   }
 });
