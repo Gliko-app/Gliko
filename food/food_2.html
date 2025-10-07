@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Modal Primer</title>
+  <link rel="stylesheet" href="food_2.css"/>
+</head>
+<body>
+  <!-- Kontejner za kartice recepata -->
+  <div id="recipeContainer"></div>
+
+  <!-- Modal za prikaz recepta -->
+  <div id="recipeModal" class="modal" hidden>
+    <div class="modal-content">
+      <div class="modal-head">
+        <h3 id="recipeTitle">Naziv recepta</h3>
+        <button id="closeRecipeModal" class="close">✕</button>
+      </div>
+      <div class="modal-body">
+        <img id="recipeImage" src="" alt="Recept" style="width:100%; height:auto; border-radius:8px;">
+        <p><strong>Sastojci:</strong></p>
+        <p id="recipeIngredients">Sastojci će biti ovde</p>
+        <p><strong>Priprema:</strong></p>
+        <p id="recipePreparation">Priprema će biti ovde</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="food_2.js"></script>
+</body>
+</html>

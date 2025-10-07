@@ -1,0 +1,123 @@
+/* Osnovni stilovi */
+body {
+  font-family: Arial, sans-serif;
+  padding: 5px;
+}
+
+/* Stil za kartice */
+.recipe-card {
+  width: 100%; /* Širina kartice na celu širinu ekrana */
+  margin: 8px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column; /* Kartica je u koloni */
+  height: 11rem; /* Visina kartice 7 redova */
+}
+
+.recipe-header {
+  font-size: 0.7rem; /* Veći font za naziv recepta */
+  font-weight: bold;
+}
+
+.recipe-nutrition {
+  font-size: 0.6rem; /* Manji font za nutritivne vrednosti */
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.recipe-body {
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+
+.recipe-image {
+  width: 50%; /* Leva kolona sa slikom */
+  padding-right: 10px;
+}
+
+.recipe-tags {
+  width: 50%; /* Desna kolona sa tagovima */
+  text-align: left;
+  font-size: 0.7rem; /* Veći font tagova */
+  font-weight: normal; /* Regularan font za tagove */
+}
+
+.recipe-body img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.details-btn {
+  background-color: #00B2B1;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.details-btn:hover {
+  background-color: #009a97;
+}
+
+/* Stil za modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 60%;
+  max-width: 600px;
+  overflow-y: auto;
+  max-height: 70vh; /* Ograničavamo maksimalnu visinu modala */
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky; /* Sticky za fiksiranje */
+  top: 0;
+  background-color: #fff; /* Pozadina za zaglavlje */
+  z-index: 100; /* Prvenstvo u prikazu */
+  border-bottom: 2px solid #ccc; /* Dodavanje linije ispod */
+  padding: 10px 0;
+}
+
+.close {
+  font-size: 1.5em;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: #00B2B1;
+}
+
+.modal-body {
+  padding-top: 10px;
+  overflow-y: auto; /* Omogućava skrolovanje tela modala */
+}
+
+.modal[hidden] {
+  display: none;
+}

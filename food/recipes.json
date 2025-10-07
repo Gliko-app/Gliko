@@ -1,0 +1,302 @@
+[
+  {
+    "naziv": "Čorba od brokolija",
+    "slika": "../images/recipe1.jpg",
+    "tag": [
+      "Nizak_GI"
+    ],
+    "kalorije": 133,
+    "UH": 5,
+    "proteini": 8,
+    "masti": 9,
+    "GI": 22,
+    "sastojci": "300 g brokolija(može i sa listom),1 l domaće supe ili vode sa kockom za supu\n100 g krem sira (0% m. m.)\n20 g peršuna (jedna veća šaka)\n20 g mirođije (jedna veća šaka)\nso, začini po ukusu\n40 g hladno ceđenog maslinovog ulja (5 supenih kašika)",
+    "priprema": "Brokoli razavojiti na sitne cvetove a stabljiku iseckati, spustiti sve u proključalu supu, začiniti i kuvati oko 5 minuta. \nSve presuti u električnu seckalicu ili blender, dodati peršun, mirođiju i krem sir pa pasirati dok se čorba ne ujednači (1-2 min.). \nZa svaku osobu sipati čorbu u tanjir, dodati jednu supenu kašiku hladno ceđenog maslinovog ulja i posuti seckanom mirođijom. \nSlužiti toplo."
+  },
+  {
+    "naziv": "Čorba od karfiola",
+    "slika": "../images/recipe2.jpg",
+    "tag": [
+      "Nizak_GI",
+      "Niski_UH",
+      "Niskokaloricno"
+    ],
+    "kalorije": 57,
+    "UH": 1.6,
+    "proteini": 2.9,
+    "masti": 4.3,
+    "GI": 21,
+    "sastojci": "350 g karfiola\n0.7 l domaće supe ili vode sa kockom za supu\n100 g krem sira (0% m. m.) ili 100 g kisele pavlake (12% m. m.)\n10 g peršuna (jedna manja šaka)\nso, začini po ukusu\n1 supena kašika hladno ceđenog maslinovog ulja, po porciji",
+    "priprema": "Cvetove i stabljiku karfiola sitno iseckati, spustiti sve u proključalu supu ili vodu sa kockom za supu, začiniti i prokuvati oko 5 minuta.\nSve presuti u blender, dodati krem sir pa blendirati (pasirati) dok se čorba ne ujednači (oko 1 minut).\nSipati u tanjir dodati jednu supenu kašiku hladno ceđenog maslinovog ulja i posuti seckanim peršunom.\nSlužiti toplo."
+  },
+  {
+    "naziv": "Paradajz čorba sa lovorovim listom",
+    "slika": "../images/recipe3.jpg",
+    "tag": [
+      "Nizak_GI"
+    ],
+    "kalorije": 108,
+    "UH": 9.5,
+    "proteini": 3.8,
+    "masti": 6,
+    "GI": 20,
+    "sastojci": "20 g maslinovog ulja(3 supene kasike)\n30 g integralnog ovsenog brašna\n350 g pasiranog paradajza \nso, začini po ukusu -\n1 jaje\n650 g vode\n3 lista lovora",
+    "priprema": "U zagrejano ulje staviti 10 g brašna (1 srednje puna supena kasika) i sacekati da blago porumeni, a zatim dodati lovor i malo promešati (da se oseti miris lovora). \nSipati pasirani paradajz, promešati i dodati vodu.\nKada čorba provri, posoliti je i začiniti po ukusu. \nU posebnom sudu umutiti jaje sa 20 g brašna, posoliti i polako dodavati u čorbu tako da lagano curi sa kasike (u obliku krpica).Prokuvati 2 do 3 minuta i služiti toplo.\nPo želji se čorba može posuti ribanim parmezanom."
+  },
+  {
+    "naziv": "Čorba od pečuraka",
+    "slika": "../images/recipe4.jpg",
+    "tag": [
+      "Nizak_GI",
+      "Niski_UH",
+      "Niskokaloricno"
+    ],
+    "kalorije": 56,
+    "UH": 3,
+    "proteini": 7.5,
+    "masti": 1.5,
+    "GI": 23,
+    "sastojci": "250 g sampinjona\n0.7 l domace supe ili vode sa kockom za supu\n80 g krem sira (0% m. m.)\n15 g persuna (jedna saka)\nso, zacini po ukusu",
+    "priprema": "Šampinjone iseckati na listiće, spustiti ih u proključalu supu, začiniti i prokuvati oko 5 minuta.\nSve presuti u blender, dodati peršun i krem sir pa blendirati (pasirati) dok se čorba ne ujednači (1-2 min.).\nSlužiti toplo."
+  },
+  {
+    "naziv": "Čorba od koprive",
+    "slika": "../images/recipe5.jpg",
+    "tag": [
+      "Nizak_GI",
+      "Niskokaloricno"
+    ],
+    "kalorije": 100,
+    "UH": 7.3,
+    "proteini": 10.5,
+    "masti": 3.3,
+    "GI": 25,
+    "sastojci": "100 g sveže koprive\n0.8 l domaće supe ili vode sa kockom za supu\nso, začini po ukusu\n1 jaje\n20 g ovsenog brašna",
+    "priprema": "U proključalu domaću supu (juneču ili pileću) ili u vodu sa kockom za supu, staviti iseckanu koprivu i kuvati oko5 minuta. Posoliti i začiniti po ukusu.\nU posebnom sudu umutiti jaje sa 20 g brašna, posoliti i polako dodavati u čorbu tako da lagano curi sa kašike (u obliku krpica).\nProkuvati 2 do 3 minuta.\nServirati u dublje posude i u svaku dodati jednu kafenu kasicicu krem sira.\nSlužiti toplo"
+  },
+  {
+    "naziv": "Čorba od povrća",
+    "slika": "../images/recipe6.jpg",
+    "tag": [],
+    "kalorije": 103,
+    "UH": 8.5,
+    "proteini": 4.5,
+    "masti": 5.8,
+    "GI": 32,
+    "sastojci": "200 g karfiola\n50 g šargarepe\n50 g mladog graška (može smrznut)\n50 g zelene boranije (može smrznuta)\n50 g kukuruza šećerca\n100 g tikvica\n300 g mleka (1.6% m. m.)\n10 g ovsenog brašna\n30 g putera (maslaca)\nso, začini po ukusu",
+    "priprema": "U pola litra ključale, posoljene vode spustiti povrće (karfiol razavojiti na sitne cvetiće, šargarepu iseckati na kockice, a boranju iseckati na komadiće dužine oko 2 cm). Kuvati oko 10 minuta, dok ne omekne. \nProcediti i sačuvati vodu u kojoj se kuvalo povrce.\nU posebnoj, većoj posudi otopiti puter, umeđati brašno (paziti da ne potamni) i mleko i kuvati oko 3 minuta dok se malo ne zgusne.\nDodati kuvano povrće, promešati, a zatim polako doliti vodu u kojoj se povrće kuvalo.\nZačiniti po ukusu i kuvati jos 5 minuta na tihoj vatri.\nSlužiti toplo!"
+  },
+  {
+    "naziv": "Domaći hleb",
+    "slika": "../images/recipe7.jpg",
+    "tag": [],
+    "kalorije": 242,
+    "UH": 24.4,
+    "proteini": 12.2,
+    "masti": 10.6,
+    "GI": 48,
+    "sastojci": "230 g ovsenog brašna\n200 g integralnog razanog brašna\n100 g mekinja\n50 g lanenog semena\n50 g susama\n50 g semena suncokreta\nso, voda,\n50 g semena bundeve\n1 kašičica šećera\n50 g pšeničnih klica\n30 g svežeg kvasca",
+    "priprema": "Kvasac izmrviti, pomešati sa šećerom, kašikom brašna i malo mlake vode i sačekati da naraste. \nSmesu sipati u mešavinu brašna i semenki, dodati jednu supenu kašiku soli i oko 3 dl mlake vode i mesiti dok smesa ne počne da se odvaja od posude.\nPosudu prekriti mokrom platnenom salvetom i ostaviti na toplom mestu da naraste.\nKada testo udvodstruči svoju veličinu, premesiti ga, staviti u posudu za pečenje i ostaviti da ponovo naraste. \nStaviti u renu, zagrejanu na 200°C, i peći 20 minuta.\nIzvaditi iz rerne, premazati polovinom umućenog belanceta i vratiti da se peče jos 20 minuta.\nPonovo premazati belancetom i peći jos 20 minuta.\nProveriti da li je hleb pečen tako sto se donja strana kucne prstima. Ukoliko ne odzvanja, vratiti hleb na rešetku u rerni, okrenut donjom stranom na gore, i peći jos 5 minuta. \nOhladiti hleb na rešetki, prekriven suvom platnenom salvetom."
+  },
+  {
+    "naziv": "Lazanja sa ovsenim korama",
+    "slika": "../images/recipe8.jpg",
+    "tag": [
+      "Nizak_GI"
+    ],
+    "kalorije": 127,
+    "UH": 13.1,
+    "proteini": 5.4,
+    "masti": 5.9,
+    "GI": 29,
+    "sastojci": "500 g kora za pitu od integralnog ovsenog brašna\n30 g maslinovog ulja\n30 g putera (maslaca)\n330 g mlevenog junećeg mesa\n500 g pasiranog paradajza\n200 g šampinjona\n130 g crnog luka\n600 g mleka (1.6% m. m.)\n300 g rendanog kačkavalja\n30 g ovsenog brašna\nso, začini po ukusu, origano",
+    "priprema": "Izdinstati sitno iseckan luk, dodati mleveno meso i sitno iseckane šampinjone, paradajz, biber, so i origano (celu kesicu od 12 g) i sve prodinstati.\nU posebnoj posudi pripremiti bešamel sos - ugrejati 500 g mleka i u njega sipati brašno razmućeno u 100 g hladnog mleka i jednu kašiku putera (maslaca)\nU veci pleh redati naizmenično po jednu koru, meso sa paradajz sosom i šampinjonima, posuti rendanim kačkavaljem i preliti bešamel sosom, a zatim opet koru, meso, kackavalj, bešamel.\nZavršiti korom kačkavaljem i bešamelom. \nStaviti u rernu zagrejanu na 250°C, smanjiti na 200 °C i peći dok ne porumeni, oko 45 minuta.\nSlužiti toplo!"
+  },
+  {
+    "naziv": "Salata od testenine sa povrćem",
+    "slika": "../images/recipe9.jpg",
+    "tag": [],
+    "kalorije": 145,
+    "UH": 18,
+    "proteini": 4.3,
+    "masti": 6.2,
+    "GI": 34,
+    "sastojci": "500 g testenine sa povrćem\n150 g kuvane šunke\n60 g kisele paprike (žute ili crvene)\n60 g šargarepe\n60 g kiselih krastavčića\n100 g majoneza lajt\n200 g kisele pavlake (12% m. m.)\n15 g belog luka (4-5 čenova)\n1 kašičica senfa\nso, začini po ukusu",
+    "priprema": "Testeninu spustiti u posoljenu proključalu vodu u koju je dodato malou lja (da se rezanci ne bi lepili).\nKada je kuvana (paziti da se ne raskuva) isprati je pod mlazom hladne vode i dobro ocediti. \nPomešati sa majonezom, pavlakom i senfom, pa dodati povrće, sitno iseckano na kockice, šunku iseckanu na kockice i proprženu u tiganju (bez masnoće) sa iseckanim belim lukom. \nSve pažijivo promesati i služiti hladno."
+  },
+  {
+    "naziv": "Zeleni rolat sa sirom",
+    "slika": "../images/recipe10.jpg",
+    "tag": [
+      "Nizak_GI",
+      "Niski_UH",
+      "Niskokaloricno"
+    ],
+    "kalorije": 89,
+    "UH": 3.9,
+    "proteini": 8.5,
+    "masti": 4.3,
+    "GI": 25,
+    "sastojci": "500 g krem sira sa 0% m. m\n130 g kisele crvene paprike ili sveže paprike poprskane sirćetom\n4 jaja\n300 g spanaća\n40 g ovsenog brašna\n15 g peršuna (jedna šaka)",
+    "priprema": "Belanca umutiti u čvrst sneg i dodati obaren, sitno iseckan i oceđen spanać, a zatim postepeno, jedno po jedno žumanca i brašno, sve vreme muteći mikserom. \nU pleh od rerne staviti papir za pečenje, sipati testo i ravnomerno ga rasporediti, a zatim peći na 150°C oko 20 minuta, dok testo ne porumeni i dok se ne odvoji od ivica pleha. \nTesto pažljivo izvaditi iz pleha i prebaciti na platnenu salvetu koja će, posle filovanja, omogućiti lakse uvijanje rolata.\nIzmešati sir sa iseckanom crveno mpaprikom i peršunom (iseckati ga veoma sitno), pa dobijenom smesom premazati testo preko cele površine.\nOstaviti nenafilovano oko pet santimetara uz gornju ivicu testa.\nRolat uviti pomoću platnene salvete, obmotati ga njom i vezati koncem na tri mesta. \nStaviti u frižider i ostaviti da se ohladi (oko 3 sata). \nIseći na kriške debljine oko 1.5 cm i servirati."
+  },
+  {
+    "naziv": "Musaka od patlidžana",
+    "slika": "../images/recipe11.jpg",
+    "tag": [
+      "Nizak_GI",
+      "Niski_UH",
+      "Niskokaloricno"
+    ],
+    "kalorije": 84,
+    "UH": 4.6,
+    "proteini": 7.7,
+    "masti": 3.8,
+    "GI": 17,
+    "sastojci": "1 kg oljuštenog patlidžana\n60 g ulja od grožđanih koštica\n300 g mlevenog juneceg ili konjskog mesa\n200 g luka ili praziluka\n40 g suvih sojinih ljuspica \n150 g mleka\n2 jaja",
+    "priprema": "Sitno iseckati luk ili praziluk i izdinstati ga na ulju dok ne postane staklast. \nDodati meso i propržiti ga, uz stalno mešanje, dok ne postane rastresito, a zatim dodati sojine ljuspice, prethodno natopljene u vodi i sve sjediniti. \nZačiniti po ukusu. Patlidžan iseći na režnjeve, po dužini, debljine oko pola santimetra i malo ga prepeći sa obe strane na roštilju ili u tiganju bez ulja, kako bi otpustio višak tećnosti. \nUkupnu kolicinu patlidžana podeliti na tri dela i prvi deo poslagati na dno vatrostalne činije ili pleha, da ga u potpunosti prekrije, zatim rasporediti polovinu mesa i prekriti je drugim delom patlidžana.\nStaviti preostalo meso, a zatim i treći, poslednji deo patlidžana. \nMusaku preliti sa 2 jajeta umućena sa mlekom i začinima, tako da ogrezne, a gornju povrđinu možete premazati sa oko 50 g jogurta kako se patlidžan ne biprepekao i previše isušio. \nStaviti u rernu zagrejanu na 250°C, smanjiti na 200°C i peći oko 30-40 minuta, dok ne upije sav preliv."
+  },
+  {
+    "naziv": "Sarmice od zelja",
+    "slika": "../images/recipe12.jpg",
+    "tag": [
+      "Niski_UH"
+    ],
+    "kalorije": 100,
+    "UH": 4.9,
+    "proteini": 10.9,
+    "masti": 4,
+    "GI": 43,
+    "sastojci": "500 g mlevenog junećeg ili konjskog mesa od buta\n350 g zelja\n90 g crnog luka (jedna manja glavica)\n50 g integralnog Basmati pirinča\n30 g sojinih ljuspica\n1 jaje\n40 g ulja od grožđanih koštica\n10 g ovsenog brašna (1 ravna kašika)\nso, začini po ukusu",
+    "priprema": "Na ulju izdinstati sitno iseckan luk dok ne postane staklast, a zatim dodati meso i pirinač koji je prethodno obaren do pola u ključaloj vodi, oko 10 minuta.\nDodati sojine ljuspice, natopljene u vodi i oceđene, jaje, so i začine. Sve izmešati. \nListovima zelja odstraniti drvenasti deo koji se nalazi duž lista, po sredini, a zatim ih na kratko spustiti u ključalu vodu, tek toliko da omekšaju kako bi se mogli savijati. \nNa svaki list staviti po jednu punu supenu kasiku fila i uvijati sarmice. \nNa dno posude u kojoj ce se kuvati sarmice staviti nekoliko listova zelja, pa na njih ređati sarmice, u više redova. \nBrašno razmutiti u malo vode i dodati u 3.5 dl vode kojom onda treba naliti sarmice tako da ogreznu.\nKuvati oko 40 minuta.\nSlužiti toplo, sa kiselim mlekom!"
+  },
+  {
+    "naziv": "Sojini odresci sa sosom od pečuraka",
+    "slika": "../images/recipe13.jpg",
+    "tag": [
+      "Nizak_GI",
+      "Niski_UH"
+    ],
+    "kalorije": 133,
+    "UH": 8.6,
+    "proteini": 8.1,
+    "masti": 7.3,
+    "GI": 23,
+    "sastojci": "150 g sojinih odrezaka\n150 crnog luka\n40 g ulja od grozdanih kostica\n350 g sampinjona\n130 g kisele pavlake (12% m. m.)\n70 g pecenog, neslanog kikirikija\n1 supena kasika gustina\nso, biber, dumbir u prahu, lovorov list, zacini po ukusu",
+    "priprema": "Sojine odreske staviti u ključalu vodu sa začinima (so, vegeta, lovorov list) i kuvati oko 10 minuta.\nNa ulju dinstati sitno iseckan crni luk i šampinjone isečene na listiće, 5-10 minuta.\nZačiniti i dodati oljušten kikiriki i gustin razmućen u malo vode. \nDoliti oko 2 di vode, prokuvati par minuta, poklopiti, skloniti sa vatre i ostaviti da odstoji oko 10 minuta.\nServirati uz zelenu salatu ili salatu od kupusa."
+  },
+  {
+    "naziv": "Punjene tikvice",
+    "slika": "../images/recipe14.jpg",
+    "tag": [
+      "Nizak_GI",
+      "Niskokaloricno"
+    ],
+    "kalorije": 69,
+    "UH": 4.5,
+    "proteini": 5.3,
+    "masti": 3.3,
+    "GI": 30,
+    "sastojci": "1.7 kg tikvica\n300 g mlevenog junećeg ill konjskog mesa\n50 g Basmati pirinča\n30 gulja od grožđanih kostica\n70 g crnog luka\n20 g integralnog ovsenog brašna\n150 g paradajza (1 srednji)\nso, začini po ukusu",
+    "priprema": "Na ulju idinstati sitno iseckan crni luk, dodati mleveno meso i prodinstati ga zajedno sa lukom. Pirinač obariti u posoljenoj ključaloj vodi desetak minuta (da bude do pola kuvan) i pomešati ga sa mesom i lukom, posoliti i začiniti po ukusu. \nTikvice oljustiti, preseći na pola i izdubiti, a zatim ih puniti pripremijenom smesom, ali ne do vrha već tako da ostane oko 2 cm praznog prostora (to će se popuniti kada pirinač nabubri). \nSvaku tikvicu zatvoriti komadićem paradajza. Punjene tikvice poređati u vatrostalnu dublju posudu, sa otvorom okrenutim na gore. Zaliti ih prelivom da ogreznu i staviti u rernu zagrejanu na 250°C. Smanjiti na 200°C i peci oko 30 minuta, dok ne omeknu. \nPreliv spremiti tako sto cete na malo ulja proprži brašno desetak sekundi (paziti da ne potamni) i naliti sa 7 do 8 di vode. Cim proključa, preliv sipati oko tikvica, a po jednu kašiku preliva sipati u svaku tikvicu, pre nego sto se zatvori paradajzom."
+  },
+  {
+    "naziv": "Rižoto sa dagnjama",
+    "slika": "../images/recipe15.jpg",
+    "tag": [],
+    "kalorije": 112,
+    "UH": 8.9,
+    "proteini": 5.5,
+    "masti": 6,
+    "GI": 35,
+    "sastojci": "500 g dagnji (očišćenih, zamrznutih)\n150 g Basmati pirinča\n100 g crnog luka\n300 g svežeg paradajza\n1.5 dl suvog belog vina\n60 g ulja od komine masline\n100 g parmezana\n15 g belog luka (3-4 čena)\n15 g peršuna (jedna šaka)\nso, lovor, ruzmarin, začini po ukusu",
+    "priprema": "Sitno iseckati luk i dinstati ga na maslinovom ulju, podlivajuci vodom, dok ne postane staklast. \nDodati pirinač, malo ga propržiti, sipati vino i 1.5 dl vode, staviti 2-3 lista lovora, beli luk iseckan na listiće i jednu kafenu kašičicu mrvljenog ruzmarina (može i grančica, ukoliko imate svež u bašti), začiniti i kuvati pirinča desetak minuta. \nZa to vreme paradajz spustiti u ključalu vodu, prokuvati ga par minuta i skinuti kožicu. Iseći ga na sitnije komade i dodati u pirinač, zajedno sa dagnjama. \nDinstati jos oko 20 minuta, dok pirinač potpuno ne omekša i dolivati vodu po potrebi (jos oko 1.5 di). \nKada je rižoto gotov (treba da ostane sočan) dodati parmezan i sitno seckani peršun, pažijivo promešati, poklopiti i ostaviti da odstoji nekoliko minuta.\nSlužiti toplo!"
+  },
+  {
+    "naziv": "Zapečeni praziluk",
+    "slika": "../images/recipe16.jpg",
+    "tag": [
+      "Nizak_GI",
+      "Niskokaloricno"
+    ],
+    "kalorije": 67,
+    "UH": 5.9,
+    "proteini": 3.8,
+    "masti": 3.1,
+    "GI": 26,
+    "sastojci": "1 kg praziluka\n300 g paradajza (2 srednje velika)\n4 jaja\n30 g prezle\nso, začini po ukusu\n20 g seckanog peršuna\n15 g belog luka (3-4 čena)\n250 g kisele pavlake (12% m. m.)",
+    "priprema": "Praziluk očistiti, uzdužno ga preseći i dobro oprati. Iseći ga na komade dužine oko 5 cm i staviti ga u kipuću vodu, prokuvati oko 10 minuta.\nNa zagrejanom ulju kratko propržiti bareni praziluk i sitno iseckan beli luk, začiniti po ukusu, i na kraju dodati sitno iseckan peršun.\nVatrostalnu posudu premazati uljemi na dno staviti polovinu pripremijenog praziluka. Zatim složiti paradajz isečen na kolutove, posuti prezlom i prekriti preostalim prazilukom.\nU dubljoj posudi umutiti jaja,dodati pavlaku i začine pa time preliti praziluk.\nPeći u pećnici zagrejanoj na 200°C, 15-20 minuta.\nSlužiti toplo uz kuvano ili peceno meso ili servirati kao lagan, niskokaloričan zaseban obrok."
+  },
+  {
+    "naziv": "Sufle od kelja",
+    "slika": "../images/recipe17.jpg",
+    "tag": [
+      "Nizak_GI",
+      "Niski_UH"
+    ],
+    "kalorije": 145,
+    "UH": 3.5,
+    "proteini": 11,
+    "masti": 9.6,
+    "GI": 23,
+    "sastojci": "500 g očišćenog kelja (manja glavica)\n250 g mladog sira (25% m. m.)\n100 g kačkavalja\n2 jaja\n200 g neutralne pavlake za kuvanje\nso, začini po ukusu",
+    "priprema": "Kelj očistiti i listove dobro oprati. Iseći ih na trake širine oko 2 cm i obariti u ključaloj, posoljenoj vodi, oko 10 minuta, a zatim ga dobro ocediti. \nPolovinu kelja staviti u vatrostalnu posudu (ili manji pleh za pečenje), posuti polovinom mladog sira (izmrviti ga rukom) i polovinom narendanog kačkavalja.\nPreko toga staviti ostatak kelja, drugu polovinu sira i kačkavalja i preliti jajima, umućenim sa neutralnom pavlakom.\nOstaviti da odstoji oko 20 minuta, a zatim staviti u renu zagrejanu na 250°C, smanjiti na 200°C i peći oko 40 minuta, dok ne dobije rumenu boju.\nSlužiti toplo"
+  },
+  {
+    "naziv": "Salata od pirinča",
+    "slika": "../images/recipe18.jpg",
+    "tag": [],
+    "kalorije": 108,
+    "UH": 13.8,
+    "proteini": 4.5,
+    "masti": 3.8,
+    "GI": 39,
+    "sastojci": "450 g mešanog povrća za đuveć\n200 g pirinča\n100 g parmezana\n2 supene kašike seckanog peršuna\n40 g kapra\n20 g hladno ceđenog maslinovog ulja\nsok od jednog limuna\nso, biber",
+    "priprema": "Povrće kuvati u posoljenoj vodi 8-10minuta. \nBasmati pirinač kuvati u slanoj vodi oko 20 minuta, dok ne postane mekan.\nZrna kapra preseci na pola.\nPomesati pirinac, povrće i kapar,dodati maslinovo ulje, so, limunov sok i polovinu parmezana, pa sve sjediniti.\nPosuti drugom polovinom parmezana i služiti hladno"
+  },
+  {
+    "naziv": "Pileća salata sa kikirikijem",
+    "slika": "../images/recipe19.jpg",
+    "tag": [
+      "Nizak_GI",
+      "Niski_UH"
+    ],
+    "kalorije": 203,
+    "UH": 3.4,
+    "proteini": 11.6,
+    "masti": 15.8,
+    "GI": 14,
+    "sastojci": "500 g pilećeg belog mesa\n180 g kiselih krastavaca\n150 g pečenog slanog kikirikija\n150 g kisele pavlake (12% m. m.)\n150 g lajt majoneza\n1 supena kašika senfa\nso, biber, začini po ukusu.",
+    "priprema": "Pileće meso skuvati i sitno iseći. \nKisele krastavce iseći na kockice, a kikiriki usitniti  u električnoj seckalici, tako da ostane i krupnijih komadića.\nPomešati meso i kikiriki, dodati pavlaku, majonez senf, začiniti po ukusu i sve dobro izmešati. \nOhladiti i servirati!"
+  },
+  {
+    "naziv": "Salata od šampinjona sa paradajzom",
+    "slika": "../images/recipe20.jpg",
+    "tag": [
+      "Nizak_GI",
+      "Niski_UH",
+      "Niskokaloricno"
+    ],
+    "kalorije": 61,
+    "UH": 2.8,
+    "proteini": 2.8,
+    "masti": 4.3,
+    "GI": 14,
+    "sastojci": "500 g šampinjona\n350 g paradajza\n30 g kuvanog soka od paradajza (4 supene kašike)\n25 g hladno ceđenog maslinovog ulja\n25 g parmezana\n10 g belog luka (2-3 čena)\n1 supena kašika seckanog peršuna\nso, biber, začini po ukusu",
+    "priprema": "Izabrati sitnije šampinjone i iseći ih na četvrtine. \nKuvati ih u posoljenoj vodi2-3 minuta, pa ih isprati i ocediti.\nBeli luk sitno iseckati, a paradajz oljuštiti i iseći na krupnije komade.\nIzmešati sampinjone sa paradajzom i belim lukom, dodati sok od paradajza, seckani list persuna, maslinovo ulje, so, biber i začine po zelji, pa sve pažljivo promešati.\nPosuti parmezanom i servirati hladno!"
+  },
+  {
+    "naziv": "Kolač sa makom i jabukama",
+    "slika": "../images/recipe21.jpg",
+    "tag": [
+      "Nizak_GI"
+    ],
+    "kalorije": 272,
+    "UH": 23.2,
+    "proteini": 6.2,
+    "masti": 17.1,
+    "GI": 28,
+    "sastojci": "Za testo:\n5 jaja\n120 g kokosovog šećera\n150 g ovsenog brašna\n225 g mlevenog maka\n60 g pšeničnog griza\n600 g izrendanih jabuka (sa kožicom)\n110 g ulja od grožđanih koštica\n75 g mleka (1.6% m. m.)\n1 prašak za pecivo\nzaslađivač po ukusu\nza glazuru:\n75 g mleka (1.6% m. m.)\n40 g putera\n150 g čokolade za kuvanje",
+    "priprema": "Umutiti penasto jaja sa kokosovim šećerom, dodati brašno sa praškom za pecivo, mak, jabuke, griz, mleko, ulje i zaslađivač po ukusu, pa sve dobro izmešati. \nPleh dimenzija 20 x 30 cm premazati uljem i posuti brašnom, a zatim sipati smesu i peći u rerni zagrejanoj na 200 °C oko 40 minuta, dok se kolač blago ne odvoji od ivica pleha. \nKada se ohladi preliti ga glazurom.\nZa glazuru istopiti čokoladu u posudi, na niskoj temperaturi, dodati mleko i puter i mešati sve dok se ne sjedini u glatku, homogenu masu."
+  }
+]

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Gliko — Animacija slika i AI savet</title>
+  <link rel="stylesheet" href="food_1.css"/> <!-- CSS za food 1 (Carousel + AI) -->
+  <link rel="stylesheet" href="food_2.css"/> <!-- CSS za food 2 (Recepti) -->
+  <script src="food_1.js" defer></script> <!-- JS za food 1 -->
+  <script src="food_2.js" defer></script> <!-- JS za food 2 -->
+</head>
+<body>
+
+  <!-- Slideshow sa tri slike -->
+  <div class="image-carousel">
+    <div class="image-slide">
+      <a href="https://biotacka.com/" target="_blank">
+        <img src="https://gliko-app.github.io/Gliko/images/advert1.jpg" alt="Advert 1">
+      </a>
+    </div>
+    <div class="image-slide">
+      <a href="https://www.biopijaca.com/" target="_blank">
+        <img src="https://gliko-app.github.io/Gliko/images/advert2.jpg" alt="Advert 2">
+      </a>
+    </div>
+    <div class="image-slide">
+      <a href="https://www.bio-vita.rs/" target="_blank">
+        <img src="https://gliko-app.github.io/Gliko/images/advert3.jpg" alt="Advert 3">
+      </a>
+    </div>
+  </div>
+
+  <!-- Dugme za AI analizu i savet -->
+  <button id="aiButton" class="ai-btn">AI Savet za Ishranu</button>
+
+  <!-- Modal za AI savete -->
+  <div id="aiModal" class="modal" hidden>
+    <div class="modal-content">
+      <div class="modal-head">
+        <h3>AI Analiza</h3>
+        <button class="close" id="aiClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="aiAdvice">Unesite podatke merenja glukoze i ovde će se prikazivati saveti</p> <!-- Ovdje će se prikazivati saveti -->
+      </div>
+    </div>
+  </div>
+
+  <!-- food 2: Recepti -->
+  <div id="food_2">
+    <h2>Naši recepti</h2>
+
+    <!-- Kontejner za kartice recepata -->
+    <div id="recipeContainer"></div>
+
+    <!-- Modal za prikaz recepta -->
+    <div id="recipeModal" class="modal" hidden>
+      <div class="modal-content">
+        <div class="modal-head">
+          <h3 id="recipeTitle">Naziv recepta</h3>
+          <button id="closeRecipeModal" class="close">✕</button>
+        </div>
+        <div class="modal-body">
+          <img id="recipeImage" src="" alt="Recept" style="width:100%; height:auto; border-radius:8px;">
+          <p><strong>Sastojci:</strong></p>
+          <p id="recipeIngredients">Sastojci će biti ovde</p>
+          <p><strong>Priprema:</strong></p>
+          <p id="recipePreparation">Priprema će biti ovde</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
