@@ -133,11 +133,11 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Generisanje saveta za trend:", trend);  // Log trenda za generisanje saveta
 
     if (trend === "up") {
-      advice = "Vaš nivo glukoze je u porstu.Preporučujemo da korigujete ishranu. Fokusirajte se na biljnu ishranu (Vegan) kako biste stabilizovali nivo glukoze.";
+      advice = "Vaš nivo glukoze je u porastu.Preporučujemo da korigujete ishranu. Fokusirajte se na ishranu sa više povrća kako biste stabilizovali nivo glukoze.";
     } else if (trend === "stable") {
-      advice = "Trend glukoze je stabilan.Preporučujemo Low-GI ishranu. Uključite integralne žitarice i povrće u ishranu.";
+      advice = "Trend glukoze je stabilan.Preporučujemo ishranu obrocima sa niskim GI. Uključite integralne žitarice i povrće u ishranu.";
     } else if (trend === "down") {
-      advice = "Vrednosti glukoze opadaju.Samo nastavite sa zdravim navikama, preporučujemo Gluten-free ishranu. Uključite više voća, povrća i proteina.";
+      advice = "Vrednosti glukoze opadaju.Samo nastavite sa zdravim navikama, preporučujemo ishranuobrocima sa niskim GI. Uključite više voća, povrća i proteina.";
     } else {
       advice = "Trend nije prepoznat."; // U slučaju da nije prepoznat trend
     }
@@ -154,3 +154,4 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
+
