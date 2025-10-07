@@ -1,13 +1,11 @@
-// service-worker.js
-
 self.addEventListener('install', (event) => {
   console.log('Service Worker installed');
   event.waitUntil(
     caches.open('cache-v1').then((cache) => {
       return cache.addAll([
-        '/', 
-        '/index.html', 
-        '/css/style.css'
+        '/Gliko/',  // Home page, root of the app
+        '/Gliko/index.html',  // Glavna stranica
+        '/Gliko/css/style.css',  // CSS fajl
       ]);
     })
   );
@@ -29,7 +27,8 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('push', function(event) {
   const options = {
     body: event.data.text(),
-    // Nema ikona ni badge dok ne postavite slike
+    icon: '/Gliko/images/icon.png',  // Koristi ispravnu putanju
+    badge: '/Gliko/images/badge.png'  // Koristi ispravnu putanju
   };
 
   event.waitUntil(
@@ -42,6 +41,6 @@ self.addEventListener('notificationclick', function(event) {
   
   // Otvoriti stranicu kada korisnik klikne na notifikaciju
   event.waitUntil(
-    clients.openWindow('/pregledi.html')  // Stranica koju želiš otvoriti
+    clients.openWindow('/Gliko/pregledi.html')  // Stranica koju želiš otvoriti
   );
 });
