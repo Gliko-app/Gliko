@@ -101,8 +101,7 @@ body {
   top: 0;
   background-color: #fff; /* Pozadina za zaglavlje */
   z-index: 100; /* Prvenstvo u prikazu */
-  border-bottom: 2px solid #ccc; /* Dodavanje linije ispod */
-  padding: 10px 0;
+  padding: 5px 0;
 }
 
 .close {
@@ -114,11 +113,12 @@ body {
 }
 
 .modal-body {
-  padding-top: 10px;
+  padding-top: 5px;
   overflow-y: auto; /* Omogućava skrolovanje tela modala */
 }
 
 .modal[hidden] {
   display: none;
 }
+
 
