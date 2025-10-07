@@ -1,35 +1,29 @@
 document.addEventListener("DOMContentLoaded", () => {
   let db;
 
-  // Otvorite bazu za navike i terapije
-  const request = indexedDB.open("therapyDB", 1);
+  const request = indexedDB.open("therapyDB", 2);
 
   request.onupgradeneeded = (event) => {
     db = event.target.result;
-    
+
+    // Kreiraj object store za navike i terapiju
     if (!db.objectStoreNames.contains("habits")) {
-      const habitStore = db.createObjectStore("habits", { keyPath: "id", autoIncrement: true });
-      habitStore.createIndex("wakeTime", "wakeTime", { unique: false });
-      habitStore.createIndex("breakfastTime", "breakfastTime", { unique: false });
-      habitStore.createIndex("lunchTime", "lunchTime", { unique: false });
-      habitStore.createIndex("dinnerTime", "dinnerTime", { unique: false });
-      habitStore.createIndex("sleepTime", "sleepTime", { unique: false });
+      db.createObjectStore("habits", { keyPath: "id", autoIncrement: true });
     }
-    
     if (!db.objectStoreNames.contains("medicines")) {
-      const medicineStore = db.createObjectStore("medicines", { keyPath: "id", autoIncrement: true });
-      medicineStore.createIndex("medicineName", "medicineName", { unique: false });
-      medicineStore.createIndex("dosage", "dosage", { unique: false });
-      medicineStore.createIndex("period", "period", { unique: false });
+      const store = db.createObjectStore("medicines", { keyPath: "id", autoIncrement: true });
+      store.createIndex("medicineName", "medicineName", { unique: false });
+      store.createIndex("dosage", "dosage", { unique: false });
+      store.createIndex("period", "period", { unique: false });
     }
   };
 
   request.onsuccess = (event) => {
     db = event.target.result;
-    console.log("Baza terapija je otvorena.");
+    console.log("Baza je otvorena!");
   };
 
-  // Funkcija za unos navika
+  // Funkcija za unos dnevnih navika
   document.getElementById("saveHabits").addEventListener("click", () => {
     const wakeTime = document.getElementById("wakeTime").value;
     const breakfastTime = document.getElementById("breakfastTime").value;
@@ -38,31 +32,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const sleepTime = document.getElementById("sleepTime").value;
 
     if (!wakeTime || !breakfastTime || !lunchTime || !dinnerTime || !sleepTime) {
-      alert("Molimo unesite sve navike.");
+      alert("Molimo unesite sva vremena.");
       return;
     }
 
-    const transaction = db.transaction("habits", "readwrite");
-    const objectStore = transaction.objectStore("habits");
-
-    objectStore.add({
+    const habits = {
       wakeTime,
       breakfastTime,
       lunchTime,
       dinnerTime,
       sleepTime
-    });
+    };
+
+    const transaction = db.transaction("habits", "readwrite");
+    const objectStore = transaction.objectStore("habits");
+    objectStore.clear();  // Očisti prethodne navike
+    objectStore.add(habits);
 
     transaction.oncomplete = () => {
-      alert("Navike su sačuvane.");
-      loadHabits();  // Ažuriraj tabelu sa navikama
+      alert("Navike su sačuvane!");
+      loadHabits(); // Ažuriraj tabelu sa navikama
     };
   });
 
   // Funkcija za učitavanje navika u tabelu
   function loadHabits() {
     const tbody = document.querySelector("#habitsTable tbody");
-    tbody.innerHTML = "";  // Očisti postojeći sadržaj
+    tbody.innerHTML = "";
 
     const transaction = db.transaction("habits", "readonly");
     const objectStore = transaction.objectStore("habits");
@@ -70,25 +66,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     request.onsuccess = (event) => {
       const habits = event.target.result;
-      habits.forEach((habit) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${habit.wakeTime ? "🌄" : ""} Buđenje</td>
-          <td>${habit.wakeTime || "Nije uneseno"}</td>
-          <td>${habit.breakfastTime ? "🍽️" : ""} Doručak</td>
-          <td>${habit.breakfastTime || "Nije uneseno"}</td>
-          <td>${habit.lunchTime ? "🍽️" : ""} Ručak</td>
-          <td>${habit.lunchTime || "Nije uneseno"}</td>
-          <td>${habit.dinnerTime ? "🍽️" : ""} Večera</td>
-          <td>${habit.dinnerTime || "Nije uneseno"}</td>
-          <td>${habit.sleepTime ? "🛏️" : ""} Spavanje</td>
-          <td>${habit.sleepTime || "Nije uneseno"}</td>
-        `;
-        tbody.appendChild(tr);
-      });
+      if (habits.length > 0) {
+        const h = habits[0];
+        const rows = [
+          { name: "Buđenje", time: h.wakeTime, icon: "🌅" },
+          { name: "Doručak", time: h.breakfastTime, icon: "🍳" },
+          { name: "Ručak", time: h.lunchTime, icon: "🍛" },
+          { name: "Večera", time: h.dinnerTime, icon: "🍽️" },
+          { name: "Spavanje", time: h.sleepTime, icon: "🛏️" }
+        ];
 
-      // Prikazivanje tabele sa navikama
-      document.getElementById("habitsTableContainer").style.display = 'block';
+        rows.forEach(r => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${r.name}</td>
+            <td>${r.time}</td>
+            <td>${r.icon}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
     };
   }
 
@@ -103,67 +100,35 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Čuvanje terapije u IndexedDB
     const transaction = db.transaction("medicines", "readwrite");
     const objectStore = transaction.objectStore("medicines");
-
-    objectStore.add({
-      medicineName,
-      dosage,
-      period
-    });
+    objectStore.add({ medicineName, dosage, period });
 
     transaction.oncomplete = () => {
-      alert("Terapija je sačuvana.");
-      loadMedicines();  // Ažuriraj tabelu sa terapijama
+      alert("Terapija je sačuvana!");
+      setMedicineReminder(medicineName, dosage, period);  // Kreiraj podsetnik
     };
   });
 
-  // Funkcija za učitavanje terapija u tabelu
-  function loadMedicines() {
-    const tbody = document.querySelector("#therapyTable tbody");
-    tbody.innerHTML = "";  // Očisti postojeći sadržaj
-
-    const transaction = db.transaction("medicines", "readonly");
-    const objectStore = transaction.objectStore("medicines");
-    const request = objectStore.getAll();
-
-    request.onsuccess = (event) => {
-      const medicines = event.target.result;
-      medicines.forEach((medicine) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${medicine.medicineName}</td>
-          <td>${medicine.dosage}</td>
-          <td>${medicine.period}</td>
-          <td><button class="small" onclick="setMedicineReminder('${medicine.medicineName}', '${medicine.dosage}', '${medicine.period}')">Postavi podsetnik</button></td>
-        `;
-        tbody.appendChild(tr);
-      });
-    };
-  }
-
-  // Funkcija za postavljanje podsetnika
+  // Kreiranje podsetnika
   function setMedicineReminder(name, dosage, period) {
     const now = new Date();
     const reminderTime = new Date(now);
 
     // Definišemo vreme za podsetnik na osnovu perioda
-    if (period === "doručak") {
-      reminderTime.setHours(8, 0, 0, 0); // Primer za doručak
-    } else if (period === "ručak") {
-      reminderTime.setHours(14, 0, 0, 0); // Primer za ručak
-    } else if (period === "večera") {
-      reminderTime.setHours(20, 0, 0, 0); // Primer za večeru
-    } else if (period === "spavanje") {
-      reminderTime.setHours(23, 0, 0, 0); // Primer za spavanje
-    }
+    if (period === "doručak") reminderTime.setHours(9, 0, 0, 0);
+    else if (period === "ručak") reminderTime.setHours(14, 0, 0, 0);
+    else if (period === "večera") reminderTime.setHours(20, 0, 0, 0);
+    else if (period === "spavanje") reminderTime.setHours(23, 0, 0, 0);
 
-    const timeout = reminderTime.getTime() - new Date().getTime();
+    // Ako je vreme prošlo, postavi podsetnik za sutra
+    if (reminderTime <= now) reminderTime.setDate(reminderTime.getDate() + 1);
 
-    // Postavljanje notifikacije
+    const timeout = reminderTime - now;
+
+    // Notifikacija korisniku
     setTimeout(() => {
-      alert(`Podsetnik: Terapija "${name}" je sada na redu! Doza: ${dosage}`);
+      alert(`Podsetnik za "${name}" — doza: ${dosage} je zakazan za ${reminderTime.toLocaleTimeString()}`);
     }, timeout);
   }
 });
