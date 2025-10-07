@@ -7,15 +7,15 @@ body {
 /* Stil za kartice */
 .recipe-card {
   width: 100%; /* Širina kartice na celu širinu ekrana */
-  margin: 8px;
-  padding: 5px;
+  margin: 5px;
+  padding: 3px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 5px;
   text-align: center;
   background-color: #f9f9f9;
   display: flex;
   flex-direction: column; /* Kartica je u koloni */
-  height: 11rem; /* Visina kartice 7 redova */
+  height: 11rem; /* Visina kartice 11 redova */
 }
 
 .recipe-header {
@@ -120,5 +120,6 @@ body {
 .modal[hidden] {
   display: none;
 }
+
 
 
