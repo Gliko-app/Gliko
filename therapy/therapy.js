@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   requestHabits.onsuccess = (event) => {
     dbHabits = event.target.result;
     console.log("Baza za navike je otvorena!");
+    loadHabits();  // Učitaj navike čim se baza otvori
   };
 
   requestTherapy.onupgradeneeded = (event) => {
@@ -37,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   requestTherapy.onsuccess = (event) => {
     dbTherapy = event.target.result;
     console.log("Baza za terapije je otvorena!");
+    loadTherapies();  // Učitaj terapije čim se baza otvori
   };
 
   // Funkcija za unos navika
