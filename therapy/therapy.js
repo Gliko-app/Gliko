@@ -216,21 +216,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Funkcija za postavljanje podsetnika
   function setMedicineReminder(name, dosage, period) {
     const now = new Date();
+    const reminderTime = new Date(now);
 
-    // Pretpostavljamo da imamo podatke o navikama
-    const wakeTime = getHabitTime('wakeTime');  // Funkcija za dohvat vremena iz navika
-    const breakfastTime = getHabitTime('breakfastTime');
-    const lunchTime = getHabitTime('lunchTime');
-    const dinnerTime = getHabitTime('dinnerTime');
-    const sleepTime = getHabitTime('sleepTime');
-
-    let reminderTime = new Date(now);  // Početno vreme podsetnika postavljeno na sadašnje vreme
-
-    // Definišemo vreme za podsetnik na osnovu perioda, koristeći podatke iz navika
-    if (period === "doručak") reminderTime = calculateReminderTime(breakfastTime);
-    else if (period === "ručak") reminderTime = calculateReminderTime(lunchTime);
-    else if (period === "večera") reminderTime = calculateReminderTime(dinnerTime);
-    else if (period === "spavanje") reminderTime = calculateReminderTime(sleepTime);
+    // Definišemo vreme za podsetnik na osnovu perioda
+    if (period === "doručak") reminderTime.setHours(9, 0, 0, 0);
+    else if (period === "ručak") reminderTime.setHours(14, 0, 0, 0);
+    else if (period === "večera") reminderTime.setHours(20, 0, 0, 0);
+    else if (period === "spavanje") reminderTime.setHours(23, 0, 0, 0);
 
     // Ako je vreme prošlo, postavi podsetnik za sutra
     if (reminderTime <= now) reminderTime.setDate(reminderTime.getDate() + 1);
@@ -238,6 +230,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const timeout = reminderTime - now;  // Izračunavamo razliku u vremenu
 
     console.log(`Podsetnik za "${name}" zakazan za ${reminderTime.toLocaleTimeString()}`);
+
+    // Ako je prošlo vreme za podsetnik, postavlja se za sutra
+    if (timeout <= 0) {
+      console.log("Podsetnik se postavlja za sutra.");
+    }
 
     // Ako su push notifikacije dozvoljene, zakazujemo notifikaciju
     setTimeout(() => {
@@ -251,32 +248,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }, timeout);  // Postavljamo notifikaciju za odloženo vreme
-  }
-
-  // Funkcija za dohvat vremena iz navika
-  function getHabitTime(habit) {
-    // Simuliramo dohvat vremena iz navika, npr. "8:00"
-    const habitTimes = {
-      wakeTime: "06:30",
-      breakfastTime: "08:00",
-      lunchTime: "13:00",
-      dinnerTime: "19:00",
-      sleepTime: "22:00"
-    };
-
-    return habitTimes[habit] || "00:00";  // Vraća podrazumevano vreme ako navika nije postavljena
-  }
-
-  // Funkcija za izračunavanje vremena podsetnika (npr. 15 minuta pre unetog vremena)
-  function calculateReminderTime(habitTime) {
-    const habitDate = new Date();
-    const [hours, minutes] = habitTime.split(':').map(Number);
-    habitDate.setHours(hours);
-    habitDate.setMinutes(minutes);
-
-    // Oduzmi 15 minuta za podsetnik
-    habitDate.setMinutes(habitDate.getMinutes() - 15);
-
-    return habitDate;
   }
 });
