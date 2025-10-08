@@ -1,33 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
-  let db;
+  let dbHabits, dbTherapy;
 
-  // Otvoriti bazu za navike i terapiju
+  // Otvori bazu za navike i terapiju
   const requestHabits = indexedDB.open("habitsDB", 2);  // Baza za navike
   const requestTherapy = indexedDB.open("therapyDB", 2);  // Baza za terapije
 
   // Kreiranje baza (ako ne postoje)
   requestHabits.onupgradeneeded = (event) => {
-    const db = event.target.result;
+    dbHabits = event.target.result;
 
     // Kreiraj store za navike
-    if (!db.objectStoreNames.contains("habits")) {
-      const store = db.createObjectStore("habits", { keyPath: "id", autoIncrement: true });
+    if (!dbHabits.objectStoreNames.contains("habits")) {
+      const store = dbHabits.createObjectStore("habits", { keyPath: "id", autoIncrement: true });
       store.createIndex("name", "name", { unique: false });
       store.createIndex("time", "time", { unique: false });
     }
   };
 
   requestHabits.onsuccess = (event) => {
-    db = event.target.result;
+    dbHabits = event.target.result;
     console.log("Baza za navike je otvorena!");
   };
 
   requestTherapy.onupgradeneeded = (event) => {
-    const db = event.target.result;
+    dbTherapy = event.target.result;
 
     // Kreiraj store za terapije
-    if (!db.objectStoreNames.contains("medicines")) {
-      const store = db.createObjectStore("medicines", { keyPath: "id", autoIncrement: true });
+    if (!dbTherapy.objectStoreNames.contains("medicines")) {
+      const store = dbTherapy.createObjectStore("medicines", { keyPath: "id", autoIncrement: true });
       store.createIndex("medicineName", "medicineName", { unique: false });
       store.createIndex("dosage", "dosage", { unique: false });
       store.createIndex("period", "period", { unique: false });
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   requestTherapy.onsuccess = (event) => {
-    db = event.target.result;
+    dbTherapy = event.target.result;
     console.log("Baza za terapije je otvorena!");
   };
 
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Kreiranje transakcije za IndexedDB (navike)
-    const transaction = db.transaction("habits", "readwrite");
+    const transaction = dbHabits.transaction("habits", "readwrite");
     const objectStore = transaction.objectStore("habits");
     objectStore.clear();  // Očisti prethodne podatke
     const request = objectStore.add(habits);
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tbody = document.querySelector("#habitsTable tbody");
     tbody.innerHTML = "";  // Očistiti prethodni sadržaj
 
-    const transaction = db.transaction("habits", "readonly");
+    const transaction = dbHabits.transaction("habits", "readonly");
     const objectStore = transaction.objectStore("habits");
     const request = objectStore.getAll();
 
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Kreiranje transakcije za terapije
-    const transaction = db.transaction("medicines", "readwrite");
+    const transaction = dbTherapy.transaction("medicines", "readwrite");
     const objectStore = transaction.objectStore("medicines");
     const request = objectStore.add(therapy);
 
@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tbody = document.querySelector("#therapyTable tbody");
     tbody.innerHTML = "";  // Očistiti prethodni sadržaj
 
-    const transaction = db.transaction("medicines", "readonly");
+    const transaction = dbTherapy.transaction("medicines", "readonly");
     const objectStore = transaction.objectStore("medicines");
     const request = objectStore.getAll();
 
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Funkcija za kreiranje podsetnika
   function createReminder(id) {
-    const tx = db.transaction("medicines", "readonly");
+    const tx = dbTherapy.transaction("medicines", "readonly");
     const store = tx.objectStore("medicines");
     const request = store.get(id);
 
@@ -217,8 +217,8 @@ document.addEventListener("DOMContentLoaded", () => {
         navigator.serviceWorker.ready.then(function(registration) {
           registration.showNotification(`Terapija "${name}" - doza: ${dosage}`, {
             body: `Vreme je za uzimanje leka "${name}"!`,
-            icon: '/images/notification-icon.png',
-            badge: '/images/badge.png'
+            icon: '/Gliko/images/notification-icon.png',
+            badge: '/Gliko/images/badge.png'
           });
         });
       }
