@@ -23,6 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
     loadHabits();  // Učitaj navike čim se baza otvori
   };
 
+  requestHabits.onerror = (event) => {
+    console.error("Greška pri otvaranju baze za navike:", event.target.error);
+  };
+
   requestTherapy.onupgradeneeded = (event) => {
     dbTherapy = event.target.result;
 
@@ -39,6 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
     dbTherapy = event.target.result;
     console.log("Baza za terapije je otvorena!");
     loadTherapies();  // Učitaj terapije čim se baza otvori
+  };
+
+  requestTherapy.onerror = (event) => {
+    console.error("Greška pri otvaranju baze za terapije:", event.target.error);
   };
 
   // Funkcija za unos navika
@@ -69,12 +77,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const request = objectStore.add(habits);
 
     request.onsuccess = () => {
-      alert("Navike su sačuvane!");
+      console.log("Navike su uspešno sačuvane!");
       loadHabits();  // Ažuriraj tabelu sa novim podacima
     };
 
-    request.onerror = () => {
-      alert("Došlo je do greške prilikom čuvanja podataka.");
+    request.onerror = (error) => {
+      console.error("Greška pri unosu navika:", error);
     };
   });
 
@@ -89,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     request.onsuccess = (event) => {
       const habits = event.target.result;
+      console.log("Učitane navike:", habits);  // Dodajemo log za učitane navike
+
       if (habits.length > 0) {
         const h = habits[0];
         const rows = [
@@ -109,6 +119,10 @@ document.addEventListener("DOMContentLoaded", () => {
           tbody.appendChild(tr);
         });
       }
+    };
+
+    request.onerror = (error) => {
+      console.error("Greška pri učitavanju navika:", error);
     };
   }
 
@@ -135,12 +149,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const request = objectStore.add(therapy);
 
     request.onsuccess = () => {
-      alert("Terapija je sačuvana!");
+      console.log("Terapija je uspešno sačuvana!");
       loadTherapies();  // Ažuriraj tabelu sa terapijama
     };
 
-    request.onerror = () => {
-      alert("Došlo je do greške prilikom čuvanja terapije.");
+    request.onerror = (error) => {
+      console.error("Greška pri unosu terapije:", error);
     };
   });
 
@@ -155,8 +169,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     request.onsuccess = (event) => {
       const therapies = event.target.result;
+      console.log("Učitane terapije:", therapies);  // Dodajemo log za učitane terapije
 
-      // Sortiraj terapije po vremenu (jutro, obrok, večera)
       const sortedTherapies = therapies.sort((a, b) => {
         const order = { "doručak": 1, "ručak": 2, "večera": 3, "spavanje": 4 };
         return order[a.period] - order[b.period];
@@ -180,6 +194,10 @@ document.addEventListener("DOMContentLoaded", () => {
           createReminder(id); // Kreiraj podsetnik za lek
         });
       });
+    };
+
+    request.onerror = (error) => {
+      console.error("Greška pri učitavanju terapija:", error);
     };
   }
 
