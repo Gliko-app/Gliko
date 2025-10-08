@@ -1,34 +1,71 @@
+const CACHE_NAME = 'gliko-cache-v1';
+const urlsToCache = [
+  '/Gliko/',                // Home page
+  '/Gliko/index.html',      // Glavni HTML
+  '/Gliko/css/style.css',   // CSS fajl
+  '/Gliko/app.js',          // JavaScript fajl za globalnu funkcionalnost
+  '/Gliko/images/icon-192.png', // Ikona
+  '/Gliko/images/icon-512.png', // Ikona
+  '/Gliko/manifest.json',   // Manifest fajl
+  '/Gliko/trends.html',     // Strana Trends
+  '/Gliko/food.html',       // Strana Food
+  '/Gliko/therapy.html',    // Strana Therapy
+  '/Gliko/trends.js',       // JavaScript za Trends
+  '/Gliko/food.js',         // JavaScript za Food
+  '/Gliko/therapy.js'       // JavaScript za Therapy
+];
+
+// Instalacija service worker-a
 self.addEventListener('install', (event) => {
-  console.log('Service Worker installed');
   event.waitUntil(
-    caches.open('cache-v1').then((cache) => {
-      return cache.addAll([
-        '/Gliko/',  // Home page, root of the app
-        '/Gliko/index.html',  // Glavna stranica
-        '/Gliko/css/style.css',  // CSS fajl
-      ]);
-    })
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        return cache.addAll(urlsToCache);
+      })
+      .catch(error => {
+        console.error('Failed to cache resources:', error);
+      })
   );
 });
 
+// Aktivacija service worker-a
 self.addEventListener('activate', (event) => {
-  console.log('Service Worker activated');
-});
-
-self.addEventListener('fetch', (event) => {
-  console.log('Fetching:', event.request.url);
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (!cacheWhitelist.includes(cacheName)) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
     })
   );
 });
 
+// Fetch događaj
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request)
+      .then((cachedResponse) => {
+        if (cachedResponse) {
+          return cachedResponse; // Ako je u cache-u, koristi keširani sadržaj
+        }
+        return fetch(event.request); // Ako nije, fetchaj iz mreže
+      })
+      .catch(error => {
+        console.error('Failed to fetch resource:', error);
+      })
+  );
+});
+
+// Push notifikacije
 self.addEventListener('push', function(event) {
   const options = {
     body: event.data.text(),
-    icon: '/Gliko/images/icon.png',  // Koristi ispravnu putanju
-    badge: '/Gliko/images/badge.png'  // Koristi ispravnu putanju
+    icon: '/Gliko/images/icon-192.png',  // Koristi ispravnu putanju
+    badge: '/Gliko/images/icon-512.png'  // Koristi ispravnu putanju
   };
 
   event.waitUntil(
@@ -36,6 +73,7 @@ self.addEventListener('push', function(event) {
   );
 });
 
+// Klik na notifikaciju
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
   
