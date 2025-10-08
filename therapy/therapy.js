@@ -218,11 +218,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const now = new Date();
     const reminderTime = new Date(now);
 
-    // Definišemo vreme za podsetnik na osnovu perioda
-    if (period === "doručak") reminderTime.setHours(9, 0, 0, 0);
-    else if (period === "ručak") reminderTime.setHours(14, 0, 0, 0);
-    else if (period === "večera") reminderTime.setHours(20, 0, 0, 0);
-    else if (period === "spavanje") reminderTime.setHours(23, 0, 0, 0);
+    // Pretpostavljamo da imamo podatke o navikama
+    const wakeTime = getHabitTime('wakeTime');  // Funkcija za dohvat vremena iz navika
+    const breakfastTime = getHabitTime('breakfastTime');
+    const lunchTime = getHabitTime('lunchTime');
+    const dinnerTime = getHabitTime('dinnerTime');
+    const sleepTime = getHabitTime('sleepTime');
+
+    let reminderTime = new Date(now);  // Početno vreme podsetnika postavljeno na sadašnje vreme
+
+    // Definišemo vreme za podsetnik na osnovu perioda, koristeći podatke iz navika
+    if (period === "doručak") reminderTime = calculateReminderTime(breakfastTime);
+    else if (period === "ručak") reminderTime = calculateReminderTime(lunchTime);
+    else if (period === "večera") reminderTime = calculateReminderTime(dinnerTime);
+    else if (period === "spavanje") reminderTime = calculateReminderTime(sleepTime);
 
     // Ako je vreme prošlo, postavi podsetnik za sutra
     if (reminderTime <= now) reminderTime.setDate(reminderTime.getDate() + 1);
