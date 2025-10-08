@@ -4,8 +4,8 @@ const urlsToCache = [
   '/Gliko/index.html',      // Glavni HTML
   '/Gliko/css/style.css',   // CSS fajl
   '/Gliko/app.js',          // JavaScript fajl za globalnu funkcionalnost
-  '/Gliko/images/icon-192.png', // Ikona
-  '/Gliko/images/icon-512.png', // Ikona
+  '/Gliko/images/icon-192.png',  // Ikona
+  '/Gliko/images/icon-512.png',  // Ikona
   '/Gliko/manifest.json',   // Manifest fajl
   '/Gliko/trends.html',     // Strana Trends
   '/Gliko/food.html',       // Strana Food
@@ -15,7 +15,6 @@ const urlsToCache = [
   '/Gliko/therapy.js'       // JavaScript za Therapy
 ];
 
-// Instalacija service worker-a
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -82,3 +81,4 @@ self.addEventListener('notificationclick', function(event) {
     clients.openWindow('/Gliko/pregledi.html')  // Stranica koju želiš otvoriti
   );
 });
+
