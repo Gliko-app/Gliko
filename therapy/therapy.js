@@ -227,9 +227,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Ako je vreme prošlo, postavi podsetnik za sutra
     if (reminderTime <= now) reminderTime.setDate(reminderTime.getDate() + 1);
 
-    const timeout = reminderTime - now;
+    const timeout = reminderTime - now;  // Izračunavamo razliku u vremenu
 
     console.log(`Podsetnik za "${name}" zakazan za ${reminderTime.toLocaleTimeString()}`);
+
+    // Ako je prošlo vreme za podsetnik, postavlja se za sutra
+    if (timeout <= 0) {
+      console.log("Podsetnik se postavlja za sutra.");
+    }
 
     // Ako su push notifikacije dozvoljene, zakazujemo notifikaciju
     setTimeout(() => {
@@ -242,6 +247,6 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         });
       }
-    }, timeout);
+    }, timeout);  // Postavljamo notifikaciju za odloženo vreme
   }
 });
